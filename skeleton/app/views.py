@@ -34,6 +34,13 @@ def admin():
 def staff():
     return render_template('staff.html', title="Staff")
 
+@app.route('/staff/display_students')
+@login_required
+def display_students():
+    all_students = db.select(User).where(User.role == "Student")
+    all_students_lst = db.session.scalars(all_students)
+    return render_template('display_students.html', title="Display Students", all_students_lst=all_students_lst)
+
 @app.route("/student")
 @login_required
 def student():

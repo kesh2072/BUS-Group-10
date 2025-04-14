@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+    <table class="table">
+        <thead class="thead-dark">
+            <th scope="col">User ID</th>
+            <th scope="col">Student Name</th>
+            <th scope="col">Email</th>
+        </thead>
+        <tbody>
+            {% for student in all_students_lst %}
+            <tr>
+                <td># ID</td>
+                <td>{{student.username}}</td>
+                <td>{{student.email}}</td>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
