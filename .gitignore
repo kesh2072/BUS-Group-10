@@ -1,0 +1,5 @@
+__pycache__/
+skeleton/app/data/data.sqlite
+.idea/
+.env
+.venv/
