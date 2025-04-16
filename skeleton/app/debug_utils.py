@@ -1,5 +1,5 @@
 from app import db
-from app.models import User, Address
+from app.models import User
 
 def reset_db():
     try:
