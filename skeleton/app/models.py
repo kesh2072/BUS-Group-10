@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     # a user has a different role
     __mapper_args__ = {
         "polymorphic_identity": "user",
-        "polymorphic on": role,
+        "polymorphic_on": role,
     }
 
     # This function is a getter. We need to use it because some built-in SQLalchemy functions automatically
@@ -100,14 +100,14 @@ class Question(db.Model):
 class Answer(db.Model):
     __tablename__ = "Answers"
 
-    form_number: so.Mapped[int] = so.mapped_column(ForeignKey(User.forms_completed), primary_key=True)
+    form_number: so.Mapped[int] = so.mapped_column(ForeignKey(Student.forms_completed), primary_key=True)
     qid: so.Mapped[int] = so.mapped_column(ForeignKey(Question.qid), primary_key=True)
     uid: so.Mapped[int] = so.mapped_column(ForeignKey(User.uid), primary_key=True)
     type: so.Mapped[str] = so.mapped_column(sa.String(16), default="Likert")
     content: so.Mapped[str] = so.mapped_column(sa.String(256))
 
-    user: so.Mapped["User"] = relationship(back_populates="answers")
+    student: so.Mapped["Student"] = relationship(back_populates="answers")
 
     def __repr__(self):
-        return f"Answer(qid={self.qid}, uid={self.uid}, type={self.type}, form_number={self.form_number}"
+        return f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, content={self.content}"
 

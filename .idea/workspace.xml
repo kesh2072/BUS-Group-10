@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a1692326-0dc1-407e-ad27-237f23215c65" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/luke.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/maddie.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/skeleton/app/debug_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/skeleton/app/debug_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/skeleton/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/skeleton/app/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +36,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "luke__branch",
-    "last_opened_file_path": "C:/Users/gould/PycharmProjects/Personal/Messaboot",
+    "last_opened_file_path": "C:/Users/gould/GitHub/BUS-Group-10_local/BUS-Group-10/skeleton",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -65,7 +61,7 @@
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="SDK_NAME" value="BUS-Env" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\gould\GitHub\BUS-Group-10\skeleton" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\gould\GitHub\BUS-Group-10_local\BUS-Group-10\skeleton" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />

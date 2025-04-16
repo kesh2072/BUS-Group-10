@@ -1,5 +1,6 @@
 __pycache__/
 skeleton/app/data/data.sqlite
 .idea/
+.iml
 .env
 .venv/
