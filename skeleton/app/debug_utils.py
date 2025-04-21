@@ -55,7 +55,10 @@ def reset_db():
             "name": "judy",
             "role": "Staff",
             "university_email": "judy@j.com"
-        },
+        }
+    ]
+
+    students = [
         {
             "name": "karen",
             "role": "Student",
@@ -142,5 +145,10 @@ def reset_db():
         user = User(**u)
         user.set_password("PASSWORD")
         db.session.add(user)
+
+    for s in students:
+        student = Student(**s)
+        student.set_password("PASSWORD")
+        db.session.add(student)
 
     db.session.commit()

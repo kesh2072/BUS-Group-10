@@ -69,7 +69,7 @@ class Student(User):
     anonymous: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=True)
     forms_completed: so.Mapped[int] = so.mapped_column(default=0)
 
-    answers: so.Mapped[list["Answer"]] = relationship(back_populates="user")
+    answers: so.Mapped[list["Answer"]] = relationship(back_populates="student")
 
     __mapper_args__ = {
         "polymorphic_identity": "student"
@@ -102,9 +102,9 @@ class Question(db.Model):
 class Answer(db.Model):
     __tablename__ = "Answers"
 
-    form_number: so.Mapped[int] = so.mapped_column(ForeignKey(Student.forms_completed), primary_key=True)
+    form_number: so.Mapped[int] = so.mapped_column(primary_key=True)
     qid: so.Mapped[int] = so.mapped_column(ForeignKey(Question.qid), primary_key=True)
-    uid: so.Mapped[int] = so.mapped_column(ForeignKey(User.uid), primary_key=True)
+    uid: so.Mapped[int] = so.mapped_column(ForeignKey(Student.uid), primary_key=True)
     type: so.Mapped[str] = so.mapped_column(sa.String(16), default="Likert")
     content: so.Mapped[str] = so.mapped_column(sa.String(256))
 
