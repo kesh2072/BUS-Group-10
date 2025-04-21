@@ -1,7 +1,14 @@
 from app import db
 from app.models import User, Student, Question, Answer
 
+
 def reset_db():
+
+    # Haven't added any answers, and all students have currently filled out zero forms
+    # Questions have labels stress, anxiety, self-esteem, depression and sleep. There is also a label 'personal' for the
+    # written response at the end of the form. I've currently only got one of this type of question, but feel free to
+    # add more. I've proof read the questions as they are AI generated, but they seem fine.
+
     db.drop_all()
     db.create_all()
 
@@ -141,6 +148,67 @@ def reset_db():
         }
     ]
 
+    questions = [
+        {"text": "How stressed do you get about university deadlines?", "type": "Likert", "label": "stress"},
+        {"text": "How often do you procrastinate due to stress?", "type": "Likert", "label": "stress"},
+        {"text": "How well do you manage time when you're stressed?", "type": "Likert", "label": "stress"},
+        {"text": "How frequently do you feel emotionally exhausted?", "type": "Likert", "label": "stress"},
+        {"text": "How much does academic pressure affect your wellbeing?", "type": "Likert", "label": "stress"},
+        {"text": "How often do you avoid responsibilities due to stress?", "type": "Likert", "label": "stress"},
+        {"text": "How often do you cancel plans due to mental fatigue?", "type": "Likert", "label": "stress"},
+        {"text": "How often do you feel overwhelmed by expectations?", "type": "Likert", "label": "stress"},
+        {"text": "How difficult do you find it to focus under pressure?", "type": "Likert", "label": "stress"},
+        {"text": "How often do you feel overwhelmed by your workload?", "type": "Likert", "label": "stress"},
+
+        {"text": "How anxious do you feel in social situations at university?", "type": "Likert", "label": "anxiety"},
+        {"text": "How often do you feel nervous without knowing why?", "type": "Likert", "label": "anxiety"},
+        {"text": "How much do you worry about future events?", "type": "Likert", "label": "anxiety"},
+        {"text": "How tense or 'on edge' do you feel during the day?", "type": "Likert", "label": "anxiety"},
+        {"text": "How often do you feel overwhelmed in crowds or busy places?", "type": "Likert", "label": "anxiety"},
+        {"text": "How often do you find yourself worrying late at night?", "type": "Likert", "label": "anxiety"},
+        {"text": "How often do you experience racing thoughts?", "type": "Likert", "label": "anxiety"},
+        {"text": "How often do you feel nervous before social events?", "type": "Likert", "label": "anxiety"},
+        {"text": "How frequently do you feel anxious without knowing why?", "type": "Likert", "label": "anxiety"},
+        {"text": "How often do you avoid tasks due to anxiety?", "type": "Likert", "label": "anxiety"},
+        {"text": "How often do you stay up worrying?", "type": "Likert", "label": "anxiety"},
+        {"text": "How often do you feel unable to relax?", "type": "Likert", "label": "anxiety"},
+        {"text": "How frequently do you worry about things beyond your control?", "type": "Likert", "label": "anxiety"},
+
+        {"text": "How confident do you feel in your ability to handle challenges?", "type": "Likert",
+         "label": "self-esteem"},
+        {"text": "How confident are you in social interactions?", "type": "Likert", "label": "self-esteem"},
+        {"text": "How in control do you feel of your emotional wellbeing?", "type": "Likert", "label": "self-esteem"},
+        {"text": "How supported do you feel by friends or peers?", "type": "Likert", "label": "self-esteem"},
+        {"text": "How comfortable are you asking others for help?", "type": "Likert", "label": "self-esteem"},
+        {"text": "How often do you feel a sense of purpose in your day?", "type": "Likert", "label": "self-esteem"},
+        {"text": "How well do you bounce back after setbacks?", "type": "Likert", "label": "self-esteem"},
+        {"text": "How often do you take breaks to care for your mental health?", "type": "Likert",
+         "label": "self-esteem"},
+        {"text": "How well do you handle criticism?", "type": "Likert", "label": "self-esteem"},
+        {"text": "How confident are you in your decision-making?", "type": "Likert", "label": "self-esteem"},
+
+        {"text": "How often do you feel down or hopeless?", "type": "Likert", "label": "depression"},
+        {"text": "How often do you experience feelings of worthlessness?", "type": "Likert", "label": "depression"},
+        {"text": "How often do you feel that everything is an effort?", "type": "Likert", "label": "depression"},
+        {"text": "How frequently do you feel unmotivated?", "type": "Likert", "label": "depression"},
+        {"text": "How often do you feel easily irritated?", "type": "Likert", "label": "depression"},
+        {"text": "How frequently do you feel sad for no clear reason?", "type": "Likert", "label": "depression"},
+        {"text": "How often do you feel lonely?", "type": "Likert", "label": "depression"},
+        {"text": "How much energy do you have throughout the day?", "type": "Likert", "label": "depression"},
+        {"text": "How frequently do you feel joy or satisfaction in your day?", "type": "Likert",
+         "label": "depression"},
+
+        {"text": "How well do you sleep on a typical night?", "type": "Likert", "label": "sleep"},
+        {"text": "How easy is it for you to fall asleep at night?", "type": "Likert", "label": "sleep"},
+        {"text": "How satisfied are you with the quality of your sleep?", "type": "Likert", "label": "sleep"},
+        {"text": "How often do you wake up feeling rested?", "type": "Likert", "label": "sleep"},
+        {"text": "How often do you get less than six hours of sleep?", "type": "Likert", "label": "sleep"},
+        {"text": "How often do you lie awake with racing thoughts?", "type": "Likert", "label": "sleep"},
+
+        {"text": "Please describe a recent experience that affected your mental health.", "type": "Written",
+         "label": "personal"}
+    ]
+
     for u in users:
         user = User(**u)
         user.set_password("PASSWORD")
@@ -150,5 +218,9 @@ def reset_db():
         student = Student(**s)
         student.set_password("PASSWORD")
         db.session.add(student)
+
+    for q in questions:
+        question = Question(**q)
+        db.session.add(question)
 
     db.session.commit()

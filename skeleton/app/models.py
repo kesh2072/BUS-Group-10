@@ -87,13 +87,14 @@ class Question(db.Model):
 
     qid: so.Mapped[int] = so.mapped_column(primary_key=True)
     text: so.Mapped[str] = so.mapped_column(sa.String(256))
+    type: so.Mapped[str] = so.mapped_column(sa.String(16), default="Likert")
     label: so.Mapped[str] = so.mapped_column(sa.String(32))
 
     def get_id(self):
         return self.qid
 
     def __repr__(self):
-        return f"Question(qid={self.qid}, text={self.text}, category={self.label}"
+        return f"Question(qid={self.qid}, text={self.text}, type={self.type}, category={self.label}"
 
 
 # Answer class. Answers will be uniquely identified by the form number, question id and user id, because a
