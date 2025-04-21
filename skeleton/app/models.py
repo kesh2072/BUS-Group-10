@@ -72,7 +72,7 @@ class Student(User):
     answers: so.Mapped[list["Answer"]] = relationship(back_populates="student")
 
     __mapper_args__ = {
-        "polymorphic_identity": "student"
+        "polymorphic_identity": "Student"
     }
 
     def __repr__(self):
@@ -85,16 +85,22 @@ class Student(User):
 class Question(db.Model):
     __tablename__ = "questions"
 
+    __table_args__ = (
+        sa.UniqueConstraint("label", "priority"),
+    )
+
     qid: so.Mapped[int] = so.mapped_column(primary_key=True)
     text: so.Mapped[str] = so.mapped_column(sa.String(256))
     type: so.Mapped[str] = so.mapped_column(sa.String(16), default="Likert")
+    priority: so.Mapped[int] = so.mapped_column()
     label: so.Mapped[str] = so.mapped_column(sa.String(32))
 
     def get_id(self):
         return self.qid
 
     def __repr__(self):
-        return f"Question(qid={self.qid}, text={self.text}, type={self.type}, category={self.label}"
+        return (f"Question(qid={self.qid}, text={self.text}, type={self.type}, priority={self.priority}, "
+                f"label={self.label}")
 
 
 # Answer class. Answers will be uniquely identified by the form number, question id and user id, because a
