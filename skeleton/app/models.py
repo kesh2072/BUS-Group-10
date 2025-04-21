@@ -47,7 +47,8 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f'User(uid={self.uid}, username={self.username}, email={self.email}, role={self.role}, pwh=...{self.password_hash[-5:]})'
+        return (f'User(uid={self.uid}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]},'
+                f' role={self.role})')
 
 
 @login.user_loader
@@ -64,7 +65,7 @@ class Student(User):
 
     uid: so.Mapped[int] = so.mapped_column(ForeignKey("users.uid"), primary_key=True)
     student_id: so.Mapped[int] = so.mapped_column(index=True)
-    anonymous: so.Mapped[bool] = so.mapped_column(sa.String(8), default=True)
+    anonymous: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=True)
     forms_completed: so.Mapped[int] = so.mapped_column(default=0)
 
     answers: so.Mapped[list["Answer"]] = relationship(back_populates="user")
@@ -74,8 +75,8 @@ class Student(User):
     }
 
     def __repr__(self):
-        return (f'Student(uid={self.uid}, university_email={self.university_email}, student_id={self.student_id}, '
-                f'anonymous={self.anonymous}, forms_completed={self.forms_completed}, pwh=...{self.password_hash[-5:]})')
+        return (f'Student(uid={self.uid}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]}, '
+                f'student_id={self.student_id}, anonymous={self.anonymous}, forms_completed={self.forms_completed})')
 
 
 # Question class. Label refers to the mental health category the question falls under - for simplicity, each question
@@ -109,5 +110,6 @@ class Answer(db.Model):
     student: so.Mapped["Student"] = relationship(back_populates="answers")
 
     def __repr__(self):
-        return f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, content={self.content}"
+        return (f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, "
+                f"content={self.content}")
 
