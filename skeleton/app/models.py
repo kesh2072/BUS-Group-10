@@ -80,6 +80,18 @@ class Student(User):
                 f'student_id={self.student_id}, anonymous={self.anonymous}, forms_completed={self.forms_completed})')
 
 
+class Admin(User):
+    __mapper_args__ = {
+        "polymorphic_identity": "Admin"
+    }
+
+
+class Staff(User):
+    __mapper_args__ = {
+        "polymorphic_identity": "Staff"
+    }
+
+
 # Question class. Label refers to the mental health category the question falls under - for simplicity, each question
 # should only refer to one category (eg, a question should either be 'depression' or 'stress', but not both)
 class Question(db.Model):
