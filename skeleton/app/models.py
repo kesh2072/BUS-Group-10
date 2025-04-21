@@ -22,6 +22,7 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     uid: so.Mapped[int] = so.mapped_column(primary_key=True)
+    name: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)
     university_email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     role: so.Mapped[str] = so.mapped_column(sa.String(10), default="Student")
@@ -47,7 +48,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return (f'User(uid={self.uid}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]},'
+        return (f'User(uid={self.uid}, name={self.name}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]},'
                 f' role={self.role})')
 
 
@@ -75,7 +76,7 @@ class Student(User):
     }
 
     def __repr__(self):
-        return (f'Student(uid={self.uid}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]}, '
+        return (f'Student(uid={self.uid}, name={self.name}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]}, '
                 f'student_id={self.student_id}, anonymous={self.anonymous}, forms_completed={self.forms_completed})')
 
 
