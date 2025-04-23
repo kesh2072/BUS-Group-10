@@ -1,11 +1,13 @@
 from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
 from app import app
-from app.models import User
+from app.models import User, Student, Question, Answer
 from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
+from app.processor import QG
+
 import csv
 import io
 
