@@ -129,6 +129,12 @@ def logout():
     return redirect(url_for('home'))
 
 
+@app.route('/question_form')
+def question_form():
+    form = QuestionForm()
+    return render_template('question_form.html', title = 'Question Form', form = form)
+
+
 # Error handlers
 # See: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 

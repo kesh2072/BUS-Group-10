@@ -1,10 +1,12 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField
-from wtforms.fields.numeric import IntegerField
+from wtforms.fields import IntegerField
+from wtforms.fields.core import RadioField
 from wtforms.validators import DataRequired, EqualTo, NumberRange, ValidationError, Email
 from app import db
 from app.models import User
+from app.processor import QG
 
 class ChooseForm(FlaskForm):
     choice = HiddenField('Choice')
@@ -58,4 +60,8 @@ class RegisterForm(FlaskForm):
         q = db.select(User).where(User.email==field.data)
         if db.session.scalar(q):
             raise ValidationError("Email address already taken, please choose another")
+
+class QuestionForm(FlaskForm):
+    if current_user:
+        q1 = RadioField(QG(current_user.text), validators = [DataRequired()])
 
