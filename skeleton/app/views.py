@@ -1,12 +1,11 @@
 from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
 from app import app
 from app.models import User, Student, Question, Answer
-from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm
+from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, QuestionForm
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
-from app.processor import QG
 
 import csv
 import io
@@ -129,9 +128,12 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/question_form')
+@app.route('/question_form', methods = ['GET', 'POST'])
 def question_form():
     form = QuestionForm()
+    if form.validate_on_submit():
+        flash('Thank you for submitting the questionnaire', 'success')
+        return redirect(url_for('home'))
     return render_template('question_form.html', title = 'Question Form', form = form)
 
 
