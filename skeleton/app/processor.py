@@ -15,7 +15,7 @@ def QG(s):
     #(aimed at Maddie) i don't know if your algorithm puts the text question last in questions -if it doesn't then i can change
     #the question_form view function
 
-    if current_user:
+    if s:
         if s.answers:
             # return suitable list of Question objects
             questions=[]
