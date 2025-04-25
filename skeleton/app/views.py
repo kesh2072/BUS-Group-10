@@ -133,6 +133,19 @@ def question_form():
     form = QuestionForm()
     if form.validate_on_submit():
         flash('Thank you for submitting the questionnaire', 'success')
+        questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10']
+
+        all_answers = current_user.answers
+        form_numbers = [ans.form_number for ans in all_answers]
+        if form_numbers:
+            form_number = max(form_numbers) + 1
+        else:
+            form_number = 1
+        qid=1
+        for question in questions:
+            current_user.answers.append(Answer(content = request.form.get(question), form_number =form_number, qid =qid))
+            db.session.commit()
+            qid+=1
         return redirect(url_for('home'))
     return render_template('question_form.html', title = 'Question Form', form = form)
 
