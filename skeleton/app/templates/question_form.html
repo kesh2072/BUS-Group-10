@@ -2,7 +2,8 @@
 {% import "bootstrap_wtf.html" as wtf %}
 
 {% block content %}
-    <div class="container">
+    <p class="h4">Please answer the following questions:</p>
+    <div class="container mt-3">
         {{ wtf.quick_form(form, action="", method="post", id="", novalidate=True, autofocus=False) }}
     </div>
 {% endblock %}

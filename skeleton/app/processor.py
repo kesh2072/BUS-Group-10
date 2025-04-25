@@ -11,6 +11,10 @@ def QG(s):
     labels=['stress','anxiety','self-esteem','depression','sleep']
 
     # answers exist in database: next iteration
+    #the way i did the question_form() in the view function assumes the text question is last in the generated questions list.
+    #(aimed at Maddie) i don't know if your algorithm puts the text question last in questions -if it doesn't then i can change
+    #the question_form view function
+
     if current_user:
         if s.answers:
             # return suitable list of Question objects

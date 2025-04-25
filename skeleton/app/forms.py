@@ -1,6 +1,6 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField, SelectField
+from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField, SelectField, TextAreaField
 from wtforms.fields import IntegerField
 from wtforms.validators import DataRequired, EqualTo, NumberRange, ValidationError, Email
 from app import db
@@ -77,6 +77,7 @@ class QuestionForm(FlaskForm):
         q8 = SelectField(QG(current_user)[7].text, choices=['',1,2,3,4,5], validators=[DataRequired()])
         q9 = SelectField(QG(current_user)[8].text, choices=['',1,2,3,4,5], validators=[DataRequired()])
         q10 = SelectField(QG(current_user)[9].text, choices=['',1,2,3,4,5], validators=[DataRequired()])
+        q11 = TextAreaField(QG(current_user)[10].text, validators= [DataRequired()])
         submit = SubmitField('Submit')
 
 
