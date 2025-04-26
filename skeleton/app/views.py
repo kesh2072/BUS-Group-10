@@ -6,6 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required, f
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
+from app.processor import QG
 
 import csv
 import io
@@ -130,10 +131,15 @@ def logout():
 
 @app.route('/question_form', methods = ['GET', 'POST'])
 def question_form():
-    form = QuestionForm()
+    q_list=QG(current_user)
+    form = QuestionForm(q_list=q_list)
+    questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10']
+    for i,qi in enumerate(questions):
+        getattr(form,qi).label.text=q_list[i].text
+
     if form.validate_on_submit():
         flash('Thank you for submitting the questionnaire', 'success')
-        questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10']
+
 
         #works out what form number to label the questions
         all_answers = current_user.answers
