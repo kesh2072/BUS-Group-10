@@ -23,6 +23,7 @@ class User(UserMixin, db.Model):
 
     uid: so.Mapped[int] = so.mapped_column(primary_key=True)
     name: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)
+    username: so.Mapped[str] = so.mapped_column(sa.String(32), index=True) #username field added bc everywhere else uses usernamee
     university_email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     role: so.Mapped[str] = so.mapped_column(sa.String(10), default="Student")
@@ -48,7 +49,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return (f'User(uid={self.uid}, name={self.name}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]},'
+        return (f'User(uid={self.uid}, username={self.username}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]},'
                 f' role={self.role})')
 
 
@@ -131,5 +132,5 @@ class Answer(db.Model):
 
     def __repr__(self):
         return (f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, "
-                f"content={self.content}")
+                f"content={self.content})")
 
