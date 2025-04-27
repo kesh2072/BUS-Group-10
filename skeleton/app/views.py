@@ -77,7 +77,7 @@ def question_form():
     form = QuestionForm(q_list=q_list)
     questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11']
     for i,qi in enumerate(questions):
-        getattr(form,qi).label.text=q_list[i].text
+        getattr(form,qi).label.text= q_list[i].text + ' ('+ q_list[i].label +')'
 
     if form.validate_on_submit():
         flash('Thank you for submitting the questionnaire', 'success')
