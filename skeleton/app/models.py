@@ -132,5 +132,5 @@ class Answer(db.Model):
 
     def __repr__(self):
         return (f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, "
-                f"content={self.content}")
+                f"content={self.content})")
 

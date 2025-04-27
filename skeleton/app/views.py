@@ -133,13 +133,12 @@ def logout():
 def question_form():
     q_list=QG(current_user)
     form = QuestionForm(q_list=q_list)
-    questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10']
+    questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11']
     for i,qi in enumerate(questions):
         getattr(form,qi).label.text=q_list[i].text
 
     if form.validate_on_submit():
         flash('Thank you for submitting the questionnaire', 'success')
-
 
         #works out what form number to label the questions
         all_answers = current_user.answers
@@ -149,11 +148,11 @@ def question_form():
         else:
             form_number = 1
 
-        qid=1
-        for question in questions:
-            current_user.answers.append(Answer(content = request.form.get(question), form_number =form_number, qid =qid))
-            qid+=1
-        current_user.answers.append(Answer(content = request.form.get('q11'), form_number = form_number, qid = qid, type = "Text Answer"))
+        # qid doesn't increase incrementally but needs to correlate with the questions asked
+        for i in range(10):
+            current_user.answers.append(Answer(content = request.form.get(questions[i]), form_number =form_number, qid =q_list[i].qid))
+        current_user.answers.append(Answer(content = request.form.get('q11'), form_number = form_number, qid = q_list[10].qid, type = "Text Answer"))
+        current_user.forms_completed+=1
         db.session.commit()
         return redirect(url_for('home'))
     return render_template('question_form.html', title = 'Question Form', form = form)
