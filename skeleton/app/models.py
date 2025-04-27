@@ -39,6 +39,7 @@ class User(UserMixin, db.Model):
     # search for an attribute called 'id'. Because we have multiple different id types in this database,
     # I've given them names like uid (user id) or qid (question id) like Uday did in DSADB. The getter tells SQLalchemy
     # to use 'uid' as id.
+    @property
     def get_id(self):
         return self.uid
 
