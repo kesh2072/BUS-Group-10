@@ -30,23 +30,28 @@ def QG(s:Student):
     #(aimed at Maddie) i don't know if your algorithm puts the text question last in questions -if it doesn't then i can change
     #the question_form view function
 
+    # TODO: this algorithm does not process the text input yet
+
     # answers exist in database: next iteration
     if s.answers:
         # return suitable list of Question objects
         previous_answers=[a for a in s.answers if s.forms_completed==a.form_number]
         sorted_by_weight=dict(sorted(weighting(previous_answers).items(), key=lambda i: i[1]))
-        highest='stress'    # first element of sorted_by_weight
-        lowest='sleep'
+        highest=list(sorted_by_weight.keys())[-1]    # last element of sorted_by_weight returns 'worst' category
+        lowest=list(sorted_by_weight.keys())[0]
         distribution=q_count(previous_answers)
 
-        # adjust this for special cases
+        # TODO: needs adjusting for special cases (ie no more to remove)
+        # TODO: hence this form page will only work for a few iterations right now before it crashes
+        # add an extra question for student's 'worst' category
+        # remove a question for student's 'best' category
         distribution[highest]+=1
         distribution[lowest]-=1
 
         questions = []
         for label,count in distribution.items():
-            for priority in range(count):
-                questions+=[db.session.scalar(db.select(Question).where(Question.label==label, Question.priority==(priority+1)))]
+            for i in range(count):
+                questions+=[db.session.scalar(db.select(Question).where(Question.label==label, Question.priority==(i+1)))]
         questions+=[db.session.scalar(db.select(Question).where(Question.label=='personal'))]
         return questions
 
