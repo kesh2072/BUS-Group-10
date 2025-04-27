@@ -15,51 +15,61 @@ def reset_db():
     users = [
         {
             "name": "alice",
+            "username": "alice",
             "role": "Admin",
             "university_email": "alice@a.com"
         },
         {
             "name": "bob",
+            "username": "bob",
             "role": "Admin",
             "university_email": "bob@b.com"
         },
         {
             "name": "carol",
+            "username": "carol",
             "role": "Admin",
             "university_email": "carol@c.com"
         },
         {
             "name": "dave",
+            "username": "dave",
             "role": "Admin",
             "university_email": "dave@d.com"
         },
         {
             "name": "eve",
+            "username": "eve",
             "role": "Admin",
             "university_email": "eve@e.com"
         },
         {
             "name": "frank",
+            "username": "frank",
             "role": "Staff",
             "university_email": "frank@f.com"
         },
         {
             "name": "grace",
+            "username": "grace",
             "role": "Staff",
             "university_email": "grace@g.com"
         },
         {
             "name": "heidi",
+            "username": "heidi",
             "role": "Staff",
             "university_email": "heidi@h.com"
         },
         {
             "name": "ivan",
+            "username": "ivan",
             "role": "Staff",
             "university_email": "ivan@i.com"
         },
         {
             "name": "judy",
+            "username": "judy",
             "role": "Staff",
             "university_email": "judy@j.com"
         }
@@ -68,6 +78,7 @@ def reset_db():
     students = [
         {
             "name": "karen",
+            "username": "karen",
             "role": "Student",
             "university_email": "karen@k.com",
             "student_id": "10293847",
@@ -76,6 +87,7 @@ def reset_db():
         },
         {
             "name": "leo",
+            "username": "leo",
             "role": "Student",
             "university_email": "leo@l.com",
             "student_id": "29384756",
@@ -84,6 +96,7 @@ def reset_db():
         },
         {
             "name": "mona",
+            "username": "mona",
             "role": "Student",
             "university_email": "mona@m.com",
             "student_id": "38475692",
@@ -92,6 +105,7 @@ def reset_db():
         },
         {
             "name": "nate",
+            "username": "nate",
             "role": "Student",
             "university_email": "nate@n.com",
             "student_id": "47586920",
@@ -100,6 +114,7 @@ def reset_db():
         },
         {
             "name": "olga",
+            "username": "olga",
             "role": "Student",
             "university_email": "olga@o.com",
             "student_id": "58392047",
@@ -108,6 +123,7 @@ def reset_db():
         },
         {
             "name": "paul",
+            "username": "paul",
             "role": "Student",
             "university_email": "paul@p.com",
             "student_id": "69284751",
@@ -116,6 +132,7 @@ def reset_db():
         },
         {
             "name": "quinn",
+            "username": "quinn",
             "role": "Student",
             "university_email": "quinn@q.com",
             "student_id": "73829104",
@@ -124,6 +141,7 @@ def reset_db():
         },
         {
             "name": "ruth",
+            "username": "ruth",
             "role": "Student",
             "university_email": "ruth@r.com",
             "student_id": "84930216",
@@ -132,6 +150,7 @@ def reset_db():
         },
         {
             "name": "sam",
+            "username": "sam",
             "role": "Student",
             "university_email": "sam@s.com",
             "student_id": "92837465",
@@ -140,6 +159,7 @@ def reset_db():
         },
         {
             "name": "tina",
+            "username": "tina",
             "role": "Student",
             "university_email": "tina@t.com",
             "student_id": "13579246",

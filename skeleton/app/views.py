@@ -1,11 +1,13 @@
 from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
 from app import app
-from app.models import User
-from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm
+from app.models import User, Student, Question, Answer
+from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, QuestionForm
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
+from app.processor import QG
+
 import csv
 import io
 
@@ -125,6 +127,35 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
+@app.route('/question_form', methods = ['GET', 'POST'])
+def question_form():
+    q_list=QG(current_user)
+    form = QuestionForm(q_list=q_list)
+    questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11']
+    for i,qi in enumerate(questions):
+        getattr(form,qi).label.text=q_list[i].text
+
+    if form.validate_on_submit():
+        flash('Thank you for submitting the questionnaire', 'success')
+
+        #works out what form number to label the questions
+        all_answers = current_user.answers
+        form_numbers = [ans.form_number for ans in all_answers]
+        if form_numbers:
+            form_number = max(form_numbers) + 1
+        else:
+            form_number = 1
+
+        # qid doesn't increase incrementally but needs to correlate with the questions asked
+        for i in range(10):
+            current_user.answers.append(Answer(content = request.form.get(questions[i]), form_number =form_number, qid =q_list[i].qid))
+        current_user.answers.append(Answer(content = request.form.get('q11'), form_number = form_number, qid = q_list[10].qid, type = "Text Answer"))
+        current_user.forms_completed+=1
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('question_form.html', title = 'Question Form', form = form)
 
 
 # Error handlers
