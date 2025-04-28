@@ -40,9 +40,10 @@ def staff():
 @app.route("/staff/view_students")
 @login_required
 def view_students():
+    form=ChooseForm()
     q = db.select(Student)
     students = db.session.scalars(q)
-    return render_template('view_students.html', title="View all students", students=students)
+    return render_template('view_students.html', title="View all students", students=students, form=form)
 
 
 @app.route("/student")
