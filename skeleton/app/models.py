@@ -22,6 +22,8 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     uid: so.Mapped[int] = so.mapped_column(primary_key=True)
+    name: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)
+    username: so.Mapped[str] = so.mapped_column(sa.String(32), index=True) #username field added bc everywhere else uses usernamee
     university_email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     role: so.Mapped[str] = so.mapped_column(sa.String(10), default="Student")
@@ -47,7 +49,8 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f'User(uid={self.uid}, username={self.username}, email={self.email}, role={self.role}, pwh=...{self.password_hash[-5:]})'
+        return (f'User(uid={self.uid}, username={self.username}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]},'
+                f' role={self.role})')
 
 
 @login.user_loader
@@ -64,18 +67,30 @@ class Student(User):
 
     uid: so.Mapped[int] = so.mapped_column(ForeignKey("users.uid"), primary_key=True)
     student_id: so.Mapped[int] = so.mapped_column(index=True)
-    anonymous: so.Mapped[bool] = so.mapped_column(sa.String(8), default=True)
+    anonymous: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=True)
     forms_completed: so.Mapped[int] = so.mapped_column(default=0)
 
-    answers: so.Mapped[list["Answer"]] = relationship(back_populates="user")
+    answers: so.Mapped[list["Answer"]] = relationship(back_populates="student")
 
     __mapper_args__ = {
-        "polymorphic_identity": "student"
+        "polymorphic_identity": "Student"
     }
 
     def __repr__(self):
-        return (f'Student(uid={self.uid}, university_email={self.university_email}, student_id={self.student_id}, '
-                f'anonymous={self.anonymous}, forms_completed={self.forms_completed}, pwh=...{self.password_hash[-5:]})')
+        return (f'Student(uid={self.uid}, name={self.name}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]}, '
+                f'student_id={self.student_id}, anonymous={self.anonymous}, forms_completed={self.forms_completed})')
+
+
+class Admin(User):
+    __mapper_args__ = {
+        "polymorphic_identity": "Admin"
+    }
+
+
+class Staff(User):
+    __mapper_args__ = {
+        "polymorphic_identity": "Staff"
+    }
 
 
 # Question class. Label refers to the mental health category the question falls under - for simplicity, each question
@@ -83,15 +98,22 @@ class Student(User):
 class Question(db.Model):
     __tablename__ = "questions"
 
+    __table_args__ = (
+        sa.UniqueConstraint("label", "priority"),
+    )
+
     qid: so.Mapped[int] = so.mapped_column(primary_key=True)
     text: so.Mapped[str] = so.mapped_column(sa.String(256))
+    type: so.Mapped[str] = so.mapped_column(sa.String(16), default="Likert")
+    priority: so.Mapped[int] = so.mapped_column()
     label: so.Mapped[str] = so.mapped_column(sa.String(32))
 
     def get_id(self):
         return self.qid
 
     def __repr__(self):
-        return f"Question(qid={self.qid}, text={self.text}, category={self.label}"
+        return (f"Question(qid={self.qid}, text={self.text}, type={self.type}, priority={self.priority}, "
+                f"label={self.label}")
 
 
 # Answer class. Answers will be uniquely identified by the form number, question id and user id, because a
@@ -100,14 +122,15 @@ class Question(db.Model):
 class Answer(db.Model):
     __tablename__ = "Answers"
 
-    form_number: so.Mapped[int] = so.mapped_column(ForeignKey(Student.forms_completed), primary_key=True)
+    form_number: so.Mapped[int] = so.mapped_column(primary_key=True)
     qid: so.Mapped[int] = so.mapped_column(ForeignKey(Question.qid), primary_key=True)
-    uid: so.Mapped[int] = so.mapped_column(ForeignKey(User.uid), primary_key=True)
+    uid: so.Mapped[int] = so.mapped_column(ForeignKey(Student.uid), primary_key=True)
     type: so.Mapped[str] = so.mapped_column(sa.String(16), default="Likert")
     content: so.Mapped[str] = so.mapped_column(sa.String(256))
 
     student: so.Mapped["Student"] = relationship(back_populates="answers")
 
     def __repr__(self):
-        return f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, content={self.content}"
+        return (f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, "
+                f"content={self.content})")
 

@@ -1,10 +1,12 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField
-from wtforms.fields.numeric import IntegerField
-from wtforms.validators import DataRequired, EqualTo, NumberRange, ValidationError, Email
+from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField, SelectField, TextAreaField
+from wtforms.validators import DataRequired, EqualTo, ValidationError, Email
 from app import db
 from app.models import User
+from flask_login import current_user
+from app import app
+
 
 class ChooseForm(FlaskForm):
     choice = HiddenField('Choice')
@@ -59,3 +61,25 @@ class RegisterForm(FlaskForm):
         if db.session.scalar(q):
             raise ValidationError("Email address already taken, please choose another")
 
+class QuestionForm(FlaskForm):
+    #added an empty string as the first element of the choices list so that '1' doesn't appear as the default option.
+    #they can't choose the empty string as an option tho bc of the DataRequired validator
+    q1 = SelectField(choices = ['',1,2,3,4,5], validators = [DataRequired()])
+    q2 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    q3 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    q4 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    q5 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    q6 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    q7 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    q8 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    q9 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    q10 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    # removed DataRequired()
+    q11 = TextAreaField()
+    submit = SubmitField('Submit')
+
+
+# dynamic questions: using QG here only calls it once when the app is loaded then never calls it again
+# so user is stuck with the original 11 questions at every iteration.
+# instead i made this form initially question-less and then used QG tp add the text to it in views.py
+# Since views.py calls QG at each iteration, it updates accordingly.
