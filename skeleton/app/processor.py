@@ -2,17 +2,18 @@ from app.models import Student, Question, Answer
 from app import db
 import sqlalchemy as sa
 import statistics
+import re
 
 # This makes the app more modular, which helps with neater code and testing. Also, it means we don't mess around with views.py too much
 
 labels = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
 
 
-# TODO: this algorithm does not process the text input yet --> utilise label_classifier()
+# TODO: this algorithm does not process the text input yet --> utilise label_classifier() to adjust weighting()
 # a function that scans the text input and returns an associated category
-# ideally this would involve an ML algorithm (scikit if we have time) but for now it will just search for key words
-def label_classifier(x:str):
-    label=''
+# ideally this would involve a supervised ML algorithm (scikit if we have time) but for now it will just search for key words
+def label_classifier(x: str):
+    label='stress'
     return label
 
 # weighting calculator: a function that takes in a list of Answer objects and outputs a dictionary of average weightings (in ascending order)
@@ -21,6 +22,9 @@ def weighting(previous_answers:list):
     w={label:[] for label in labels}
     for a in previous_answers[0:10]:
         w[db.session.get(Question,a.qid).label]+=[int(a.content)]
+    last_entry=previous_answers[10].content       #adjust weighting to add 5 points for the associated category of text input (if it exists)
+    if last_entry:
+        w[label_classifier(last_entry)]+=[5]
     w={i:statistics.mean(j) if len(j)!=0 else 0 for i,j in w.items()}
     return dict(sorted(w.items(), key=lambda i: i[1]))
 
@@ -61,10 +65,10 @@ def QG(s:Student):
         questions+=[db.session.scalar(db.select(Question).where(Question.label=='personal'))]
 
         # helpful for debugging and understanding algorithm
-        # print('weighting of labels', w)
-        # print('distribution of questions: ', distribution)
-        # print('highest: ', highest)
-        # print('lowest: ', lowest)
+        print('weighting of labels', w)
+        print('distribution of questions: ', distribution)
+        print('highest: ', highest)
+        print('lowest: ', lowest)
 
         return questions
 
