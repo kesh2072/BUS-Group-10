@@ -6,7 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
-from app.processor import QG
+from app.processor import MLQuestionProcessingManager
 
 
 
@@ -71,7 +71,8 @@ def logout():
 
 @app.route('/question_form', methods = ['GET', 'POST'])
 def question_form():
-    q_list=QG(current_user)
+    instance_of_processor = MLQuestionProcessingManager()
+    q_list=instance_of_processor.QG(current_user)
     form = QuestionForm(q_list=q_list)
     questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11']
     for i,qi in enumerate(questions):
