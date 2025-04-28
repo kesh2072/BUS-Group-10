@@ -108,6 +108,8 @@ class Question(db.Model):
     priority: so.Mapped[int] = so.mapped_column()
     label: so.Mapped[str] = so.mapped_column(sa.String(32))
 
+    answers: so.Mapped["Answer"] = relationship(back_populates="question")
+
     def get_id(self):
         return self.qid
 
@@ -129,6 +131,7 @@ class Answer(db.Model):
     content: so.Mapped[str] = so.mapped_column(sa.String(256))
 
     student: so.Mapped["Student"] = relationship(back_populates="answers")
+    question: so.Mapped["Question"] = relationship(back_populates="answers")
 
     def __repr__(self):
         return (f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, "

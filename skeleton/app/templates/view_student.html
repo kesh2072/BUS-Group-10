@@ -4,6 +4,14 @@
 <div class="container">
     This is the student page for: {{student.name}}
 </div>
+Past answers:
+{% for answer in student.answers %}
+<ul>
+    Question: {{ answer.question.text }}
+    Response: {{ answer }}
+</ul>
+
+{% endfor %}
 
 
 {% endblock %}
