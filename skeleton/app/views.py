@@ -45,6 +45,15 @@ def view_students():
     students = db.session.scalars(q)
     return render_template('view_students.html', title="View all students", students=students, form=form)
 
+@app.route("/staff/student/<int:id>")
+@login_required
+def view_student(id):
+    student = db.session.get(Student, id)
+    # q = db.select(Student, id)
+    # student = db.session.scalar(q)
+    return render_template('view_student.html', title="View Student", student=student)
+
+
 
 @app.route("/student")
 @login_required
