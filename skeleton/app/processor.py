@@ -9,10 +9,12 @@ import re
 labels = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
 
 
-# TODO: this algorithm does not process the text input yet --> utilise label_classifier() to adjust weighting()
 # a function that scans the text input and returns an associated category
 # ideally this would involve a supervised ML algorithm (scikit if we have time) but for now it will just search for key words
+# TODO: this label_classifier doesn't work yet (currently ANY text input will be categorised as 'stress')
 def label_classifier(x: str):
+    # split x into list of words with regular expression
+    # find the first occurrence of a key word and return as 'label'
     label='stress'
     return label
 
@@ -59,12 +61,12 @@ def QG(s:Student):
         distribution[lowest] -= 1       # remove a question for student's 'best' category
 
         questions = []
-        for label,count in distribution.items():
+        for label,count in distribution.items():        # return 10 questions based on new distribution (questions within each label are chosen in priority order)
             for i in range(count):
                 questions+=[db.session.scalar(db.select(Question).where(Question.label==label, Question.priority==(i+1)))]
         questions+=[db.session.scalar(db.select(Question).where(Question.label=='personal'))]
 
-        # helpful for debugging and understanding algorithm
+        # (un)comment for debugging and understanding algorithm
         print('weighting of labels', w)
         print('distribution of questions: ', distribution)
         print('highest: ', highest)
