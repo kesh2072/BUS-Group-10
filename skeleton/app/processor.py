@@ -12,6 +12,7 @@ labels = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
 # a function that scans the text input and returns an associated category
 # ideally this would involve a supervised ML algorithm (scikit if we have time) but for now it will just search for key words
 # TODO: this label_classifier doesn't work yet (currently ANY text input will be categorised as 'stress')
+# TODO: for simplicity's sake, ANY text input must belong to a category
 def label_classifier(x: str):
     # split x into list of words with regular expression
     # find the first occurrence of a key word and return as 'label'
