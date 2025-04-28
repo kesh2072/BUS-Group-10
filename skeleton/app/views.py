@@ -1,15 +1,13 @@
-from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
+from flask import render_template, redirect, url_for, flash, request
 from app import app
 from app.models import User, Student, Question, Answer
-from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, QuestionForm
-from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
+from app.forms import ChooseForm, LoginForm, QuestionForm
+from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
 from app.processor import QG
 
-import csv
-import io
 
 
 @app.route("/")
@@ -77,7 +75,7 @@ def question_form():
     form = QuestionForm(q_list=q_list)
     questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11']
     for i,qi in enumerate(questions):
-        getattr(form,qi).label.text=q_list[i].text
+        getattr(form,qi).label.text= q_list[i].text + ' ('+ q_list[i].label +')'
 
     if form.validate_on_submit():
         flash('Thank you for submitting the questionnaire', 'success')
