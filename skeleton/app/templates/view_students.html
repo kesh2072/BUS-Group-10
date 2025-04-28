@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>This is the staff page</h1>
+<div>student rankings, anonymity etc</div>
+
+
+    
+<table class="table table-striped"
+
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Student name</th>
+            <th scope="col">University Email</th>
+            <th scope="col">Student ID</th>
+            <th scope="col">Forms Completed</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        {% if student.anonymous == False %}
+        <tr>
+            <td>#</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.university_email }}</td>
+            <td>{{ student.student_id }}</td>
+            <td>{{ student.forms_completed }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+   
+
+
+{% endblock %}
