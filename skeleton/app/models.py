@@ -70,6 +70,8 @@ class Student(User):
     student_id: so.Mapped[int] = so.mapped_column(index=True)
     anonymous: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=True)
     forms_completed: so.Mapped[int] = so.mapped_column(default=0)
+    best_category: so.Mapped[Optional[str]] = so.mapped_column(default=None)
+    worst_category: so.Mapped[Optional[str]] = so.mapped_column(default=None)
 
     answers: so.Mapped[list["Answer"]] = relationship(back_populates="student")
 
@@ -77,9 +79,24 @@ class Student(User):
         "polymorphic_identity": "Student"
     }
 
+    def display_attributes(self):
+        return {
+            "name": "----",
+            "username": "----",
+            "role": self.role,
+            "university_email": "----",
+            "student_id": "----",
+            "forms_completed": self.forms_completed,
+            "anonymous": self.anonymous,
+            "best_category": self.best_category,
+            "worst_category": self.worst_category,
+        }
+
     def __repr__(self):
-        return (f'Student(uid={self.uid}, name={self.name}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]}, '
-                f'student_id={self.student_id}, anonymous={self.anonymous}, forms_completed={self.forms_completed})')
+        return (f'Student(uid={self.uid}, name={self.name}, university_email={self.university_email}, '
+                f'pwh=...{self.student.password_hash[-5:]}, student_id={self.student_id}, anonymous={self.anonymous}, '
+                f'best_category={self.best_category}, worst_category={self.worst_category}, '
+                f'forms_completed={self.forms_completed})')
 
 
 class Admin(User):

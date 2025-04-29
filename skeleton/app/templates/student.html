@@ -1,6 +1,53 @@
 {% extends "base.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
 
 {% block content %}
-<h1>This is the student page</h1>
-<div>personalised forms etc</div>
+
+<div class="container">
+    <h2>Welcome {{current_user.username}} </h2>
+    <h3>Student Details</h3>
+    <div class="col-lg-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Student Username</th>
+                    <th>Student Email</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+        <tr>
+            <td> {{ current_user.student_id }} </td>
+            <td> {{ current_user.name }} </td>
+            <td> {{ current_user.username }} </td>
+            <td> {{ current_user.university_email }} </td>
+            <td> <a  class='btn btn-primary' href="{{ url_for('change_uni_details') }}">Change University Details</a> </td>
+        </tr>
+</table>
+
+        <h3>Student Resources</h3>
+    <div class="container-lg">
+        <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress/" class="btn btn-info" role="button"> Stress Management</a>
+</div>
+    <div class="container-lg">
+        <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/anxiety-fear-panic/" class="btn btn-info" role="button"> Anxiety Management</a>
+</div>
+    <div class="container-lg">
+        <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/low-mood-sadness-depression/" class="btn btn-info" role="button"> Depression Management</a>
+</div>
+    <div class="container-lg">
+        <a href="https://www.nhs.uk/mental-health/self-help/tips-and-support/raise-low-self-esteem/" class="btn btn-info" role="button"> Self-Esteem Management</a>
+</div>
+    <div class="container-lg">
+        <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/sleep/" class="btn btn-info" role="button"> Sleep Management</a>
+</div>
+
+
+
 {% endblock %}
+
+
+
+
+
