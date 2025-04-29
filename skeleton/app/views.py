@@ -6,7 +6,6 @@ from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
-from app.processor import QG
 from datetime import datetime
 
 
