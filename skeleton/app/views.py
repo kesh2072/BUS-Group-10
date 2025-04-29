@@ -7,7 +7,8 @@ import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
 from app.processor import QG
-
+from datetime import datetime
+from collections import defaultdict
 
 
 @app.route("/")
@@ -49,9 +50,16 @@ def view_students():
 @login_required
 def view_student(id):
     student = db.session.get(Student, id)
-    # q = db.select(Student, id)
-    # student = db.session.scalar(q)
-    return render_template('view_student.html', title="View Student", student=student)
+    answers_by_submission = {}
+    for answer in student.answers:
+        
+        if answer.submission_date not in answers_by_submission:
+            answers_by_submission[answer.submission_date] = []
+        
+        answers_by_submission[answer.submission_date].append(answer)
+
+    answers_by_submission = dict(sorted(answers_by_submission.items(), reverse=True))
+    return render_template('view_student.html', title="View Student", student=student, answers_by_submission=dict(answers_by_submission))
 
 
 
@@ -95,6 +103,7 @@ def question_form():
         getattr(form,qi).label.text= q_list[i].text + ' ('+ q_list[i].label +')'
 
     if form.validate_on_submit():
+        timestamp = datetime.now()
         flash('Thank you for submitting the questionnaire', 'success')
 
         #works out what form number to label the questions
@@ -107,8 +116,8 @@ def question_form():
 
         # qid doesn't increase incrementally but needs to correlate with the questions asked
         for i in range(10):
-            current_user.answers.append(Answer(content = request.form.get(questions[i]), form_number =form_number, qid =q_list[i].qid))
-        current_user.answers.append(Answer(content = request.form.get('q11'), form_number = form_number, qid = q_list[10].qid, type = "Text Answer"))
+            current_user.answers.append(Answer(content = request.form.get(questions[i]), form_number =form_number, qid =q_list[i].qid, submission_date=timestamp))
+        current_user.answers.append(Answer(content = request.form.get('q11'), form_number = form_number, qid = q_list[10].qid, type = "Text Answer", submission_date = timestamp))
         current_user.forms_completed+=1
         db.session.commit()
         return redirect(url_for('home'))
