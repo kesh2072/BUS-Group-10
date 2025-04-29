@@ -8,7 +8,6 @@ from app import db
 from urllib.parse import urlsplit
 from app.processor import QG
 from datetime import datetime
-from collections import defaultdict
 
 
 @app.route("/")
