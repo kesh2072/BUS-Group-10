@@ -78,10 +78,24 @@ class Student(User):
         "polymorphic_identity": "Student"
     }
 
+    def display_attributes(self):
+        return {
+            "name": "----",
+            "username": "----",
+            "role": self.role,
+            "university_email": "----",
+            "student_id": "----",
+            "forms_completed": self.forms_completed,
+            "anonymous": self.anonymous,
+            "best_category": self.best_category,
+            "worst_category": self.worst_category,
+        }
+
     def __repr__(self):
-        return (f'Student(uid={self.uid}, name="----", university_email="----", pwh="----", '
-                f'student_id="----", anonymous={self.anonymous}, best_category={self.best_category},'
-                f'worst_category={self.worst_category} forms_completed={self.forms_completed})')
+        return (f'Student(uid={self.uid}, name={self.name}, university_email={self.university_email}, '
+                f'pwh=...{self.student.password_hash[-5:]}, student_id={self.student_id}, anonymous={self.anonymous}, '
+                f'best_category={self.best_category}, worst_category={self.worst_category}, '
+                f'forms_completed={self.forms_completed})')
 
 
 class Admin(User):
