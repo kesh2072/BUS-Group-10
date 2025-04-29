@@ -69,8 +69,8 @@ class Student(User):
     student_id: so.Mapped[int] = so.mapped_column(index=True)
     anonymous: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=True)
     forms_completed: so.Mapped[int] = so.mapped_column(default=0)
-    best_category: so.Mapped[str] = so.mapped_column(default="stress")
-    worst_category: so.Mapped[str] = so.mapped_column(default="anxiety")
+    best_category: so.Mapped[Optional[str]] = so.mapped_column(default=None)
+    worst_category: so.Mapped[Optional[str]] = so.mapped_column(default=None)
 
     answers: so.Mapped[list["Answer"]] = relationship(back_populates="student")
 

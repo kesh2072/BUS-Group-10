@@ -1,3 +1,5 @@
+from IPython.lib.pretty import pretty
+
 from app.models import Student, Question, Answer
 from app import db
 import sqlalchemy as sa
@@ -45,6 +47,21 @@ class MLQuestionProcessingManager:
             w[db.session.get(Question, a.qid).label]+=1
         return w
 
+    #a function that returns the student's best and worst categories
+    def worst_best(self,s:Student):
+        if s.answers:
+            previous_answers=[a for a in s.answers if s.forms_completed==a.form_number]
+            w = self.weighting(previous_answers)
+            distribution = self.q_count(previous_answers)
+            worst = list(w.keys())[-1]        # last element of w returns 'worst' category
+            for label in list(w.keys()):        # first element of w (with a non-zero count) returns 'best' category
+                if distribution[label] != 0:
+                    best = label
+                    break
+            return worst,best
+        else:
+            return None,None
+
     # Question Generator: a function that takes in a Student object and outputs a list of 10+1 Question objects
     def QG(self,s:Student):
         #the way i did the question_form() in the view function assumes the text question is last in the generated questions list.
@@ -54,17 +71,11 @@ class MLQuestionProcessingManager:
         # answers exist in database: next iteration
         if s.answers:
             previous_answers=[a for a in s.answers if s.forms_completed==a.form_number]
-            w=self.weighting(previous_answers)
+            worst,best = self.worst_best(s)
             distribution=self.q_count(previous_answers)
 
-            highest = list(w.keys())[-1]    # last element of w returns 'worst' category
-            distribution[highest] += 1      # add an extra question for student's 'worst' category
-
-            for label in list(w.keys()):    # first element of w (with a non-zero count) returns 'best' category
-                if distribution[label]!=0:
-                    lowest=label
-                    break
-            distribution[lowest] -= 1       # remove a question for student's 'best' category
+            distribution[worst] += 1      # add an extra question for student's 'worst' category
+            distribution[best] -= 1       # remove a question for student's 'best' category
 
             questions = []
             for label,count in distribution.items():        # return 10 questions based on new distribution (questions within each label are chosen in priority order)
@@ -73,10 +84,10 @@ class MLQuestionProcessingManager:
             questions+=[db.session.scalar(db.select(Question).where(Question.label=='personal'))]
 
             # (un)comment for debugging and understanding algorithm
-            print('weighting of labels', w)
+            print('weighting of labels', self.weighting(previous_answers))
             print('distribution of questions: ', distribution)
-            print('highest: ', highest)
-            print('lowest: ', lowest)
+            print('worst: ', worst)
+            print('best: ', best)
 
             return questions
 
