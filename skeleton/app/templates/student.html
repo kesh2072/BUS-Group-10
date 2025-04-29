@@ -22,26 +22,52 @@
             <td> {{ current_user.name }} </td>
             <td> {{ current_user.username }} </td>
             <td> {{ current_user.university_email }} </td>
-            <td> <a  class='btn btn-primary' href="{{ url_for('change_uni_details') }}">Change University Details</a> </td>
+            <td> <a  class='btn btn-info' href="{{ url_for('change_uni_details') }}">Change University Details</a> </td>
         </tr>
 </table>
 
         <h3>Student Resources</h3>
-    <div class="container-lg">
-        <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress/" class="btn btn-info" role="button"> Stress Management</a>
+    <div class="mt-2 col-md-12">
+        {% if current_user.worst_category is none or current_user.worst_category is not none %}
+         <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress/" class="btn btn-info" role="button"> Stress management </a>
+         <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/anxiety-fear-panic/" class="btn btn-info" role="button"> Anxiety Management</a>
+         <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/low-mood-sadness-depression/" class="btn btn-info" role="button"> Depression Management</a>
+         <a href="https://www.nhs.uk/mental-health/self-help/tips-and-support/raise-low-self-esteem/" class="btn btn-info" role="button"> Self-Esteem Management</a>
+         <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/sleep/" class="btn btn-info" role="button"> Sleep Management</a>
+        </div>
+        {% endif %}
+        <div class="mt-2 col-md-12">
+
+        {% if current_user.worst_category == "stress" %}
+        <a href="https://www.nhs.uk/mental-health/children-and-young-adults/help-for-teenagers-young-adults-and-students/student-stress-self-help-tips/" class="btn btn-secondary" role="button"> Student stress </a>
+        <a href="https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors." class="btn btn-secondary" role="button"> Strategies to manage stress </a>
+        <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/" class="btn btn-secondary"  role="button"> Coping with stress </a>
 </div>
-    <div class="container-lg">
-        <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/anxiety-fear-panic/" class="btn btn-info" role="button"> Anxiety Management</a>
+        {% endif %}
+         {% if current_user.worst_category == "anxiety" %}
+    <div class="mt-2 col-md-12">
+        <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/" class="btn btn-secondary"  role="button"> Self care for anxiety </a>
+        <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/" class="btn btn-secondary"  role="button"> Managing anxiety </a>
 </div>
-    <div class="container-lg">
-        <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/low-mood-sadness-depression/" class="btn btn-info" role="button"> Depression Management</a>
+        {% endif %}
+         {% if current_user.worst_category == "depression" %}
+    <div class="mt-2 col-md-12">
+        <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/" class="btn btn-secondary"  role="button"> Low Mood </a>
+        <a href="https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management" class="btn btn-secondary"  role="button"> Depression treatment and management </a>
 </div>
-    <div class="container-lg">
-        <a href="https://www.nhs.uk/mental-health/self-help/tips-and-support/raise-low-self-esteem/" class="btn btn-info" role="button"> Self-Esteem Management</a>
+        {% endif %}
+         {% if current_user.worst_category == "self-esteem" %}
+    <div class="mt-2 col-md-12">
+        <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/" class="btn btn-secondary"  role="button"> What is self-esteem? </a>
+        <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/" class="btn btn-secondary"  role="button"> How to improve self-esteem? </a>
 </div>
-    <div class="container-lg">
-        <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/sleep/" class="btn btn-info" role="button"> Sleep Management</a>
+        {% endif %}
+         {% if current_user.worst_category == "sleep" %}
+    <div class="mt-2 col-md-12">
+        <a href="https://studentspace.org.uk/wellbeing/improve-your-sleep" class="btn btn-secondary" role="button"> Improve sleep for students</a>
+        <a href="https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/" class="btn btn-secondary"  role="button"> General sleep tips </a>
 </div>
+        {% endif %}
 
 
 
