@@ -4,14 +4,23 @@
 <div class="container">
     This is the student page for: {{student.name}}
 </div>
-Past answers:
-{% for answer in student.answers %}
-<ul>
-    Question: {{ answer.question.text }}
-    Response: {{ answer }}
-</ul>
 
-{% endfor %}
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">Question</th>
+            <th scope="col">Response</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for answer in student.answers %}
+        <tr>
+            <td>{{ answer.question.text }}</td>
+            <td>{{ answer.content }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 
 {% endblock %}
