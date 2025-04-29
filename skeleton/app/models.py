@@ -2,12 +2,13 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from flask_login import UserMixin
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.testing.schema import mapped_column
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 from dataclasses import dataclass
+import datetime
 
 # !!!!NOTE!!!! I haven't checked any of this yet, so it might not quite work. Also I'm yet to update debug_utils to
 # work alongside this, so you can't use reset_db. Soz
@@ -125,6 +126,8 @@ class Question(db.Model):
     priority: so.Mapped[int] = so.mapped_column()
     label: so.Mapped[str] = so.mapped_column(sa.String(32))
 
+    answers: so.Mapped["Answer"] = relationship(back_populates="question")
+
     def get_id(self):
         return self.qid
 
@@ -140,12 +143,14 @@ class Answer(db.Model):
     __tablename__ = "Answers"
 
     form_number: so.Mapped[int] = so.mapped_column(primary_key=True)
+    submission_date: so.Mapped[datetime.datetime] = so.mapped_column(DateTime(timezone=True), default=None)
     qid: so.Mapped[int] = so.mapped_column(ForeignKey(Question.qid), primary_key=True)
     uid: so.Mapped[int] = so.mapped_column(ForeignKey(Student.uid), primary_key=True)
     type: so.Mapped[str] = so.mapped_column(sa.String(16), default="Likert")
     content: so.Mapped[str] = so.mapped_column(sa.String(256))
 
     student: so.Mapped["Student"] = relationship(back_populates="answers")
+    question: so.Mapped["Question"] = relationship(back_populates="answers")
 
     def __repr__(self):
         return (f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, "
