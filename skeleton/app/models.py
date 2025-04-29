@@ -77,8 +77,8 @@ class Student(User):
     }
 
     def __repr__(self):
-        return (f'Student(uid={self.uid}, name={self.name}, university_email={self.university_email}, pwh=...{self.password_hash[-5:]}, '
-                f'student_id={self.student_id}, anonymous={self.anonymous}, forms_completed={self.forms_completed})')
+        return (f'Student(uid={self.uid}, name="----", university_email="----", pwh="----", '
+                f'student_id="----", anonymous={self.anonymous}, forms_completed={self.forms_completed})')
 
 
 class Admin(User):
