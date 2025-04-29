@@ -1,9 +1,9 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField, SelectField, TextAreaField
+from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField, SelectField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, Email
 from app import db
-from app.models import User
+from app.models import User, Student
 from flask_login import current_user
 from app import app
 
@@ -61,6 +61,31 @@ class RegisterForm(FlaskForm):
         if db.session.scalar(q):
             raise ValidationError("Email address already taken, please choose another")
 
+
+class ChangeUniDetails(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    name = StringField('Name', validators=[DataRequired()])
+    university_email = StringField('Email', validators=[DataRequired(), Email()])
+    student_id = IntegerField('Student ID', validators=[DataRequired()])
+    submit = SubmitField('Change University details')
+
+    def validate_username(form, field):
+        q = db.select(User).where(User.username==field.data)
+        if db.session.scalar(q):
+            raise ValidationError("Username already taken, please choose another")
+
+    def validate_university_email(form, field):
+        q = db.select(User).where(User.university_email==field.data)
+        if db.session.scalar(q):
+            raise ValidationError("Email address already registered to an account,"
+                                  " please select another")
+
+    def validate_student_id(form, field):
+        q = db.select(Student).where(Student.student_id==field.data)
+        if db.session.scalar(q):
+            raise ValidationError("Student id already registered to an account, please select another")
+
+
 class QuestionForm(FlaskForm):
     #added an empty string as the first element of the choices list so that '1' doesn't appear as the default option.
     #they can't choose the empty string as an option tho bc of the DataRequired validator
@@ -77,6 +102,7 @@ class QuestionForm(FlaskForm):
     # removed DataRequired()
     q11 = TextAreaField()
     submit = SubmitField('Submit')
+
 
 
 # dynamic questions: using QG here only calls it once when the app is loaded then never calls it again
