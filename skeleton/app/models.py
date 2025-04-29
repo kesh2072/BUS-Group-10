@@ -69,6 +69,8 @@ class Student(User):
     student_id: so.Mapped[int] = so.mapped_column(index=True)
     anonymous: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=True)
     forms_completed: so.Mapped[int] = so.mapped_column(default=0)
+    best_category: so.Mapped[str] = so.mapped_column(default="stress")
+    worst_category: so.Mapped[str] = so.mapped_column(default="anxiety")
 
     answers: so.Mapped[list["Answer"]] = relationship(back_populates="student")
 
@@ -78,7 +80,8 @@ class Student(User):
 
     def __repr__(self):
         return (f'Student(uid={self.uid}, name="----", university_email="----", pwh="----", '
-                f'student_id="----", anonymous={self.anonymous}, forms_completed={self.forms_completed})')
+                f'student_id="----", anonymous={self.anonymous}, best_category={self.best_category},'
+                f'worst_category={self.worst_category} forms_completed={self.forms_completed})')
 
 
 class Admin(User):
