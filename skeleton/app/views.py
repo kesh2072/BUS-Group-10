@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app
 from app.models import User, Student, Question, Answer
-from app.forms import ChooseForm, LoginForm, QuestionForm
+from app.forms import ChooseForm, LoginForm, QuestionForm, ChangePasswordForm, ChangeUniDetails
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db
@@ -38,10 +38,39 @@ def staff():
     return render_template('staff.html', title="Staff")
 
 
+@app.route('/change_pw', methods=['GET', 'POST'])
+@login_required
+def change_pw():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        current_user.set_password(form.new_password.data)
+        db.session.commit()
+        flash('Password changed successfully', 'success')
+        return redirect(url_for('home'))
+    return render_template('generic_form.html', title='Change Student Password', form=form)
+
+@app.route('/change_uni_details', methods=['GET', 'POST'])
+@login_required
+def change_uni_details():
+    form = ChangeUniDetails()
+    if form.validate_on_submit():
+        student_details = Student(username=form.username.data,
+                                  email=form.university_email.data,
+                                  name=form.name.data,
+                                  student_id=form.student_id.data)
+        db.session.update(student_details)
+        db.session.commit()
+        flash('University Details Updated successfully', 'success')
+        return redirect(url_for('home'))
+    return render_template('generic_form.html', title='Change Student Details', form=form)
+
+
 @app.route("/student")
 @login_required
 def student():
-    return render_template('student.html', title="Student")
+    student = db.session.scalar(
+                sa.select(User).where(User.uid == current_user.uid))
+    return render_template('student.html', title="Student", student = student)
 
 
 @app.route('/login', methods=['GET', 'POST'])
