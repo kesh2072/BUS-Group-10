@@ -1,5 +1,3 @@
-from IPython.lib.pretty import pretty
-
 from app.models import Student, Question, Answer
 from app import db
 import sqlalchemy as sa
