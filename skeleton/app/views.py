@@ -7,7 +7,7 @@ import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
 from app.processor import MLQuestionProcessingManager
-
+from sqlalchemy import func, desc
 from datetime import datetime
 
 
@@ -88,6 +88,21 @@ def view_student(id):
     answers_by_submission = dict(sorted(answers_by_submission.items(), reverse=True))
     return render_template('view_student.html', title="View Student", student=student, answers_by_submission=dict(answers_by_submission))
 
+@app.route("/staff/statistics")
+@login_required
+def statistics():
+    q = (
+        db.select(Student.worst_category, func.count().label("count"))
+        .where(Student.worst_category.isnot(None))
+        .group_by(Student.worst_category)
+        .order_by(desc("count"))
+        .limit(1)
+    )
+
+    result = db.session.execute(q).first()
+    most_common_category = result[0]
+    amount = result[1]
+    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount)
 
 
 @app.route("/student")
