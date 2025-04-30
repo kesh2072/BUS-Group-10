@@ -8,6 +8,7 @@ from app import db
 from urllib.parse import urlsplit
 from app.processor import MLQuestionProcessingManager
 
+from datetime import datetime
 
 
 @app.route("/")
@@ -64,6 +65,30 @@ def change_uni_details():
         return redirect(url_for('home'))
     return render_template('generic_form.html', title='Change Student Details', form=form)
 
+@app.route("/staff/view_students")
+@login_required
+def view_students():
+    form=ChooseForm()
+    q = db.select(Student)
+    students = db.session.scalars(q)
+    return render_template('view_students.html', title="View all students", students=students, form=form)
+
+@app.route("/staff/student/<int:id>")
+@login_required
+def view_student(id):
+    student = db.session.get(Student, id)
+    answers_by_submission = {}
+    for answer in student.answers:
+        
+        if answer.submission_date not in answers_by_submission:
+            answers_by_submission[answer.submission_date] = []
+        
+        answers_by_submission[answer.submission_date].append(answer)
+
+    answers_by_submission = dict(sorted(answers_by_submission.items(), reverse=True))
+    return render_template('view_student.html', title="View Student", student=student, answers_by_submission=dict(answers_by_submission))
+
+
 
 @app.route("/student")
 @login_required
@@ -107,7 +132,9 @@ def question_form():
     for i,qi in enumerate(questions):
         getattr(form,qi).label.text= q_list[i].text + ' ('+ q_list[i].label +')'
 
+
     if form.validate_on_submit():
+        timestamp = datetime.now()
         flash('Thank you for submitting the questionnaire', 'success')
 
         #works out what form number to label the questions
@@ -120,9 +147,13 @@ def question_form():
 
         # qid doesn't increase incrementally but needs to correlate with the questions asked
         for i in range(10):
-            current_user.answers.append(Answer(content = request.form.get(questions[i]), form_number =form_number, qid =q_list[i].qid))
-        current_user.answers.append(Answer(content = request.form.get('q11'), form_number = form_number, qid = q_list[10].qid, type = "Text Answer"))
+            current_user.answers.append(Answer(content = request.form.get(questions[i]), form_number =form_number, qid =q_list[i].qid, submission_date=timestamp))
+        current_user.answers.append(Answer(content = request.form.get('q11'), form_number = form_number, qid = q_list[10].qid, type = "Text Answer", submission_date = timestamp))
         current_user.forms_completed+=1
+
+        worst,best = instance_of_processor.worst_best(current_user)
+        current_user.best_category=best
+        current_user.worst_category=worst
         db.session.commit()
         return redirect(url_for('home'))
     return render_template('question_form.html', title = 'Question Form', form = form)
