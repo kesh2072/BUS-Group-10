@@ -91,6 +91,7 @@ def view_student(id):
 @app.route("/staff/statistics")
 @login_required
 def statistics():
+    # Retrieve worst category from all students
     q = (
         db.select(Student.worst_category, func.count().label("count"))
         .where(Student.worst_category.isnot(None))
@@ -98,11 +99,22 @@ def statistics():
         .order_by(desc("count"))
         .limit(1)
     )
-
     result = db.session.execute(q).first()
     most_common_category = result[0]
     amount = result[1]
-    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount)
+
+    # Retrieve average grade for each student
+    # This still gets average over ALL past questionnaires, need to fix to only be last questionnaire
+    list_averages = (
+    db.select(Student.uid, Student.name, func.round(func.avg(Answer.content), 2).label("average"))
+    .join(Answer, Answer.uid == Student.uid)
+    .group_by(Student.uid)
+    .order_by(desc('average'))
+    )
+
+    priority_list = db.session.execute(list_averages).all()
+
+    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount, priority_list=priority_list)
 
 
 @app.route("/student")

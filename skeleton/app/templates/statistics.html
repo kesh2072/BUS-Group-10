@@ -6,5 +6,13 @@
 <p>The category that students struggle the most with is {{ most_common_category }}</p>
 <p>{{ amount }} students register this as their biggest struggle currently</p>
 
+<p>Priority List</p>
+{{priority_list}}
+
+{% for value in priority_list %}
+    <li>
+        {{ value[1] }} -> {{ value[2] }}
+    </li>
+{% endfor %}
 
 {% endblock %}
