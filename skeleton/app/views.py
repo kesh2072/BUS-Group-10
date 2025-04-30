@@ -7,6 +7,7 @@ import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
 from app.processor import MLQuestionProcessingManager
+from app.anonymity import VisibleStudent
 
 from datetime import datetime
 
@@ -95,7 +96,9 @@ def view_student(id):
 def student():
     student = db.session.scalar(
                 sa.select(User).where(User.uid == current_user.uid))
-    return render_template('student.html', title="Student", student = student)
+    student = VisibleStudent(student)
+    student_attr = student.display_attributes()
+    return render_template('student.html', title="Student", student_attr=student_attr)
 
 
 @app.route('/login', methods=['GET', 'POST'])
