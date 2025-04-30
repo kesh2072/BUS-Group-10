@@ -8,6 +8,7 @@ class VisibleStudent:
 
     def display_attributes(self):
         return {
+            "uid": self.student.uid,
             "name": self.student.name,
             "username": self.student.username,
             "role": self.student.role,

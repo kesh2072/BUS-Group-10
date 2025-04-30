@@ -81,6 +81,7 @@ class Student(User):
 
     def display_attributes(self):
         return {
+            "uid": self.student.uid,
             "name": "----",
             "username": "----",
             "role": self.role,
