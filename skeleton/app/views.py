@@ -66,13 +66,24 @@ def change_uni_details():
         return redirect(url_for('home'))
     return render_template('generic_form.html', title='Change Student Details', form=form)
 
+def apply_anonymity(students):
+    new_students = []
+    for stu in students:
+        if not stu.anonymous:
+            stu = VisibleStudent(stu)
+        new_students.append(stu)
+    print(new_students)
+    return new_students
+
 @app.route("/staff/view_students")
 @login_required
 def view_students():
     form=ChooseForm()
     q = db.select(Student)
     students = db.session.scalars(q)
-    return render_template('view_students.html', title="View all students", students=students, form=form)
+    anonymity_appplied_students = apply_anonymity(students)
+    students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
+    return render_template('view_students.html', title="View all students", students_attrs=students_attrs, form=form)
 
 @app.route("/staff/student/<int:id>")
 @login_required
