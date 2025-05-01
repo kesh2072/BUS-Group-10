@@ -7,8 +7,13 @@ import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
 from app.processor import MLQuestionProcessingManager
-
+from sqlalchemy import func, desc
 from datetime import datetime
+from matplotlib.figure import Figure
+import numpy as np
+import base64
+from io import BytesIO
+
 
 
 @app.route("/")
@@ -88,6 +93,53 @@ def view_student(id):
     answers_by_submission = dict(sorted(answers_by_submission.items(), reverse=True))
     return render_template('view_student.html', title="View Student", student=student, answers_by_submission=dict(answers_by_submission))
 
+@app.route("/staff/statistics", methods=["GET", "POST"])
+@login_required
+def statistics():
+    # Retrieve worst category from all students
+    q = (
+        db.select(Student.worst_category, func.count().label("count"))
+        .where(Student.worst_category.isnot(None))
+        .group_by(Student.worst_category)
+        .order_by(desc("count"))
+    )
+    result = db.session.execute(q).first()
+    most_common_category = result[0]
+    amount = result[1]
+
+    # Bar chart for different categories
+    categories = []
+    amount_of_students = []
+    for k in (db.session.execute(q)):
+        categories.append(k[0])
+        amount_of_students.append(k[1])
+    
+    print(categories)
+    print(amount_of_students)
+
+    fig = Figure()
+    ax = fig.subplots()
+    ax.bar(categories, amount_of_students)
+    ax.set_title('Bar Chart Test')
+    ax.set_xlabel('Categories')
+    ax.set_ylabel('Amount of Students')
+
+    buf = BytesIO()
+    fig.savefig(buf, format="png")
+    data = base64.b64encode(buf.getbuffer()).decode("ascii")
+
+    # Retrieve average grade for each student
+    # This still gets average over ALL past questionnaires
+    list_averages = (
+    db.select(Student.uid, Student.name, func.round(func.avg(Answer.content), 2).label("average"))
+    .join(Answer, Answer.uid == Student.uid)
+    .group_by(Student.uid)
+    .order_by(desc('average'))
+    )
+
+    priority_list = db.session.execute(list_averages).all()
+
+    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount, priority_list=priority_list, data=data)
 
 
 @app.route("/student")
