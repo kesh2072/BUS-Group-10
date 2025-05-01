@@ -43,7 +43,8 @@ class MLQuestionProcessingManager:
             w[db.session.get(Question,a.qid).label]+=[int(a.content)]
         last_entry=previous_answers[10].content       #adjust weighting to add 5 points for the associated category of text input (if it exists)
         if last_entry:
-            w[self.label_classifier(last_entry)]+=[5]
+            if self.label_classifier(last_entry):
+                w[self.label_classifier(last_entry)]+=[5]
         w={i:statistics.mean(j) if len(j)!=0 else 0 for i,j in w.items()}
         return dict(sorted(w.items(), key=lambda i: i[1]))
 
@@ -96,6 +97,7 @@ class MLQuestionProcessingManager:
             print('distribution of questions: ', distribution)
             print('worst: ', worst)
             print('best: ', best)
+
 
             return questions
 
