@@ -21,7 +21,7 @@
     <tbody>
         {% for student_attr in students_attrs %}
         <tr>
-            <td>#</td>
+            <td>{{ student_attr["uid"] }}</td>
             <td class="text-start text-nowrap">
                 <a href="{{ url_for('view_student', id=student_attr['uid']) }}">{{ student_attr["name"] }}</a>
             </td>
