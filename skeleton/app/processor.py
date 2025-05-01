@@ -22,18 +22,18 @@ class MLQuestionProcessingManager:
     def label_classifier(self,x: str):
         # split x into list of words with regular expression
         # find the first occurrence of a key word and return as 'label'
-        def label_classifier(x):
-            keywords = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
-            text = re.sub(r'[^\w\s]', '', x)
-            text_list = text.split(' ')
-            student_keywords = [word.lower() for word in text_list if word.lower() in keywords]
-            if student_keywords:
-                label = student_keywords[0]
-                return label
-            # if no keywords appear what label do we want? We could have this as return None and then in the algorithm
-            # in line 45 have 'if last_entry and if self.label_classifier(last_entry)'? But have left it as stress for now
-            else:
-                return None
+
+        keywords = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
+        text = re.sub(r'[^\w\s]', '', x)
+        text_list = text.split(' ')
+        student_keywords = [word.lower() for word in text_list if word.lower() in keywords]
+        if student_keywords:
+            label = student_keywords[0]
+            return label
+        # if no keywords appear what label do we want? We could have this as return None and then in the algorithm
+        # in line 45 have 'if last_entry and if self.label_classifier(last_entry)'? But have left it as stress for now
+        else:
+            return None
 
     # weighting calculator: a function that takes in a list of Answer objects and outputs a dictionary of average weightings (in ascending order)
     # example output: {'depression': 1.5, 'anxiety': 2, 'self-esteem': 3.5, 'sleep': 3.5, 'stress': 4.5}
