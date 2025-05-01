@@ -189,14 +189,12 @@ def question_form():
         timestamp = datetime.now()
         flash('Thank you for submitting the questionnaire', 'success')
 
-        #works out what form number to label the questions
         all_answers = current_user.answers
         form_numbers = [ans.form_number for ans in all_answers]
         if form_numbers:
             form_number = max(form_numbers) + 1
         else:
             form_number = 1
-
         # qid doesn't increase incrementally but needs to correlate with the questions asked
         for i in range(10):
             current_user.answers.append(Answer(content = request.form.get(questions[i]), form_number =form_number, qid =q_list[i].qid, submission_date=timestamp))
