@@ -19,13 +19,7 @@ from io import BytesIO
 
 @app.route("/")
 def home():
-    return render_template('home.html', title="Home")
-
-
-@app.route("/account")
-@login_required
-def account():
-    return render_template('account.html', title="Account")
+    return render_template('home.html',title="Home")
 
 
 @app.route("/admin")
