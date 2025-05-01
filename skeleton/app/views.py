@@ -103,7 +103,13 @@ def view_student(id):
         answers_by_submission[answer.submission_date].append(answer)
 
     answers_by_submission = dict(sorted(answers_by_submission.items(), reverse=True))
-    return render_template('view_student.html', title="View Student", student=student, answers_by_submission=dict(answers_by_submission))
+
+    if student.anonymous == False:
+        student = VisibleStudent(student)
+
+    student_attr = student.display_attributes()
+
+    return render_template('view_student.html', title="View Student", student_attr=student_attr, answers_by_submission=dict(answers_by_submission))
 
 @app.route("/staff/statistics", methods=["GET", "POST"])
 @login_required

@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="container">
-<h1>This is the student page for: {{ student.name }}</h1>
-<p>Currently needing help with {{ student.worst_category }} the most</p>
+<h1>This is the student page for: {{ student_attr['name'] }}</h1>
+<p>Currently needing help with {{ student_attr['worst_category'] }} the most</p>
 </div>
 
 {% for submission_date, answers in answers_by_submission.items() %}
