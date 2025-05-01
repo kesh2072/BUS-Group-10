@@ -31,9 +31,9 @@ class MLQuestionProcessingManager:
                 label = student_keywords[0]
                 return label
             # if no keywords appear what label do we want? We could have this as return None and then in the algorithm
-            # in line 44 have 'if last_entry and if self.label_classifier(last_entry)'? But have left it as stress for now
+            # in line 45 have 'if last_entry and if self.label_classifier(last_entry)'? But have left it as stress for now
             else:
-                return 'stress'
+                return None
 
     # weighting calculator: a function that takes in a list of Answer objects and outputs a dictionary of average weightings (in ascending order)
     # example output: {'depression': 1.5, 'anxiety': 2, 'self-esteem': 3.5, 'sleep': 3.5, 'stress': 4.5}
