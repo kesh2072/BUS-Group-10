@@ -81,6 +81,7 @@ class Student(User):
 
     def display_attributes(self):
         return {
+            "uid": self.uid,
             "name": "----",
             "username": "----",
             "role": self.role,
@@ -94,7 +95,7 @@ class Student(User):
 
     def __repr__(self):
         return (f'Student(uid={self.uid}, name={self.name}, university_email={self.university_email}, '
-                f'pwh=...{self.student.password_hash[-5:]}, student_id={self.student_id}, anonymous={self.anonymous}, '
+                f'pwh=...{self.password_hash[-5:]}, student_id={self.student_id}, anonymous={self.anonymous}, '
                 f'best_category={self.best_category}, worst_category={self.worst_category}, '
                 f'forms_completed={self.forms_completed})')
 

@@ -19,16 +19,15 @@
         </tr>
     </thead>
     <tbody>
-        {% for student in students %}
-        {% if student.anonymous == False %}
+        {% for student_attr in students_attrs %}
         <tr>
             <td>#</td>
             <td class="text-start text-nowrap">
-                <a href="{{ url_for('view_student', id=student.uid) }}">{{ student.name }}</a>
+                <a href="{{ url_for('view_student', id=student_attr['uid']) }}">{{ student_attr["name"] }}</a>
             </td>
-            <td>{{ student.university_email }}</td>
-            <td>{{ student.student_id }}</td>
-            <td>{{ student.forms_completed }}</td>
+                <td>{{ student_attr["university_email"] }}</td>
+                <td>{{ student_attr["student_id"] }}</td>
+                <td>{{ student_attr["forms_completed"] }}</td>
             <td>
                 <button class="btn" type="submit">
                     <i class="bi bi-toggle-off"></i>
@@ -36,7 +35,6 @@
                 </form>
             </td>
         </tr>
-        {% endif %}
         {% endfor %}
     </tbody>
 </table>

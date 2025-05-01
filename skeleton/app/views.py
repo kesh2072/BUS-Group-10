@@ -8,6 +8,7 @@ from app import db
 from urllib.parse import urlsplit
 from app.processor import MLQuestionProcessingManager
 from sqlalchemy import func, desc
+from app.anonymity import VisibleStudent
 from datetime import datetime
 from matplotlib.figure import Figure
 import numpy as np
@@ -70,13 +71,24 @@ def change_uni_details():
         return redirect(url_for('home'))
     return render_template('generic_form.html', title='Change Student Details', form=form)
 
+def apply_anonymity(students):
+    new_students = []
+    for stu in students:
+        if not stu.anonymous:
+            stu = VisibleStudent(stu)
+        new_students.append(stu)
+    print(new_students)
+    return new_students
+
 @app.route("/staff/view_students")
 @login_required
 def view_students():
     form=ChooseForm()
     q = db.select(Student)
     students = db.session.scalars(q)
-    return render_template('view_students.html', title="View all students", students=students, form=form)
+    anonymity_appplied_students = apply_anonymity(students)
+    students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
+    return render_template('view_students.html', title="View all students", students_attrs=students_attrs, form=form)
 
 @app.route("/staff/student/<int:id>")
 @login_required
@@ -147,7 +159,9 @@ def statistics():
 def student():
     student = db.session.scalar(
                 sa.select(User).where(User.uid == current_user.uid))
-    return render_template('student.html', title="Student", student = student)
+    student = VisibleStudent(student)
+    student_attr = student.display_attributes()
+    return render_template('student.html', title="Student", student_attr=student_attr)
 
 
 @app.route('/login', methods=['GET', 'POST'])

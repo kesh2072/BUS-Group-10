@@ -18,10 +18,14 @@
                 </tr>
             </thead>
         <tr>
-            <td> {{ current_user.student_id }} </td>
-            <td> {{ current_user.name }} </td>
-            <td> {{ current_user.username }} </td>
-            <td> {{ current_user.university_email }} </td>
+<!--            <td> {{ current_user.student_id }} </td>-->
+<!--            <td> {{ current_user.name }} </td>-->
+<!--            <td> {{ current_user.username }} </td>-->
+<!--            <td> {{ current_user.university_email }} </td>-->
+            <td>{{ student_attr["student_id"] }}</td>
+            <td>{{ student_attr["name"] }}</td>
+            <td>{{ student_attr["username"] }}</td>
+            <td>{{ student_attr["university_email"] }}</td>
             <td> <a  class='btn btn-info' href="{{ url_for('change_uni_details') }}">Change University Details</a> </td>
         </tr>
 </table>
