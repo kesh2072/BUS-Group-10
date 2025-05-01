@@ -3,11 +3,14 @@
 {% block content %}
 <h1>Welcome, {{ current_user.name }}</h1>
 
+
+
+
 <li>
-    <a href="{{ url_for('view_students') }}">View all students</a>
+    <a class="btn btn-info" role="button" aria-current="page" href="{{ url_for('view_students') }}">View all students</a>
 </li>  
 <li>
-    <a href="{{ url_for('statistics') }}">View Statistics</a>
+    <a class="btn btn-info" role="button" aria-current="page" href="{{ url_for('statistics') }}">View Statistics</a>
 </li>
 
 {% endblock %}
