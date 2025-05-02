@@ -14,7 +14,6 @@
                     <th>Student Name</th>
                     <th>Student Username</th>
                     <th>Student Email</th>
-                    <th>Edit</th>
                 </tr>
             </thead>
         <tr>
@@ -26,10 +25,15 @@
             <td>{{ student_attr["name"] }}</td>
             <td>{{ student_attr["username"] }}</td>
             <td>{{ student_attr["university_email"] }}</td>
-            <td> <a class='btn btn-info' href="{{ url_for('change_uni_details') }}">Change University Details</a> 
-                 <a class="btn btn-primary btn-lg" role="button" aria-current="page" href="{{ url_for('change_pw') }}">Change Password</a>   </td>
         </tr>
 </table>
+<p>Click here to edit your university details: 
+    <a class="btn btn-primary btn-sm" role="button" aria-current="page" href="{{ url_for('change_uni_details') }}">Edit University Details</a>
+</p>
+
+<p>Click here to change your password: 
+    <a class="btn btn-primary btn-sm" role="button" aria-current="page" href="{{ url_for('change_pw') }}">Change Password</a>
+</p>
 
         <h3>Student Resources</h3>
     <div class="mt-2 col-md-12">
