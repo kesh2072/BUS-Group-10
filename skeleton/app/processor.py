@@ -8,15 +8,14 @@ import re
 
 class MLQuestionProcessingManager:
 
+    current_s = None
+
     labels = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(MLQuestionProcessingManager, cls).__new__(cls)
         return cls.instance
-
-    def flag_student_text(self, text):
-        pass
 
     # a function that scans the text input and returns an associated category
     # ideally this would involve a supervised ML algorithm (scikit if we have time) but for now it will just search for key words
@@ -31,7 +30,8 @@ class MLQuestionProcessingManager:
         text_list = text.split(' ')
         student_keywords = [word.lower() for word in text_list if word.lower() in keywords]
         if 'suicide' in student_keywords:
-            self.flag_student_text(x)
+            self.current_s.flagged = True
+            db.session.commit()
             student_keywords = [word for word in student_keywords if word != 'suicide']
         if student_keywords:
             label = student_keywords[0]
@@ -78,16 +78,15 @@ class MLQuestionProcessingManager:
             return None,None
 
     # Question Generator: a function that takes in a Student object and outputs a list of 10+1 Question objects
-    def QG(self,s:Student):
-        #the way i did the question_form() in the view function assumes the text question is last in the generated questions list.
-        #(aimed at Maddie) i don't know if your algorithm puts the text question last in questions -if it doesn't then i can change
-        #the question_form view function
+    def QG(self, s:Student):
+        # Set the processor's current student variable (used in label_classifier) - Luke
+        self.current_s = s
 
         # answers exist in database: next iteration
         if s.answers:
-            previous_answers=[a for a in s.answers if s.forms_completed==a.form_number]
-            worst,best = self.worst_best(s)
-            distribution=self.q_count(previous_answers)
+            previous_answers = [a for a in s.answers if s.forms_completed == a.form_number]
+            worst, best = self.worst_best(s)
+            distribution = self.q_count(previous_answers)
 
             distribution[worst] += 1      # add an extra question for student's 'worst' category
             distribution[best] -= 1       # remove a question for student's 'best' category
