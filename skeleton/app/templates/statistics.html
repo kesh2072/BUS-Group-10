@@ -1,38 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
 
-<ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
+<!-- Nav tabs -->
+<ul class="nav nav-pills nav-fill gap-2 p-1 small bg-dark rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
+
     <li class="nav-item" role="presentation">
-        <form action="{{ url_for('statistics_overview') }}" method="POST">
-            <button class="nav-link active rounded-5" id="home-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Overview</button>
-        </form>
+        <button class="nav-link rounded-5" id="home-tab2" data-bs-toggle="pill" data-bs-target="#overivew" type="button" role="tab">Home</button>
     </li>
     <li class="nav-item" role="presentation">
-        <form action="{{ url_for('statistics distribution') }}" method="POST">
-            <button class="nav-link rounded-5" id="profile-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Distribution</button>
-        </form>
+        <button class="nav-link rounded-5" id="distribution-tab" data-bs-toggle="pill" data-bs-target="#distribution" type="button" role="tab">Distribution</button>
     </li>
     <li class="nav-item" role="presentation">
-        <form action="{{ url_for('statistics_priority_list') }}" method="POST">
-            <button class="nav-link rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Priority List</button>
-        </form>
+        <button class="nav-link rounded-5" id="priority-tab" data-bs-toggle="pill" data-bs-target="#priority" type="button" role="tab">Priority List</button>
     </li>
 </ul>
 
-<p>Can view all statistics here</p>
 
-<p>The category that students struggle the most with is {{ most_common_category }}</p>
-<p>{{ amount }} students register this as their biggest struggle currently</p>
+<div class="tab-content" id="statisticsTabsContent">
 
-<img src="data:image/png;base64,{{data}}" alt="Bar chart">
+    <div class="tab-pane fade show active" id="overview" role="tabpanel">
+        <h4>Overview</h4>
+        {% if most_common_category %}
+            <p>The category that students struggle the most with is <strong>{{ most_common_category }}</strong>.</p>
+            <p><strong>{{ amount }}</strong> students register this as their biggest struggle currently.</p>
+        {% else %}
+            <p>No overview data available.</p>
+        {% endif %}
+    </div>
 
-<p>Priority List</p>
-{{priority_list}}
+    <div class="tab-pane fade" id="distribution" role="tabpanel">
+        <h4>Distribution</h4>
+        {% if data %}
+            <img src="data:image/png;base64,{{data}}" alt="Bar chart" class="img-fluid">
+        {% else %}
+            <p>No distribution data available.</p>
+        {% endif %}
+    </div>
 
-{% for value in priority_list %}
-    <li>
-        {{ value[1] }} -> {{ value[2] }}
-    </li>
-{% endfor %}
+    <div class="tab-pane fade" id="priority" role="tabpanel">
+        <h4>Priority List</h4>
+        {% if priority_list %}
+            <ul class="list-group">
+                {% for value in priority_list %}
+                    <li class="list-group-item">{{ value[1] }} → {{ value[2] }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No priority list available.</p>
+        {% endif %}
+    </div>
+
+</div>
 
 {% endblock %}
