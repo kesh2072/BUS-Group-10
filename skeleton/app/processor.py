@@ -15,6 +15,9 @@ class MLQuestionProcessingManager:
             cls.instance = super(MLQuestionProcessingManager, cls).__new__(cls)
         return cls.instance
 
+    def flag_student_text(self, text):
+        pass
+
     # a function that scans the text input and returns an associated category
     # ideally this would involve a supervised ML algorithm (scikit if we have time) but for now it will just search for key words
     # TODO: this label_classifier doesn't work yet (currently ANY text input will be categorised as 'stress')
@@ -23,10 +26,13 @@ class MLQuestionProcessingManager:
         # split x into list of words with regular expression
         # find the first occurrence of a key word and return as 'label'
 
-        keywords = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
+        keywords = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep', 'suicide']
         text = re.sub(r'[^\w\s]', '', x)
         text_list = text.split(' ')
         student_keywords = [word.lower() for word in text_list if word.lower() in keywords]
+        if 'suicide' in student_keywords:
+            self.flag_student_text(x)
+            student_keywords = [word for word in student_keywords if word != 'suicide']
         if student_keywords:
             label = student_keywords[0]
             return label
