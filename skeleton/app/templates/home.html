@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Welcome</h1>
-<h2>How are you today? </h2>
- <div class="mt-2 col-md-12">
-  {% if current_user.is_anonymous %}
-     <a class="btn btn-info" role="button" aria-current="page" href="{{ url_for('login') }}">Login</a>
-     {% else %}
-     <a class="btn btn-info" role="button" aria-current="page" href="{{ url_for('logout') }}">Logout {{ current_user.username }}</a>
 
-     <a class="btn btn-info" role="button" aria-current="page" href="{{ url_for('change_pw') }}">Change Password</a>
+<div class="jumbotron">
+    <h1 class="display-4">Welcome!</h1>
+    <p class="lead">some text here</p>
+    <hr class="my-4">
+    {% if current_user.is_anonymous %}
+    <h1 class="display-6">Please sign in</h1>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" role="button" aria-current="page" href="{{ url_for('login') }}">Login</a>
+    </p>
+     {% else %}
+     <p class="lead">
+        <a class="btn btn-primary btn-lg" role="button" aria-current="page" href="{{ url_for('logout') }}">Logout {{ current_user.username }}</a>
+    </p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" role="button" aria-current="page" href="{{ url_for('change_pw') }}">Change Password</a>
+    </p>
 
      {% endif %}
- </div>
+</div>
 
 
 {% endblock %}

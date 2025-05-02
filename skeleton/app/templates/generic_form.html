@@ -3,6 +3,8 @@
 
 {% block content %}
     <div class="container">
-        {{ wtf.quick_form(form, action="", method="post", id="", novalidate=True, autofocus=False) }}
+        <div class="form-floating">
+            {{ wtf.quick_form(form, action="", method="post", id="", novalidate=True, autofocus=False) }}
+        </div>
     </div>
 {% endblock %}
