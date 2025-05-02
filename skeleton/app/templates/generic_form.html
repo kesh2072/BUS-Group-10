@@ -2,9 +2,7 @@
 {% import "bootstrap_wtf.html" as wtf %}
 
 {% block content %}
-    <div class="container">
-        <div class="form-floating">
-            {{ wtf.quick_form(form, action="", method="post", id="", novalidate=True, autofocus=False) }}
-        </div>
-    </div>
+<div class="container">
+    {{ wtf.quick_form(form, action="", method="post", id="", novalidate=True, autofocus=False) }}
+</div>   
 {% endblock %}
