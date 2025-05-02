@@ -15,7 +15,7 @@
             <th scope="col">University Email</th>
             <th scope="col">Student ID</th>
             <th scope="col">Forms Completed</th>
-            <th scope="col">Toggle Anonymity</th>
+            <th scope="col">Anonymity Options</th>
         </tr>
     </thead>
     <tbody>
@@ -28,7 +28,8 @@
                 <td>{{ student_attr["university_email"] }}</td>
                 <td>{{ student_attr["student_id"] }}</td>
                 <td>{{ student_attr["forms_completed"] }}</td>
-            <td>
+            {% if student_attr["flagged"] }}
+            <td>Remove anonymity
                 <form action="{{ url_for('toggle_anonymity') }}" method="post">
                     {{ form.csrf_token() }}
                     {{ form.choice(value=student_attr["uid"]) }}
@@ -41,6 +42,11 @@
                     </button>
                 </form>
             </td>
+            {% else %}
+            <td>
+                Locked.
+            </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

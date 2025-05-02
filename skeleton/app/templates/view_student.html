@@ -4,6 +4,9 @@
 <div class="container">
 <h1>This is the student page for: {{ student_attr['name'] }}</h1>
 <p>Currently needing help with {{ student_attr['worst_category'] }} the most</p>
+    {% if student_attr['flagged'] %}
+        <p>!IMPORTANT! This student has been flagged. Please review their latest form submission</p>
+    {% endif %}
 </div>
 
 {% for submission_date, answers in answers_by_submission.items() %}
