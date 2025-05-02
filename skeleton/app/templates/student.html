@@ -59,68 +59,78 @@
 </ul>
 
 <div class="tab-content" id="dynamicHomepage">
-    <ul class="list-group"></ul>
     <div class="tab-pane fade" id="recommended" role="tabpanel">
         <h4>Recommended content for you</h4>
+        <ul class="list-group">
         {% if current_user.worst_category == "stress" %}
-        <div class="mt-2 col-md-12">
-            <li class="list-group-item"><a href="https://www.nhs.uk/mental-health/children-and-young-adults/help-for-teenagers-young-adults-and-students/student-stress-self-help-tips/" class="btn btn-secondary" role="button"> Student stress </a></li>
-            <li class="list-group-item"><a href="https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors." class="btn btn-secondary" role="button"> Strategies to manage stress </a></li>
-            <li class="list-group-item"><a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/" class="btn btn-secondary"  role="button"> Coping with stress </a></li>
-        </div>
+                <a href="https://www.nhs.uk/mental-health/children-and-young-adults/help-for-teenagers-young-adults-and-students/student-stress-self-help-tips/" class="list-group-item list-group-item-action" role="button"> Student stress </a>
+                <a href="https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors." class="list-group-item list-group-item-action" role="button"> Strategies to manage stress </a>
+                <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/" class="list-group-item list-group-item-action"  role="button"> Coping with stress </a>
         {% endif %}
         {% if current_user.worst_category == "anxiety" %}
         <div class="mt-2 col-md-12">
-            <li class="list-group-item"><a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/" class="btn btn-secondary"  role="button"> Self care for anxiety </a></li>
-            <li class="list-group-item"><a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/" class="btn btn-secondary"  role="button"> Managing anxiety </a></li>
+
+                <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/" class="list-group-item list-group-item-action"  role="button"> Self care for anxiety </a>
+
+                <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/" class="list-group-item list-group-item-action"  role="button"> Managing anxiety </a>
         </div>
         {% endif %}
         {% if current_user.worst_category == "depression" %}
         <div class="mt-2 col-md-12">
-            <li class="list-group"><a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/" class="btn btn-secondary"  role="button"> Low Mood </a></li>
-            <li class="list-group"><a href="https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management" class="btn btn-secondary"  role="button"> Depression treatment and management </a></li>
+                <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/" class="list-group-item list-group-item-action"  role="button"> Low Mood </a>
+                <a href="https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management" class="list-group-item list-group-item-action"  role="button"> Depression treatment and management </a>
         </div>
         {% endif %}
         {% if current_user.worst_category == "self-esteem" %}
         <div class="mt-2 col-md-12">
-            <li class="list-group-item"><a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/" class="btn btn-secondary"  role="button"> What is self-esteem? </a></li>
-            <li class="list-group-item"><a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/" class="btn btn-secondary"  role="button"> How to improve self-esteem? </a></li>
+                <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/" class="list-group-item list-group-item-action"  role="button"> What is self-esteem? </a>
+                <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/" class="list-group-item list-group-item-action"  role="button"> How to improve self-esteem? </a>
         </div>
         {% endif %}
         {% if current_user.worst_category == "sleep" %}
         <div class="mt-2 col-md-12">
-            <li class="list-group-item"><a href="https://studentspace.org.uk/wellbeing/improve-your-sleep" class="btn btn-secondary" role="button"> Improve sleep for students</a></li>
-            <li class="list-group-item"><a href="https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/" class="btn btn-secondary"  role="button"> General sleep tips </a></li>
+                <a href="https://studentspace.org.uk/wellbeing/improve-your-sleep" class="list-group-item list-group-item-action" role="button"> Improve sleep for students</a>
+                <a href="https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/" class="list-group-item list-group-item-action"  role="button"> General sleep tips </a>
         </div>
         {% endif %}
+        </ul>
     </div>
     <div class="tab-pane fade" id="stress" role="tabpanel">
         <h4>Materials related to stress</h4>
-        <li class="list-group-item"><a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress/" class="btn btn-info" role="button"> Stress management </a>
-        <li class="list-group-item"><a href="https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors." class="btn btn-secondary" role="button"> Strategies to manage stress </a>
-        <li class="list-group-item"><a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/" class="btn btn-secondary"  role="button"> Coping with stress </a>
-    </div>
+        <ul class="list-group">
+            <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress/" class="list-group-item list-group-item-action" role="button"> Stress management </a>
+            <a href="https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors." class="list-group-item list-group-item-action" role="button"> Strategies to manage stress </a>
+            <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/" class="list-group-item list-group-item-action"  role="button"> Coping with stress </a>
+        </ul>
+        </div>
     <div class="tab-pane fade" id="anxiety" role="tabpanel">
         <h4>Materials related to anxiety</h4>
-        <li class="list-group-item"><a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/" class="btn btn-secondary"  role="button"> Self care for anxiety </a>
-        <li class="list-group-item"><a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/" class="btn btn-secondary"  role="button"> Managing anxiety </a>
-    </div>
+        <ul class="list-group">
+            <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/" class="list-group-item list-group-item-action"  role="button"> Self care for anxiety </a>
+            <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/" class="list-group-item list-group-item-action"  role="button"> Managing anxiety </a>
+        </ul>
+        </div>
     <div class="tab-pane fade" id="depression" role="tabpanel">
         <h4>Materials related to depression</h4>
-        <li class="list-group-item"><a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/" class="btn btn-secondary"  role="button"> Low Mood </a>
-        <li class="list-group-item"><a href="https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management" class="btn btn-secondary"  role="button"> Depression treatment and management </a>
-    </div>
+        <ul class="list-group">
+            <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/" class="list-group-item list-group-item-action"  role="button"> Low Mood </a>
+            <a href="https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management" class="list-group-item list-group-item-action"  role="button"> Depression treatment and management </a>
+        </ul>
+        </div>
     <div class="tab-pane fade" id="self-esteem" role="tabpanel">
         <h4>Materials related to self-esteem</h4>
-        <li class="list-group-item"><a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/" class="btn btn-secondary"  role="button"> What is self-esteem? </a>
-        <li class="list-group-item"><a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/" class="btn btn-secondary"  role="button"> How to improve self-esteem? </a>
-    </div>
+        <ul class="list-group">
+            <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/" class="list-group-item list-group-item-action"  role="button"> What is self-esteem? </a>
+            <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/" class="list-group-item list-group-item-action"  role="button"> How to improve self-esteem? </a>
+        </ul>
+        </div>
     <div class="tab-pane fade" id="sleep" role="tabpanel">
         <h4>Materials related to sleep</h4>
-        <li class="list-group-item"><a href="https://studentspace.org.uk/wellbeing/improve-your-sleep" class="btn btn-secondary" role="button"> Improve sleep for students</a>
-        <li class="list-group-item"><a href="https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/" class="btn btn-secondary"  role="button"> General sleep tips </a>
-    </div>
-    </ul>
+        <ul class="list-group">
+            <a href="https://studentspace.org.uk/wellbeing/improve-your-sleep" class="list-group-item list-group-item-action" role="button"> Improve sleep for students</a>
+            <a href="https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/" class="list-group-item list-group-item-action"  role="button"> General sleep tips </a>
+        </ul>
+        </div>
 </div>
 
 {% endblock %}
