@@ -91,8 +91,20 @@ def toggle_anonymity():
     if form.validate_on_submit():
         student = db.session.get(Student, int(form.choice.data))
         student.anonymous = False if student.anonymous == True else True
+        student.flagged = False
         db.session.commit()
     return redirect(url_for('view_students'))
+
+@app.route("/staff/remove_flag", methods=["GET", "POST"])
+def remove_flag():
+    uid = request.args.get("uid")
+    q = db.select(Student).where(Student.uid == int(uid))
+    student = db.session.scalar(q)
+    student.flagged = False
+    db.session.commit()
+    flash(f"Flag removed for student {student.uid}", "success")
+    return redirect(url_for('view_students'))
+
 
 @app.route("/staff/student/<int:id>")
 @login_required

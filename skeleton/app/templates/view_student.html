@@ -5,7 +5,7 @@
 <h1>This is the student page for: {{ student_attr['name'] }}</h1>
 <p>Currently needing help with {{ student_attr['worst_category'] }} the most</p>
     {% if student_attr['flagged'] %}
-        <p>!IMPORTANT! This student has been flagged. Please review their latest form submission</p>
+        <h4>!IMPORTANT! This student has been flagged. Please review their latest form submission</h4>
     {% endif %}
 </div>
 
@@ -28,6 +28,14 @@
     </tbody>
 </table>
 {% endfor %}
+
+<div>
+    {% if student_attr["flagged"] %}
+        <h4>Confirm you have reviewed the student's response and wish to remove the flag</h4>
+        <h4>Otherwise, return to view_students and toggle anonymity</h4>
+        <a  class='btn btn-info' href="{{ url_for('remove_flag', uid=student_attr['uid']) }}">Remove Flag</a>
+    {% endif %}
+</div>
 
 
 {% endblock %}
