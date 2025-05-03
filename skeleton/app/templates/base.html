@@ -14,7 +14,7 @@
 
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2 justify-content-center">
         <ul class="navbar-nav mr-auto">
             {% if current_user.is_authenticated and current_user.role == "Admin" %}
             <li class="nav-item">
@@ -35,7 +35,7 @@
         </ul>
     </div>
 
-    <div class="mx-auto order-0">
+    <div class="mx-auto order-0 justify-content-center">
         <a class="navbar-brand mx-auto" href="{{ url_for('home') }}">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,7 @@
         </button>
     </div>
 
-    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2 justify-content-end me-5">
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2 justify-content-center me-5">
         {% if current_user.is_authenticated %}
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
