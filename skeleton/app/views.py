@@ -16,17 +16,17 @@ import base64
 from io import BytesIO
 
 resources = {
-    'stress': [{'label': 'Stress', 'url': "https://www.nhs.uk/mental-health/children-and-young-adults/help-for-teenagers-young-adults-and-students/student-stress-self-help-tips/"},
-               {'label': 'Stress', 'url': "https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors."},
-               {'label': 'Stress', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/"}],
-    'anxiety': [{'label': 'Anxiety', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/"},
-                {'label': 'Anxiety', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/"}],
-    'depression': [{'label': 'Depression', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/"},
-                   {'label': 'Depression', 'url': "https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management"}],
-    'self-esteem': [{'label': 'Self-esteem', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/"},
-                    {'label': 'Self-esteem', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/"}],
-    'sleep': [{'label': 'Sleep', 'url': "https://studentspace.org.uk/wellbeing/improve-your-sleep"},
-              {'label': 'Sleep', 'url': "https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/"}],
+    'stress': [{'label': 'Stress', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/mental-health/children-and-young-adults/help-for-teenagers-young-adults-and-students/student-stress-self-help-tips/"},
+               {'label': 'Stress', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors."},
+               {'label': 'Stress', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/"}],
+    'anxiety': [{'label': 'Anxiety', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/"},
+                {'label': 'Anxiety', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/"}],
+    'depression': [{'label': 'Depression', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/"},
+                   {'label': 'Depression', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management"}],
+    'self-esteem': [{'label': 'Self-esteem', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/"},
+                    {'label': 'Self-esteem', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/"}],
+    'sleep': [{'label': 'Sleep', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://studentspace.org.uk/wellbeing/improve-your-sleep"},
+              {'label': 'Sleep', 'description': '', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/"}],
 }
 
 @app.route("/")
