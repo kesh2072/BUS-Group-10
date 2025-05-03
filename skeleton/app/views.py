@@ -42,6 +42,10 @@ resources = {
 def home():
     if current_user.is_anonymous:
         return redirect(url_for('login'))
+    if current_user.role == "Student":
+        return redirect(url_for('student'))
+    if current_user.role == "Staff":
+        return redirect(url_for('staff'))
     return render_template('home.html',title="Home")
 
 
@@ -159,8 +163,6 @@ def statistics():
         categories.append(k[0])
         amount_of_students.append(k[1])
     
-    print(categories)
-    print(amount_of_students)
 
     fig = Figure()
     ax = fig.subplots()
