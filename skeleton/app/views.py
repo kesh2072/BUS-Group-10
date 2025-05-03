@@ -40,6 +40,8 @@ resources = {
 
 @app.route("/")
 def home():
+    if current_user.is_anonymous:
+        return redirect(url_for('login'))
     return render_template('home.html',title="Home")
 
 
