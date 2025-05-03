@@ -163,7 +163,7 @@ def statistics():
     fig = Figure()
     ax = fig.subplots()
     ax.bar(categories, amount_of_students)
-    ax.set_title('Bar Chart Test')
+    ax.set_title("Distribution of 'worst categories' for students")
     ax.set_xlabel('Categories')
     ax.set_ylabel('Amount of Students')
 

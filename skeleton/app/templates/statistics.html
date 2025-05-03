@@ -5,7 +5,7 @@
 <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-dark rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
 
     <li class="nav-item" role="presentation">
-        <button class="nav-link rounded-5" id="home-tab2" data-bs-toggle="pill" data-bs-target="#overivew" type="button" role="tab">Home</button>
+        <button class="nav-link rounded-5" id="home-tab2" data-bs-toggle="pill" data-bs-target="#overview" type="button" role="tab">Overview</button>
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link rounded-5" id="distribution-tab" data-bs-toggle="pill" data-bs-target="#distribution" type="button" role="tab">Distribution</button>
@@ -17,8 +17,7 @@
 
 
 <div class="tab-content" id="statisticsTabsContent">
-
-    <div class="tab-pane fade show active" id="overview" role="tabpanel">
+    <div class="tab-pane fade" id="overview" role="tabpanel">
         <h4>Overview</h4>
         {% if most_common_category %}
             <p>The category that students struggle the most with is <strong>{{ most_common_category }}</strong>.</p>
@@ -37,18 +36,23 @@
         {% endif %}
     </div>
 
-    <div class="tab-pane fade" id="priority" role="tabpanel">
-        <h4>Priority List</h4>
+    <div class="tab-pane fade list-group" id="priority" role="tabpanel">
         {% if priority_list %}
-            <ul class="list-group">
                 {% for value in priority_list %}
-                    <li class="list-group-item">{{ value[1] }} → {{ value[2] }}</li>
+                <a href="{{ url_for('view_student', id=value['uid']) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+                    <i class="bi bi-person"></i>
+                    <div class="d-flex gap-2 w-100 justify-content-between">
+                        <div>
+                        <h6 class="mb-0">{{ value["name"] }}</h6>
+                        <p class="mb-0 opacity-75">{{ value["average"] }}</p>
+                        </div>
+                        <small class="opacity-50 text-nowrap">now</small>
+                    </div>
+                </a>
                 {% endfor %}
-            </ul>
         {% else %}
             <p>No priority list available.</p>
         {% endif %}
-    </div>
 
 </div>
 
