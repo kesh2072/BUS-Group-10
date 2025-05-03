@@ -15,7 +15,19 @@ import numpy as np
 import base64
 from io import BytesIO
 
-
+resources = {
+    'stress': [{'label': 'x', 'url': "https://www.nhs.uk/mental-health/children-and-young-adults/help-for-teenagers-young-adults-and-students/student-stress-self-help-tips/"},
+               {'label': 'x', 'url': "https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors."},
+               {'label': 'x', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/"}],
+    'anxiety': [{'label': 'x', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/"},
+                {'label': 'x', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/"}],
+    'depression': [{'label': 'x', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/"},
+                   {'label': 'x', 'url': "https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management"}],
+    'self-esteem': [{'label': 'x', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/"},
+                    {'label': 'x', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/"}],
+    'sleep': [{'label': 'x', 'url': "https://studentspace.org.uk/wellbeing/improve-your-sleep"},
+              {'label': 'x', 'url': "https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/"}],
+}
 
 @app.route("/")
 def home():
@@ -171,7 +183,7 @@ def student():
                 sa.select(User).where(User.uid == current_user.uid))
     student = VisibleStudent(student)
     student_attr = student.display_attributes()
-    return render_template('student.html', title="Student", student_attr=student_attr)
+    return render_template('student.html', title="Student", student_attr=student_attr, resources=resources)
 
 
 @app.route('/login', methods=['GET', 'POST'])
