@@ -67,6 +67,7 @@
                 {% for link in resources[user_category] %}
                 <div class="col">
                     <div class="card shadow-sm" style="width: 100%;">
+                        <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                         <div class="card-body">
                             <h5 class="card-title">{{ link.label }}</h5>
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -84,6 +85,7 @@
             {% for link in resources['stress'] %}
             <div class="col">
                 <div class="card shadow-sm" style="width: 100%;">
+                    <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ link.label }}</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -100,6 +102,7 @@
             {% for link in resources['anxiety'] %}
             <div class="col">
                 <div class="card shadow-sm" style="width: 100%;">
+                    <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ link.label }}</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -116,6 +119,7 @@
             {% for link in resources['depression'] %}
             <div class="col">
                 <div class="card shadow-sm" style="width: 100%;">
+                    <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ link.label }}</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -132,6 +136,7 @@
             {% for link in resources['self-esteem'] %}
             <div class="col">
                 <div class="card shadow-sm" style="width: 100%;">
+                    <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ link.label }}</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
