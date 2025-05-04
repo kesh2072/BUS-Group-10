@@ -3,7 +3,6 @@ from app.models import User, Student, Question, Answer
 
 
 def reset_db():
-
     # Haven't added any answers, and all students have currently filled out zero forms
     # Questions have labels stress, anxiety, self-esteem, depression and sleep. There is also a label 'personal' for the
     # written response at the end of the form. I've currently only got one of this type of question, but feel free to
@@ -80,7 +79,7 @@ def reset_db():
             "name": "karen",
             "username": "karen",
             "role": "Student",
-            "university_email": "karen@k.com",
+            "university_email": "karen@example.com",
             "student_id": "10293847",
             "forms_completed": 0,
             "anonymous": False
@@ -89,7 +88,7 @@ def reset_db():
             "name": "leo",
             "username": "leo",
             "role": "Student",
-            "university_email": "leo@l.com",
+            "university_email": "leo@example.com",
             "student_id": "29384756",
             "forms_completed": 0,
             "anonymous": True
@@ -98,7 +97,7 @@ def reset_db():
             "name": "mona",
             "username": "mona",
             "role": "Student",
-            "university_email": "mona@m.com",
+            "university_email": "mona@example.com",
             "student_id": "38475692",
             "forms_completed": 0,
             "anonymous": False
@@ -107,7 +106,7 @@ def reset_db():
             "name": "nate",
             "username": "nate",
             "role": "Student",
-            "university_email": "nate@n.com",
+            "university_email": "nate@example.com",
             "student_id": "47586920",
             "forms_completed": 0,
             "anonymous": True
@@ -116,7 +115,7 @@ def reset_db():
             "name": "olga",
             "username": "olga",
             "role": "Student",
-            "university_email": "olga@o.com",
+            "university_email": "olga@example.com",
             "student_id": "58392047",
             "forms_completed": 0,
             "anonymous": False
@@ -125,7 +124,7 @@ def reset_db():
             "name": "paul",
             "username": "paul",
             "role": "Student",
-            "university_email": "paul@p.com",
+            "university_email": "paul@example.com",
             "student_id": "69284751",
             "forms_completed": 0,
             "anonymous": True
@@ -134,7 +133,7 @@ def reset_db():
             "name": "quinn",
             "username": "quinn",
             "role": "Student",
-            "university_email": "quinn@q.com",
+            "university_email": "quinn@example.com",
             "student_id": "73829104",
             "forms_completed": 0,
             "anonymous": False
@@ -143,7 +142,7 @@ def reset_db():
             "name": "ruth",
             "username": "ruth",
             "role": "Student",
-            "university_email": "ruth@r.com",
+            "university_email": "ruth@example.com",
             "student_id": "84930216",
             "forms_completed": 0,
             "anonymous": True
@@ -152,7 +151,7 @@ def reset_db():
             "name": "sam",
             "username": "sam",
             "role": "Student",
-            "university_email": "sam@s.com",
+            "university_email": "sam@example.com",
             "student_id": "92837465",
             "forms_completed": 0,
             "anonymous": False
@@ -161,7 +160,16 @@ def reset_db():
             "name": "tina",
             "username": "tina",
             "role": "Student",
-            "university_email": "tina@t.com",
+            "university_email": "tina@example.com",
+            "student_id": "13579246",
+            "forms_completed": 0,
+            "anonymous": True
+        },
+        {
+            "name": "test user",
+            "username": "test user",
+            "role": "Student",
+            "university_email": "testuserformreminder@outlook.com",
             "student_id": "13579246",
             "forms_completed": 0,
             "anonymous": True

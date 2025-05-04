@@ -157,3 +157,5 @@ class Answer(db.Model):
         return (f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, "
                 f"content={self.content})")
 
+
+

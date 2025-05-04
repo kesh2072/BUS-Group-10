@@ -14,6 +14,9 @@ from matplotlib.figure import Figure
 import numpy as np
 import base64
 from io import BytesIO
+from app.form_release import FormManagement #singleton class to keep track of when forms were rolled out to know when to send reminders
+from app import mail
+from flask_mail import Message
 
 
 
@@ -36,7 +39,9 @@ def admin():
 @app.route("/staff")
 @login_required
 def staff():
-    return render_template('staff.html', title="Staff")
+    instance_of_form_management = FormManagement()
+    released = instance_of_form_management.released
+    return render_template('staff.html', title="Staff", released = released)
 
 
 @app.route('/change_pw', methods=['GET', 'POST'])
@@ -231,6 +236,29 @@ def question_form():
         db.session.commit()
         return redirect(url_for('home'))
     return render_template('question_form.html', title = 'Question Form', form = form)
+
+@app.route('/release_forms', methods = ['GET', 'POST'])
+def release_forms():
+    instance_of_form_management = FormManagement()
+    instance_of_form_management.set_release_date()
+    flash('Students will now have two weeks to fill out the form', 'success')
+    print(instance_of_form_management.release_date)
+    return redirect(url_for('home'))
+
+@app.route('/send_reminders', methods = ['GET', 'POST'])
+def send_reminders():
+    instance_of_form_management = FormManagement()
+    late_students = instance_of_form_management.late_students()
+    if late_students:
+        email_list = [late_student.university_email for late_student in late_students]
+        message = Message(subject = 'Form Reminder', sender = 'testuserformreminder@gmail.com', recipients = email_list)
+        message.body = 'Hi! This is a reminder to fill out the wellbeing questionnaire.'
+        mail.send(message)
+        #print(email_list)
+    else:
+        flash('All students have are up to date on their forms', 'success')
+    return redirect(url_for('staff'))
+
 
 
 # Error handler for 403 Forbidden
