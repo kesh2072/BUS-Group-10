@@ -25,14 +25,14 @@ class MLQuestionProcessingManager:
         # split x into list of words with regular expression
         # find the first occurrence of a key word and return as 'label'
 
-        keywords = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep', 'suicide']
+        keywords = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep', 'danger']
         text = re.sub(r'[^\w\s]', '', x)
         text_list = text.split(' ')
         student_keywords = [word.lower() for word in text_list if word.lower() in keywords]
-        if 'suicide' in student_keywords:
+        if 'danger' in student_keywords:
             self.current_s.flagged = True
             db.session.commit()
-            student_keywords = [word for word in student_keywords if word != 'suicide']
+            student_keywords = [word for word in student_keywords if word != 'danger']
         if student_keywords:
             label = student_keywords[0]
             return label
