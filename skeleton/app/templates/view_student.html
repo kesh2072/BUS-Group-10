@@ -31,7 +31,12 @@
 
 <div>
     {% if student_attr["flagged"] %}
-        <h4>Confirm you have reviewed the student's response and wish to remove the flag</h4>
+        {% if student_attr["anonymous"] %}
+        <h4>This student is anonymous. If you believe this student to be at risk to themselves or others, you can remove their anonymity here:</h4>
+        <a  class='btn btn-info' href="{{ url_for('remove_anonymity', uid=student_attr['uid']) }}">Remove Anonymity</a>
+        {% endif %}
+        <br />
+        <h4>Confirm you have reviewed the student's response and wish to remove the flag here:</h4>
         <h4>Otherwise, return to view_students and toggle anonymity</h4>
         <a  class='btn btn-info' href="{{ url_for('remove_flag', uid=student_attr['uid']) }}">Remove Flag</a>
     {% endif %}

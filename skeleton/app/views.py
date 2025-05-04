@@ -84,16 +84,18 @@ def view_students():
     students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
     return render_template('view_students.html', title="View all students", students_attrs=students_attrs, form=form)
 
-@app.route("/staff/toggle_anonymity", methods=["GET", "POST"])
+
+@app.route("/staff/remove_anonymity", methods=["GET", "POST"])
 @login_required
-def toggle_anonymity():
-    form = ChooseForm()
-    if form.validate_on_submit():
-        student = db.session.get(Student, int(form.choice.data))
-        student.anonymous = False if student.anonymous == True else True
-        student.flagged = False
-        db.session.commit()
-    return redirect(url_for('view_students'))
+def remove_anonymity():
+    uid = request.args.get("uid")
+    q = db.select(Student).where(Student.uid == int(uid))
+    student = db.session.scalar(q)
+    student.anonymous = False
+    db.session.commit()
+    flash(f"Anonymity removed for student {student.uid}", "success")
+    return redirect(url_for('view_student', id=uid))
+
 
 @app.route("/staff/remove_flag", methods=["GET", "POST"])
 def remove_flag():
@@ -103,7 +105,7 @@ def remove_flag():
     student.flagged = False
     db.session.commit()
     flash(f"Flag removed for student {student.uid}", "success")
-    return redirect(url_for('view_students'))
+    return redirect(url_for('view_student', id=uid))
 
 
 @app.route("/staff/student/<int:id>")
