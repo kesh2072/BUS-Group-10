@@ -82,7 +82,11 @@ def view_students():
     students = db.session.scalars(q)
     anonymity_appplied_students = apply_anonymity(students)
     students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
-    return render_template('view_students.html', title="View all students", students_attrs=students_attrs, form=form)
+    flagged_students = []
+    for student in students_attrs:
+        if student["flagged"]:
+            flagged_students.append(student)
+    return render_template('view_students.html', title="View all students", flagged_students=flagged_students, students_attrs=students_attrs, form=form)
 
 
 @app.route("/staff/remove_anonymity", methods=["GET", "POST"])

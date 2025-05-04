@@ -2,9 +2,16 @@
 
 {% block content %}
 <h1>This is the staff page</h1>
-<div>student rankings, anonymity etc</div>
 
-
+{% if flagged_students %}
+    <div class="container">
+        <p>The following students have been flagged. Please review their latest form responses:
+        {% for stu in flagged_students %}
+            {{ stu["uid"] }}
+        {% endfor %}
+        </p>
+    </div>
+{% endif %}
     
 <table class="table table-striped">
 
