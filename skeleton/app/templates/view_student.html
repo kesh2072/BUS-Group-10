@@ -6,7 +6,8 @@
     <p>Currently needing help with {{ student_attr['worst_category'] }} the most</p>
     <br>
     {% if student_attr['flagged'] %}
-        <h4>!IMPORTANT! This student has been flagged. Please review their latest form submission</h4>
+        <h4>!IMPORTANT! This student has been flagged. Please review their latest form submission.</h4>
+        <p>In their last form, this student responded: <b>"{{ recent_response }}"</b></p>
     {% endif %}
     <br>
 </div>

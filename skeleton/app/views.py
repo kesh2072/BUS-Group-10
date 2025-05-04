@@ -130,8 +130,8 @@ def view_student(id):
         student = VisibleStudent(student)
 
     student_attr = student.display_attributes()
-
-    return render_template('view_student.html', title="View Student", student_attr=student_attr, answers_by_submission=dict(answers_by_submission))
+    recent_response = list(answers_by_submission.values())[0][10].content
+    return render_template('view_student.html', title="View Student", student_attr=student_attr, answers_by_submission=dict(answers_by_submission), recent_response=recent_response)
 
 @app.route("/staff/statistics", methods=["GET", "POST"])
 @login_required
