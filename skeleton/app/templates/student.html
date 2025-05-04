@@ -60,104 +60,129 @@
         <h4>Recommended content for you</h4>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% set user_category = current_user.worst_category %}
-            {% if user_category in resources %}
-                {% for link in resources[user_category] %}
+            {% for link in recommended_resources %}
+            {% if user_category == link.type %}
                 <div class="col">
                     <div class="card shadow-sm" style="width: 100%;">
                         <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                         <div class="card-body">
-                            <h5 class="card-title">{{ link.label }}</h5>
+                            <h5 class="card-title text-success"><i class="bi bi-star"></i>   Recommended for you   <i class="bi bi-star"></i></h5>
+                            <h5 class="card-title">{{ link.title }}</h5>
                             <p class="card-text">{{ link.description }}</p>
                             <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
             {% endif %}
+            {% endfor %}
+            {% for link in resources %}
+            {% if user_category == link.type %}
+                <div class="col">
+                    <div class="card shadow-sm" style="width: 100%;">
+                        <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ link.title }}</h5>
+                            <p class="card-text">{{ link.description }}</p>
+                            <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
     <div class="tab-pane fade" id="stress" role="tabpanel">
         <h4>Materials related to stress</h4>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for link in resources['stress'] %}
+            {% for link in resources %}
+            {% if link.type == 'stress' %}
             <div class="col">
                 <div class="card shadow-sm" style="width: 100%;">
                     <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title">{{ link.label }}</h5>
+                        <h5 class="card-title">{{ link.title }}</h5>
                         <p class="card-text">{{ link.description }}</p>
                         <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
     <div class="tab-pane fade" id="anxiety" role="tabpanel">
         <h4>Materials related to anxiety</h4>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for link in resources['anxiety'] %}
+            {% for link in resources %}
+            {% if link.type == 'anxiety' %}
             <div class="col">
                 <div class="card shadow-sm" style="width: 100%;">
                     <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title">{{ link.label }}</h5>
+                        <h5 class="card-title">{{ link.type }}</h5>
                         <p class="card-text">{{ link.description }}</p>
                         <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
     <div class="tab-pane fade" id="depression" role="tabpanel">
         <h4>Materials related to depression</h4>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for link in resources['depression'] %}
+            {% for link in resources %}
+            {% if link.type == 'depression' %}
             <div class="col">
                 <div class="card shadow-sm" style="width: 100%;">
                     <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title">{{ link.label }}</h5>
+                        <h5 class="card-title">{{ link.title }}</h5>
                         <p class="card-text">{{ link.description }}</p>
                         <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
     <div class="tab-pane fade" id="self-esteem" role="tabpanel">
         <h4>Materials related to self-esteem</h4>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for link in resources['self-esteem'] %}
+            {% for link in resources %}
+            {% if link.type == 'self-esteem' %}
             <div class="col">
                 <div class="card shadow-sm" style="width: 100%;">
                     <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title">{{ link.label }}</h5>
+                        <h5 class="card-title">{{ link.title }}</h5>
                         <p class="card-text">{{ link.description }}</p>
                         <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
     <div class="tab-pane fade" id="sleep" role="tabpanel">
         <h4>Materials related to sleep</h4>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for link in resources["stress"] %}
+            {% for link in resources %}
+            {% if link.type == 'sleep' %}
             <div class="col">
                 <div class="card shadow-sm" style="width: 100%;">
                     <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title">{{ link.label }}</h5>
+                        <h5 class="card-title">{{ link.title }}</h5>
                         <p class="card-text">{{ link.description }}</p>
                         <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
