@@ -134,6 +134,18 @@ def statistics():
     most_common_category = result[0]
     amount = result[1]
 
+    avg_per_type = (
+    db.session.query(
+        Question.label.label("type"),
+        func.round(func.avg(Answer.content), 2).label("average")
+    )
+    .join(Answer, Answer.qid == Question.qid)
+    .group_by(Question.label)
+    .order_by(desc("average"))
+    .all()
+    )
+    print(avg_per_type)
+
     # Bar chart for different categories
     categories = []
     amount_of_students = []
@@ -164,7 +176,7 @@ def statistics():
 
     priority_list = db.session.execute(list_averages).all()
 
-    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount, priority_list=priority_list, data=data)
+    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount, priority_list=priority_list, data=data, avg_per_type=avg_per_type)
 
 
 @app.route("/student")

@@ -18,6 +18,20 @@
 <div class="tab-content" id="statisticsTabsContent">
     <div class="tab-pane fade" id="overview" role="tabpanel">
         <h4>Overview</h4>
+        {% if avg_per_type %}
+        <h5>Average scores across all students</h5>
+        {% for type, avg in avg_per_type %}
+        <div class="mb-3">
+            <label><strong>{{ type.capitalize() }}:</strong> {{ avg }}/5</label>
+            <div class="progress">
+            <div class="progress-bar bg-dark" role="progressbar"
+                style="width: {{ (avg / 5) * 100 }}%" aria-valuenow="{{ avg }}"
+                aria-valuemin="0" aria-valuemax="5">
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
         {% if most_common_category %}
             <p>The category that students struggle the most with is <strong>{{ most_common_category }}</strong>.</p>
             <p><strong>{{ amount }}</strong> students register this as their biggest struggle currently.</p>
