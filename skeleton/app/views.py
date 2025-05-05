@@ -90,10 +90,9 @@ def change_pw():
 def change_uni_details():
     form = ChangeUniDetails()
     if form.validate_on_submit():
-        student_details = Student(username=form.username.data,
-                                  email=form.university_email.data,
-                                  name=form.name.data)
-        db.session.update(student_details)
+        current_user.username = form.username.data
+        current_user.name = form.name.data
+        current_user.university_email = form.university_email.data
         db.session.commit()
         flash('University Details Updated successfully', 'success')
         return redirect(url_for('home'))
