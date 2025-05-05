@@ -68,6 +68,7 @@ class Student(User):
 
     uid: so.Mapped[int] = so.mapped_column(ForeignKey("users.uid"), primary_key=True)
     student_id: so.Mapped[int] = so.mapped_column(index=True)
+    flagged: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=False)
     anonymous: so.Mapped[bool] = so.mapped_column(sa.Boolean(), default=True)
     forms_completed: so.Mapped[int] = so.mapped_column(default=0)
     best_category: so.Mapped[Optional[str]] = so.mapped_column(default=None)
@@ -89,6 +90,7 @@ class Student(User):
             "student_id": "----",
             "forms_completed": self.forms_completed,
             "anonymous": self.anonymous,
+            "flagged": self.flagged,
             "best_category": self.best_category,
             "worst_category": self.worst_category,
         }
@@ -96,7 +98,7 @@ class Student(User):
     def __repr__(self):
         return (f'Student(uid={self.uid}, name={self.name}, university_email={self.university_email}, '
                 f'pwh=...{self.password_hash[-5:]}, student_id={self.student_id}, anonymous={self.anonymous}, '
-                f'best_category={self.best_category}, worst_category={self.worst_category}, '
+                f'best_category={self.best_category}, worst_category={self.worst_category}, flagged={self.flagged} '
                 f'forms_completed={self.forms_completed})')
 
 
@@ -157,3 +159,17 @@ class Answer(db.Model):
         return (f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, "
                 f"content={self.content})")
 
+
+class Resource(db.Model):
+    __tablename__ = "resources"
+
+    rid: so.Mapped[int] = so.mapped_column(primary_key=True)
+    type: so.Mapped[str] = so.mapped_column(sa.String())
+    title: so.Mapped[str] = so.mapped_column(sa.String())
+    description: so.Mapped[str] = so.mapped_column(sa.String())
+    logo: so.Mapped[str] = so.mapped_column(sa.String())
+    url: so.Mapped[str] = so.mapped_column(sa.String())
+    is_recommended: so.Mapped[bool] = so.mapped_column(db.Boolean, default=False)
+
+    def __repr__(self):
+        return (f"rid={self.rid}, title={self.title}, description={self.description}, logo={self.logo}, url={self.url}")
