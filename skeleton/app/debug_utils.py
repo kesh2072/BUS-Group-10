@@ -85,8 +85,6 @@ def reset_db():
             "student_id": "10293847",
             "forms_completed": 2,
             "anonymous": False,
-            "best_category":"anxiety",
-            "worst_category":"stress"
         },
         {
             "name": "leo",
@@ -95,9 +93,7 @@ def reset_db():
             "university_email": "leo@l.com",
             "student_id": "29384756",
             "forms_completed": 1,
-            "anonymous": True,
-            "best_category": "stress",
-            "worst_category": "depression"
+            "anonymous": True
         },
         {
             "name": "mona",
@@ -106,9 +102,7 @@ def reset_db():
             "university_email": "mona@m.com",
             "student_id": "38475692",
             "forms_completed": 1,
-            "anonymous": False,
-            "best_category": "self-esteem",
-            "worst_category": "stress"
+            "anonymous": False
         },
         {
             "name": "nate",
@@ -117,9 +111,7 @@ def reset_db():
             "university_email": "nate@n.com",
             "student_id": "47586920",
             "forms_completed": 1,
-            "anonymous": True,
-            "best_category": "depression",
-            "worst_category": "self-esteem"
+            "anonymous": True
         },
         {
             "name": "olga",
@@ -128,9 +120,7 @@ def reset_db():
             "university_email": "olga@o.com",
             "student_id": "58392047",
             "forms_completed": 1,
-            "anonymous": False,
-            "best_category": "depression",
-            "worst_category": "anxiety"
+            "anonymous": False
         },
         {
             "name": "paul",
@@ -139,9 +129,7 @@ def reset_db():
             "university_email": "paul@p.com",
             "student_id": "69284751",
             "forms_completed": 1,
-            "anonymous": True,
-            "best_category": "depression",
-            "worst_category": "stress"
+            "anonymous": True
         },
         {
             "name": "quinn",
@@ -150,9 +138,7 @@ def reset_db():
             "university_email": "quinn@q.com",
             "student_id": "73829104",
             "forms_completed": 1,
-            "anonymous": False,
-            "best_category": "anxiety",
-            "worst_category": "self-esteem"
+            "anonymous": False
         },
         {
             "name": "ruth",
@@ -247,7 +233,24 @@ def reset_db():
          "priority": 1, "label": "personal"}
     ]
 
+    for u in users:
+        user = User(**u)
+        user.set_password("PASSWORD")
+        db.session.add(user)
 
+    for s in students:
+        student = Student(**s)
+        student.set_password("PASSWORD")
+        db.session.add(student)
+
+    for q in questions:
+        question = Question(**q)
+        db.session.add(question)
+
+    db.session.commit()
+
+
+def populate():
 
     answers= [
         {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 1, "uid": 11,
@@ -435,24 +438,39 @@ def reset_db():
          "type": "Text Answer", "content": "I occasionally feel overwhelmed with assignments"}
     ]
 
-
-
-    for u in users:
-        user = User(**u)
-        user.set_password("PASSWORD")
-        db.session.add(user)
-
-    for s in students:
-        student = Student(**s)
-        student.set_password("PASSWORD")
-        db.session.add(student)
-
-    for q in questions:
-        question = Question(**q)
-        db.session.add(question)
-
     for a in answers:
         answer=Answer(**a)
         db.session.add(answer)
+
+    u=db.session.get(User,11)
+    u.best_category='anxiety'
+    u.worst_category='stress'
+
+    u = db.session.get(User, 12)
+    u.best_category = 'stress'
+    u.worst_category = 'depression'
+
+    u = db.session.get(User, 13)
+    u.best_category = 'self-esteem'
+    u.worst_category = 'stress'
+
+    u = db.session.get(User, 14)
+    u.best_category = 'depression'
+    u.worst_category = 'self-esteem'
+
+    u = db.session.get(User, 15)
+    u.best_category = 'depression'
+    u.worst_category = 'anxiety'
+
+    u = db.session.get(User, 16)
+    u.best_category = 'depression'
+    u.worst_category = 'stress'
+
+    u = db.session.get(User, 17)
+    u.best_category = 'anxiety'
+    u.worst_category = 'self-esteem'
+
+
+
 
     db.session.commit()

@@ -15,8 +15,8 @@ login = LoginManager(app)
 login.login_view = 'login'
 
 from app import views, models
-from app.debug_utils import reset_db
+from app.debug_utils import reset_db, populate
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, sa=sa, so=so, reset_db=reset_db)
+    return dict(db=db, sa=sa, so=so, reset_db=reset_db,populate=populate)
