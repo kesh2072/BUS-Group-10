@@ -20,6 +20,19 @@
             <a class="btn btn-dark btn-lg" role="button" aria-current="page" href="{{ url_for('view_students') }}">View all students</a>
           </div>
 
+
+{%if not released%}
+<li>
+    <a class="btn btn-info" role="button" aria-current="page" href="{{ url_for('release_forms') }}">Release Forms</a>
+</li>
+{%endif%}
+
+{%if released%}
+<li>
+    <a class="btn btn-info" role="button" aria-current="page" href="{{ url_for('send_reminders') }}">Send forms reminder to students</a>
+</li>
+{%endif%}
+
           <div class="col d-flex flex-column gap-2">
             <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-dark bg-gradient fs-4 rounded-3">
               <svg class="bi" width="1em" height="1em" aria-hidden="true">
@@ -34,6 +47,7 @@
         </div>
       </div>
 </div>
+
 
 
 {% endblock %}

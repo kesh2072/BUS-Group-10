@@ -22,25 +22,38 @@ class MLQuestionProcessingManager:
     # TODO: this label_classifier doesn't work yet (currently ANY text input will be categorised as 'stress')
     # TODO: for simplicity's sake, ANY text input must belong to a category
     def label_classifier(self,x: str):
-        # split x into list of words with regular expression
-        # find the first occurrence of a key word and return as 'label'
 
-        keywords = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep', 'danger']
-        text = re.sub(r'[^\w\s]', '', x)
+
+
+        keyword_dict = {'stress': ['stress', 'stressed', 'overwhelmed', 'exams', 'deadlines', 'pressure'],
+                        'anxiety': ['anxious', 'anxiety', 'worried', 'worry', 'panic', 'avoid'],
+                        'self-esteem': ['failure', 'confidence', 'confident', 'worthless',
+                                        'selfesteem', 'useless'],
+                        'depression': ['depressed', 'depression', 'sad', 'hopeless', 'cried', 'numb'],
+                        'sleep': ['slept', 'sleep', 'insomnia', 'tired', 'awake', 'night']}
+
+        keyword_count = {'stress': 0, 'anxiety': 0, 'self-esteem': 0, 'depression': 0, 'sleep': 0}
+
+        text = re.sub(r'[^\w\s]', '', x)   #note this turns self-esteem into selfesteem which is why 'selfesteem'
+        #is in the keyword_dict
         text_list = text.split(' ')
-        student_keywords = [word.lower() for word in text_list if word.lower() in keywords]
-        if 'danger' in student_keywords:
-            self.current_s.flagged = True
-            db.session.commit()
-            student_keywords = [word for word in student_keywords if word != 'danger']
-        if student_keywords:
-            label = student_keywords[0]
-            return label
-        # if no keywords appear what label do we want? We could have this as return None and then in the algorithm
-        # in line 45 have 'if last_entry and if self.label_classifier(last_entry)'? But have left it as stress for now
-        else:
-            return None
+        
+        if 'danger' in text_list:
+          self.current_s.flagged = True
+          db.session.commit()
+          text_list = [word for word in text_list if word != 'danger']
 
+
+        for key, value in keyword_dict.items():
+            for word in text_list:
+                if word.lower() in value:
+                    keyword_count[key] += 1
+        label = max(keyword_count, key=keyword_count.get)
+        
+        if keyword_count[label] == 0:
+            return None
+        else:
+            return label
     # weighting calculator: a function that takes in a list of Answer objects and outputs a dictionary of average weightings (in ascending order)
     # example output: {'depression': 1.5, 'anxiety': 2, 'self-esteem': 3.5, 'sleep': 3.5, 'stress': 4.5}
     def weighting(self,previous_answers:list):

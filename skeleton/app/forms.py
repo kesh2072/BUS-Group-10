@@ -99,7 +99,6 @@ class QuestionForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-
 # dynamic questions: using QG here only calls it once when the app is loaded then never calls it again
 # so user is stuck with the original 11 questions at every iteration.
 # instead i made this form initially question-less and then used QG tp add the text to it in views.py

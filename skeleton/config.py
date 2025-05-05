@@ -10,3 +10,11 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app', 'data', 'data.sqlite')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False
+
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USERNAME = 'testuserformreminder@gmail.com'  #email address of sender
+    MAIL_PASSWORD = 'iofg xmxg qfyc ofxu'
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    #MAIL_DEBUG = True

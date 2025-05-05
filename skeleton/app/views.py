@@ -14,6 +14,9 @@ from matplotlib.figure import Figure
 import numpy as np
 import base64
 from io import BytesIO
+from app.form_release import FormManagement #singleton class to keep track of when forms were rolled out to know when to send reminders
+from app import mail
+from flask_mail import Message
 
 @app.route('/delete_user', methods=['POST'])
 def delete_user():
@@ -65,7 +68,9 @@ def admin():
 @app.route("/staff")
 @login_required
 def staff():
-    return render_template('staff.html', title="Staff")
+    instance_of_form_management = FormManagement()
+    released = instance_of_form_management.released
+    return render_template('staff.html', title="Staff", released = released)
 
 
 @app.route('/change_pw', methods=['GET', 'POST'])
@@ -259,6 +264,11 @@ def logout():
 
 @app.route('/question_form', methods = ['GET', 'POST'])
 def question_form():
+    instance_of_form_management = FormManagement()
+    if instance_of_form_management.release_date:
+        released = True
+    else:
+        released = False
     instance_of_processor = MLQuestionProcessingManager()
     q_list=instance_of_processor.QG(current_user)
     form = QuestionForm(q_list=q_list)
@@ -288,7 +298,31 @@ def question_form():
         current_user.worst_category=worst
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template('question_form.html', title = 'Question Form', form = form)
+    return render_template('question_form.html', title = 'Question Form', form = form, released = released)
+
+@app.route('/release_forms', methods = ['GET', 'POST'])
+def release_forms():
+    instance_of_form_management = FormManagement()
+    instance_of_form_management.set_release_date()
+    flash('Students will now have two weeks to fill out the form', 'success')
+    print(instance_of_form_management.release_date)
+    return redirect(url_for('home'))
+
+@app.route('/send_reminders', methods = ['GET', 'POST'])
+def send_reminders():
+    instance_of_form_management = FormManagement()
+    late_students = instance_of_form_management.late_students()
+    if late_students:
+        email_list = [late_student.university_email for late_student in late_students]
+        message = Message(subject = 'Form Reminder', sender = 'testuserformreminder@gmail.com', recipients = email_list)
+        message.body = 'Hi! This is a reminder to fill out the wellbeing questionnaire.'
+        mail.send(message)
+        #print(email_list)
+        flash('Emails have been sent out to students who are not up to date on their forms.', 'success')
+    else:
+        flash('All students are up to date on their forms', 'success')
+    return redirect(url_for('staff'))
+
 
 
 # Error handler for 403 Forbidden

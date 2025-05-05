@@ -173,3 +173,4 @@ class Resource(db.Model):
 
     def __repr__(self):
         return (f"rid={self.rid}, title={self.title}, description={self.description}, logo={self.logo}, url={self.url}")
+

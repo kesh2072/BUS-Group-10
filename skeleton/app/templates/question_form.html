@@ -2,7 +2,9 @@
 {% import "bootstrap_wtf.html" as wtf %}
 
 {% block content %}
-    <p class="h4">Please fill in this brief questionnaire to be offered relevant information based on your answers</p>
+
+   {%if released%}
+   <p class="h4">Please fill in this brief questionnaire to be offered relevant information based on your answers</p>
     <div class="container mt-3 ">
         <h5> Please answer honestly and rank your answers on a scale of 1 to 5
             where the higher your ranking, the more you struggle with the question topic  </h5>
@@ -115,5 +117,12 @@
         {{ wtf.form_field(form.submit, False) }}
     </form>
 </div>
+    {%else%}
+        <div class="container mt-3">
+            <h3>The forms have not yet been released by the wellbeing staff.</h3>
+        </div>
+    {%endif%}
+
+
 {% endblock %}
 
