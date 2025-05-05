@@ -60,8 +60,8 @@ def admin():
     staff = db.session.scalars(q)
     b = db.select(Student)
     students = db.session.scalars(b)
-    anonymity_appplied_students = apply_anonymity(students)
-    students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
+    anonymity_applied_students = apply_anonymity(students)
+    students_attrs = [s.display_attributes() for s in anonymity_applied_students]
     return render_template('admin.html', title="Admin", staff=staff, form=form, students_attrs=students_attrs)
 
 
@@ -112,8 +112,8 @@ def view_students():
     form=ChooseForm()
     q = db.select(Student)
     students = db.session.scalars(q)
-    anonymity_appplied_students = apply_anonymity(students)
-    students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
+    anonymity_applied_students = apply_anonymity(students)
+    students_attrs = [s.display_attributes() for s in anonymity_applied_students]
     flagged_students = []
     for student in students_attrs:
         if student["flagged"]:
