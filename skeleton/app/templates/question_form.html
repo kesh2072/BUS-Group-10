@@ -2,15 +2,127 @@
 {% import "bootstrap_wtf.html" as wtf %}
 
 {% block content %}
-    {%if released%}
-        <p class="h4">Please answer the following questions:</p>
+
+   {%if released%}
+   <p class="h4">Please fill in this brief questionnaire to be offered relevant information based on your answers</p>
+    <div class="container mt-3 ">
+        <h5> Please answer honestly and rank your answers on a scale of 1 to 5
+            where the higher your ranking, the more you struggle with the question topic  </h5>
+    </div>
+
+
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
         <div class="container mt-3">
-            {{ wtf.quick_form(form, action="", method="post", id="", novalidate=True, autofocus=False) }}
+             {{ form.q1.label }}
+             <div>
+                 {% for subfield in form.q1 %}
+                 <label style = "display: inline-block; margin-right: 50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
         </div>
+        <div class="container mt-3">
+             {{ form.q2.label }}
+             <div>
+                 {% for subfield in form.q2 %}
+                 <label style = "display: inline-block; margin-right: 50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
+        </div>
+        <div class="container mt-3">
+             {{ form.q3.label }}
+             <div>
+                 {% for subfield in form.q3 %}
+                 <label style = "display: inline-block; margin-right: 50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
+        </div>
+        <div class="container mt-3">
+             {{ form.q4.label }}
+             <div>
+                 {% for subfield in form.q4 %}
+                 <label style = "display: inline-block; margin-right: 50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
+        </div>
+        <div  class="container mt-3">
+             {{ form.q5.label }}
+             <div>
+                 {% for subfield in form.q5 %}
+                 <label style = "display: inline-block; margin-right: 50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
+        </div>
+        <div class="container mt-3">
+             {{ form.q6.label }}
+             <div>
+                 {% for subfield in form.q6 %}
+                 <label style = "display: inline-block; margin-right: 50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
+        </div>
+        <div class="container mt-3">
+             {{ form.q7.label }}
+             <div>
+                 {% for subfield in form.q7 %}
+                 <label style = "display: inline-block; margin-right: 50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
+        </div>
+        <div class="container mt-3">
+             {{ form.q8.label }}
+             <div>
+                 {% for subfield in form.q8 %}
+                 <label style = "display: inline-block; margin-right: 50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
+        </div>
+        <div  class="container mt-3">
+             {{ form.q9.label }}
+             <div>
+                 {% for subfield in form.q9 %}
+                 <label style = "display: inline-block; margin-right:50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
+        </div>
+        <div  class="container mt-3">
+             {{ form.q10.label }}
+             <div>
+                 {% for subfield in form.q10 %}
+                 <label style = "display: inline-block; margin-right: 50px; margin-bottom: 15px">
+                     {{ subfield() }} {{ subfield.label.text }}
+                 </label>
+                 {% endfor %}
+             </div>
+        </div>
+        {{ wtf.form_field(form.q11, False) }}
+        {{ wtf.form_field(form.submit, False) }}
+    </form>
+</div>
     {%else%}
         <div class="container mt-3">
             <h3>The forms have not yet been released by the wellbeing staff.</h3>
         </div>
     {%endif%}
 
+
 {% endblock %}
+
