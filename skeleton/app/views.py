@@ -28,10 +28,12 @@ def delete_user():
             logout_user()
             db.session.delete(u)
             db.session.commit()
+            flash("User deleted", "success")
             return redirect(url_for('home'))
         else:
             db.session.delete(u)
             db.session.commit()
+            flash("User deleted", "success")
     return redirect(url_for('admin'))
 
 @app.route("/")
