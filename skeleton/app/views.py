@@ -100,13 +100,13 @@ def view_student(id):
     student = db.session.get(Student, id)
     answers_by_submission = {}
     for answer in student.answers:
-        
         if answer.submission_date not in answers_by_submission:
             answers_by_submission[answer.submission_date] = []
         
         answers_by_submission[answer.submission_date].append(answer)
-
+        print(answers_by_submission[answer.submission_date])
     answers_by_submission = dict(sorted(answers_by_submission.items(), reverse=True))
+
 
     if student.anonymous == False:
         student = VisibleStudent(student)

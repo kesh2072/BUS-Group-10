@@ -4,40 +4,58 @@ import sqlalchemy as sa
 import statistics
 import re
 
-# This makes the app more modular, which helps with neater code and testing. Also, it means we don't mess around with views.py too much
 
 class MLQuestionProcessingManager:
+    """
+    This class is responsible for processing all form responses.
+    """
 
     labels = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
 
     def __new__(cls):
+        """
+        There will only be one instance of this class at any time throughout execution.
+        """
         if not hasattr(cls, 'instance'):
             cls.instance = super(MLQuestionProcessingManager, cls).__new__(cls)
         return cls.instance
 
-    # a function that scans the text input and returns an associated category
-    # ideally this would involve a supervised ML algorithm (scikit if we have time) but for now it will just search for key words
-    # TODO: this label_classifier doesn't work yet (currently ANY text input will be categorised as 'stress')
-    # TODO: for simplicity's sake, ANY text input must belong to a category
+
     def label_classifier(self,x: str):
-        # split x into list of words with regular expression
-        # find the first occurrence of a key word and return as 'label'
+        """
+        This processes the text response in a student's form submission.
+        It will return the label associated with the first occurrence of a key word, or None if no key words exist
+        If the word 'danger' is found in the text, the student's 'flagged' attribute is set to True
+
+        :param x: student response in text field
+        :type x: str
+        :return: the label associated with the first key word in text response, or None if one cannot be found
+        :rtype: str
+        """
 
         keywords = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
-        text = re.sub(r'[^\w\s]', '', x)
+        text = re.sub(r'[^\w\s]', '', x)        # split x into list of words with regular expression
         text_list = text.split(' ')
         student_keywords = [word.lower() for word in text_list if word.lower() in keywords]
         if student_keywords:
             label = student_keywords[0]
             return label
-        # if no keywords appear what label do we want? We could have this as return None and then in the algorithm
-        # in line 45 have 'if last_entry and if self.label_classifier(last_entry)'? But have left it as stress for now
         else:
             return None
 
-    # weighting calculator: a function that takes in a list of Answer objects and outputs a dictionary of average weightings (in ascending order)
-    # example output: {'depression': 1.5, 'anxiety': 2, 'self-esteem': 3.5, 'sleep': 3.5, 'stress': 4.5}
+
+
     def weighting(self,previous_answers:list):
+        """
+        calculates weightings of each category given a student's last set of form responses. If the text response
+        can be classified, its weight is equivalent to that of a student choosing '5' on a question of its category
+
+        :param previous_answers: a list of Answer objects from latest form submission
+        :type previous_answers: list
+        :return: dictionary of average weightings in ascending order eg: {'depression': 1.5, 'anxiety': 2, 'self-esteem': 3.5, 'sleep': 3.5, 'stress': 4.5}
+        :rtype: dict
+        """
+
         w={label:[] for label in self.labels}
         for a in previous_answers[0:10]:
             w[db.session.get(Question,a.qid).label]+=[int(a.content)]
@@ -48,21 +66,40 @@ class MLQuestionProcessingManager:
         w={i:statistics.mean(j) if len(j)!=0 else 0 for i,j in w.items()}
         return dict(sorted(w.items(), key=lambda i: i[1]))
 
-    # a function that counts the number of each type of question that was asked in previous iteration
-    # example output after first iteration: {'stress': 2, 'anxiety': 2, 'self-esteem': 2, 'depression': 2, 'sleep': 2}
+
+
     def q_count(self,previous_answers:list):
+        """
+        counts the number of each category of question that was asked in previous form
+
+        :param previous_answers: a list of Answer objects from latest form submission
+        :type previous_answers: list
+        :return: dictionary of the number of each category of question eg: {'stress': 2, 'anxiety': 2, 'self-esteem': 2, 'depression': 2, 'sleep': 2}
+        :rtype: dict
+        """
+
         w = {label:0 for label in self.labels}
         for a in previous_answers[0:10]:
             w[db.session.get(Question, a.qid).label]+=1
         return w
 
-    #a function that returns the student's best and worst categories
+
+
     def worst_best(self,s:Student):
+        """
+        calculates the student's best and worst categories given their latest form responses.
+
+        :param s: the current Student object
+        :type s: Student
+        :return: a tuple for their (worst,best) categories or (None,None) if no forms have been filled yet
+        :rtype:tuple
+        """
+
         if s.answers:
             previous_answers=[a for a in s.answers if s.forms_completed==a.form_number]
             w = self.weighting(previous_answers)
             distribution = self.q_count(previous_answers)
-            worst = list(w.keys())[-1]        # last element of w returns 'worst' category
+            worst = list(w.keys())[-1]          # last element of w returns 'worst' category
             for label in list(w.keys()):        # first element of w (with a non-zero count) returns 'best' category
                 if distribution[label] != 0:
                     best = label
@@ -71,11 +108,18 @@ class MLQuestionProcessingManager:
         else:
             return None,None
 
-    # Question Generator: a function that takes in a Student object and outputs a list of 10+1 Question objects
+
+
     def QG(self,s:Student):
-        #the way i did the question_form() in the view function assumes the text question is last in the generated questions list.
-        #(aimed at Maddie) i don't know if your algorithm puts the text question last in questions -if it doesn't then i can change
-        #the question_form view function
+        """
+        Question Generator: chooses the next iteration of 10 questions for the student + the text field
+        One question is added for the worst category and one is removed from the best category
+
+        :param s: the current Student object
+        :type s: Student
+        :return: list of 11 Question objects
+        :rtype: list
+        """
 
         # answers exist in database: next iteration
         if s.answers:
@@ -97,7 +141,6 @@ class MLQuestionProcessingManager:
             print('distribution of questions: ', distribution)
             print('worst: ', worst)
             print('best: ', best)
-
 
             return questions
 
