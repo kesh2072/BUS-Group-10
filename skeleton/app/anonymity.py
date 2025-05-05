@@ -16,6 +16,7 @@ class VisibleStudent:
             "student_id": self.student.student_id,
             "forms_completed": self.student.forms_completed,
             "anonymous": self.student.anonymous,
+            "flagged": self.student.flagged,
             "best_category": self.student.best_category,
             "worst_category": self.student.worst_category,
         }
@@ -24,4 +25,5 @@ class VisibleStudent:
         return (f'Student(uid={self.student.uid}, name={self.student.name}, university_email={self.student.university_email}'
                 f', pwh=...{self.student.password_hash[-5:]}, student_id={self.student.student_id}, '
                 f'anonymous={self.student.anonymous}, best_category={self.student.best_category},'
-                f'worst_category={self.student.worst_category}, forms_completed={self.student.forms_completed})')
+                f'worst_category={self.student.worst_category}, flagged={self.student.flagged}, '
+                f'forms_completed={self.student.forms_completed})')

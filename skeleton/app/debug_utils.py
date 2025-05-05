@@ -1,10 +1,9 @@
 from app import db
-from app.models import User, Student, Question, Answer
+from app.models import User, Student, Question, Answer, Resource
 import datetime
 
 
 def reset_db():
-
     # Haven't added any answers, and all students have currently filled out zero forms
     # Questions have labels stress, anxiety, self-esteem, depression and sleep. There is also a label 'personal' for the
     # written response at the end of the form. I've currently only got one of this type of question, but feel free to
@@ -81,7 +80,7 @@ def reset_db():
             "name": "karen",
             "username": "karen",
             "role": "Student",
-            "university_email": "karen@k.com",
+            "university_email": "karen@example.com",
             "student_id": "10293847",
             "forms_completed": 2,
             "anonymous": False,
@@ -90,7 +89,7 @@ def reset_db():
             "name": "leo",
             "username": "leo",
             "role": "Student",
-            "university_email": "leo@l.com",
+            "university_email": "leo@example.com",
             "student_id": "29384756",
             "forms_completed": 1,
             "anonymous": True
@@ -99,7 +98,7 @@ def reset_db():
             "name": "mona",
             "username": "mona",
             "role": "Student",
-            "university_email": "mona@m.com",
+            "university_email": "mona@example.com",
             "student_id": "38475692",
             "forms_completed": 1,
             "anonymous": False
@@ -108,7 +107,7 @@ def reset_db():
             "name": "nate",
             "username": "nate",
             "role": "Student",
-            "university_email": "nate@n.com",
+            "university_email": "nate@example.com",
             "student_id": "47586920",
             "forms_completed": 1,
             "anonymous": True
@@ -117,7 +116,7 @@ def reset_db():
             "name": "olga",
             "username": "olga",
             "role": "Student",
-            "university_email": "olga@o.com",
+            "university_email": "olga@example.com",
             "student_id": "58392047",
             "forms_completed": 1,
             "anonymous": False
@@ -126,7 +125,7 @@ def reset_db():
             "name": "paul",
             "username": "paul",
             "role": "Student",
-            "university_email": "paul@p.com",
+            "university_email": "paul@example.com",
             "student_id": "69284751",
             "forms_completed": 1,
             "anonymous": True
@@ -135,7 +134,7 @@ def reset_db():
             "name": "quinn",
             "username": "quinn",
             "role": "Student",
-            "university_email": "quinn@q.com",
+            "university_email": "quinn@example.com",
             "student_id": "73829104",
             "forms_completed": 1,
             "anonymous": False
@@ -144,7 +143,7 @@ def reset_db():
             "name": "ruth",
             "username": "ruth",
             "role": "Student",
-            "university_email": "ruth@r.com",
+            "university_email": "ruth@example.com",
             "student_id": "84930216",
             "forms_completed": 0,
             "anonymous": True
@@ -153,7 +152,7 @@ def reset_db():
             "name": "sam",
             "username": "sam",
             "role": "Student",
-            "university_email": "sam@s.com",
+            "university_email": "sam@example.com",
             "student_id": "92837465",
             "forms_completed": 0,
             "anonymous": False
@@ -162,7 +161,16 @@ def reset_db():
             "name": "tina",
             "username": "tina",
             "role": "Student",
-            "university_email": "tina@t.com",
+            "university_email": "tina@example.com",
+            "student_id": "13579246",
+            "forms_completed": 0,
+            "anonymous": True
+        },
+        {
+            "name": "test user",
+            "username": "test user",
+            "role": "Student",
+            "university_email": "testuserformreminder@outlook.com",
             "student_id": "13579246",
             "forms_completed": 0,
             "anonymous": True
@@ -233,6 +241,48 @@ def reset_db():
          "priority": 1, "label": "personal"}
     ]
 
+    resources = [
+                {'type': 'stress', 'title': 'Student stress', 'description': 'Tips on student stress: ways to detect symptoms and handle it better', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/mental-health/children-and-young-adults/help-for-teenagers-young-adults-and-students/student-stress-self-help-tips/"},
+                {'type': 'stress', 'title': '5 ways to manage student stress', 'description': 'Tips on handling your stress better as a student', 'logo': 'logos/prospects.png', 'url': "https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors."},
+                {'type': 'stress', 'title': 'Dealing with stress', 'description': 'Details on what causes stress and how we can better deal with it', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/"},
+                {'type': 'stress', 'title': 'How to manage and reduce stress', 'description': 'How stress can effect your daily life, what causes it, and how we can manage it', 'logo': 'logos/mental_health_foundation.png', 'url': "https://www.mentalhealth.org.uk/explore-mental-health/publications/how-manage-and-reduce-stress"},
+                
+                {'type': 'stress', 'title': 'Coping with Stress', 'description': 'NHS guide on how to manage stress, including practical tips and symptoms.', 'logo': 'logos/nhs_thumbnail.png', 'url': 'https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/dealing-with-stress/', 'is_recommended': True},
+                {'type': 'stress', 'title': 'Stress Management Tips', 'description': 'Mental Health Foundation’s strategies to reduce stress and improve resilience.', 'logo': 'logos/mental_health_foundation.png', 'url': 'https://www.mentalhealth.org.uk/explore-mental-health/a-z-topics/stress', 'is_recommended': True},
+
+                {'type': 'anxiety', 'title': 'Anxiety and panic attacks', 'description': 'Explains anxiety and panic attacks, including possible causes and how you can access treatment and support. Includes tips for helping yourself, and guidance for friends and family.', 'logo': 'logos/mind.png', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/"},
+                {'type': 'anxiety', 'title': 'Managing anxiety', 'description': 'What causes anxiety and tips on we can manage it', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/"},
+                {'type': 'anxiety', 'title': 'Anxiety', 'description': 'This content discusses anxiety, panic attacks, loneliness or isolation, trauma and substance abuse or addiction (which may include mentions of alcohol or drug use), which some people may find triggering.', 'logo': 'logos/mental_health_foundation.png', 'url': "https://www.mentalhealth.org.uk/explore-mental-health/a-z-topics/anxiety"},
+                {'type': 'anxiety', 'title': 'Anxiety disorders', 'description': 'This article details different kinds of anxiety disorders, their causes and how we can handle them in our daily lives', 'logo': 'logos/rethink_mental_illness.png', 'url': "https://www.rethink.org/advice-and-information/about-mental-illness/mental-health-conditions/anxiety-disorders/"},
+                
+                {'type': 'anxiety', 'title': 'Anxiety UK Support Services', 'description': 'Access self-help resources, therapy, and support for various anxiety conditions.', 'logo': 'logos/anxiety.png', 'url': 'https://www.anxietyuk.org.uk/', 'is_recommended': True},
+                {'type': 'anxiety', 'title': 'Anxiety Self-Help Guide', 'description': 'NHS step-by-step self-help guide for managing generalised anxiety.', 'logo': 'logos/nhs_thumbnail.png', 'url': 'https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/self-help/', 'is_recommended': True},
+
+                {'type': 'depression', 'title': 'Low mood', 'description': 'Difference between a low mood and depression, and top tips on how to improve your mood', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/"},
+                {'type': 'depression', 'title': 'Depression - treatment and management', 'description': 'Types of depression, treatment, coping and recovering', 'logo': 'logos/better_health.png', 'url': "https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management"},
+                {'type': 'depression', 'title': 'Depression', 'description': 'This section explains the causes and symptoms of depression and how it is treated.', 'logo': 'logos/rethink_mental_illness.png', 'url': "https://www.rethink.org/advice-and-information/about-mental-illness/mental-health-conditions/depression/"},
+                
+                {'type': 'depression', 'title': 'Understanding Depression', 'description': 'Mind’s overview of depression symptoms, treatments, and getting support.', 'logo': 'logos/mind.png', 'url': 'https://www.mind.org.uk/information-support/types-of-mental-health-problems/depression/', 'is_recommended': True},
+                {'type': 'depression', 'title': 'Depression Self-Help Guide', 'description': 'Free NHS self-help guide with exercises for managing low mood and depression.', 'logo': 'logos/nhs_thumbnail.png', 'url': 'https://www.nhs.uk/mental-health/conditions/clinical-depression/self-help/', 'is_recommended': True},
+                
+                {'type': 'self-esteem', 'title': 'What is self-esteem?', 'description': 'Self-esteem is how we value and perceive ourselves. It is based on our opinions and beliefs about ourselves, which can feel difficult to change. We might also think of this as self-confidence.', 'logo': 'logos/mind.png', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/"},
+                {'type': 'self-esteem', 'title': 'How can I improve my self-esteem?', 'description': 'This page has some tips and suggestions for improving your self-esteem, or self-confidence.', 'logo': 'logos/mind.png', 'url': "https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/"},
+                {'type': 'self-esteem', 'title': 'Recovery and mental illness', 'description': 'Recovery and mental illness means different things to different people. On this page, we focus on personal recovery.', 'logo': 'logos/rethink_mental_illness.png', 'url': "https://www.rethink.org/advice-and-information/living-with-mental-illness/treatment-and-support/recovery-and-mental-illness/"},
+                {'type': 'self-esteem', 'title': 'Self-care', 'description': 'What self-care really means, and how it can work for you', 'logo': 'logos/youngminds.png', 'url': "https://www.youngminds.org.uk/young-person/coping-with-life/self-care/"},
+                
+                {'type': 'self-esteem', 'title': 'Improving Self-Esteem', 'description': 'NHS tips for building confidence and addressing low self-worth.', 'logo': 'logos/nhs_thumbnail.png', 'url': 'https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/improve-your-self-esteem/', 'is_recommended': True},
+                {'type': 'self-esteem', 'title': 'Low Self-Esteem Explained', 'description': 'YoungMinds article on how low self-esteem can affect young people and how to get help.', 'logo': 'logos/yonugminds.png', 'url': 'https://www.youngminds.org.uk/young-person/mental-health-conditions/self-esteem/', 'is_recommended': True},
+                
+                {'type': 'sleep', 'title': 'Improve your sleep', 'description': 'Your sleep is affected by what you do throughout your day. Following these tips will put you in a better position to get restful sleep.', 'logo': 'logos/student_space.png', 'url': "https://studentspace.org.uk/wellbeing/improve-your-sleep"},
+                {'type': 'sleep', 'title': 'How to fall asleep faster and sleep better', 'description': 'If you are having trouble sleeping, knowing how to sleep better can make a big difference. On this page you will find practical tips to help you to build good sleep hygiene and sleep better.', 'logo': 'logos/nhs_thumbnail.png', 'url': "https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/"},
+                {'type': 'sleep', 'title': 'Sleep problems', 'description': 'Advice for common sleep problems, sleep disorders and treatments', 'logo': 'logos/youngminds.png', 'url': "https://www.youngminds.org.uk/young-person/my-feelings/sleep-problems/"},
+                {'type': 'sleep', 'title': 'The Impact Of Sleep On Health And Wellbeing', 'description': 'The aim of this report is to raise awareness about the importance of sleep and its crucial role for our health, both physical and mental, just like diet and exercise.', 'logo': 'logos/mental_health_foundation.png', 'url': "https://www.mentalhealth.org.uk/explore-mental-health/publications/sleep-matters-impact-sleep-health-and-wellbeing"},
+                {'type': 'sleep', 'title': 'How to sleep better', 'description': 'This guide offers tips on how to sleep better - looking at improving the quality of your sleep, what causes sleep disorders and possible solutions', 'logo': 'logos/mental_health_foundation.png', 'url': "https://www.mentalhealth.org.uk/explore-mental-health/publications/how-sleep-better"},
+    
+                {'type': 'sleep', 'title': 'Sleep and Mental Health', 'description': 'Mental Health Foundation’s insights on how poor sleep affects wellbeing and how to improve it.', 'logo': 'logos/mental_health_foundation.png', 'url': 'https://www.mentalhealth.org.uk/explore-mental-health/a-z-topics/sleep', 'is_recommended': True},
+                {'type': 'sleep', 'title': 'Tips for Better Sleep', 'description': 'Mind’s guide on sleep problems and practical advice to improve sleep hygiene.', 'logo': 'logos/mind.png', 'url': 'https://www.mind.org.uk/information-support/types-of-mental-health-problems/sleep-problems/tips-to-improve-your-sleep/', 'is_recommended': True},
+    ]
+
     for u in users:
         user = User(**u)
         user.set_password("PASSWORD")
@@ -246,6 +296,10 @@ def reset_db():
     for q in questions:
         question = Question(**q)
         db.session.add(question)
+
+    for r in resources:
+        resource = Resource(**r)
+        db.session.add(resource)
 
     db.session.commit()
 

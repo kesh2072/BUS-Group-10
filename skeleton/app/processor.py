@@ -10,6 +10,8 @@ class MLQuestionProcessingManager:
     This class is responsible for processing all form responses.
     """
 
+    current_s = None
+
     labels = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
 
     def __new__(cls):
@@ -31,19 +33,38 @@ class MLQuestionProcessingManager:
         :type x: str
         :return: the label associated with the first key word in text response, or None if one cannot be found
         :rtype: str
-        """
+        ""
 
-        keywords = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
-        text = re.sub(r'[^\w\s]', '', x)        # split x into list of words with regular expression
+        keyword_dict = {'stress': ['stress', 'stressed', 'overwhelmed', 'exams', 'deadlines', 'pressure'],
+                        'anxiety': ['anxious', 'anxiety', 'worried', 'worry', 'panic', 'avoid'],
+                        'self-esteem': ['failure', 'confidence', 'confident', 'worthless',
+                                        'selfesteem', 'useless'],
+                        'depression': ['depressed', 'depression', 'sad', 'hopeless', 'cried', 'numb'],
+                        'sleep': ['slept', 'sleep', 'insomnia', 'tired', 'awake', 'night']}
+
+        keyword_count = {'stress': 0, 'anxiety': 0, 'self-esteem': 0, 'depression': 0, 'sleep': 0}
+
+        text = re.sub(r'[^\w\s]', '', x)   #note this turns self-esteem into selfesteem which is why 'selfesteem'
+        #is in the keyword_dict
         text_list = text.split(' ')
-        student_keywords = [word.lower() for word in text_list if word.lower() in keywords]
-        if student_keywords:
-            label = student_keywords[0]
-            return label
-        else:
+        
+        if 'danger' in text_list:
+          self.current_s.flagged = True
+          db.session.commit()
+          text_list = [word for word in text_list if word != 'danger']
+
+
+        for key, value in keyword_dict.items():
+            for word in text_list:
+                if word.lower() in value:
+                    keyword_count[key] += 1
+        label = max(keyword_count, key=keyword_count.get)
+        
+        if keyword_count[label] == 0:
             return None
-
-
+        else:
+            return label
+          
 
     def weighting(self,previous_answers:list):
         """
@@ -121,11 +142,13 @@ class MLQuestionProcessingManager:
         :rtype: list
         """
 
+        self.current_s = s
+        
         # answers exist in database: next iteration
         if s.answers:
-            previous_answers=[a for a in s.answers if s.forms_completed==a.form_number]
-            worst,best = self.worst_best(s)
-            distribution=self.q_count(previous_answers)
+            previous_answers = [a for a in s.answers if s.forms_completed == a.form_number]
+            worst, best = self.worst_best(s)
+            distribution = self.q_count(previous_answers)
 
             distribution[worst] += 1      # add an extra question for student's 'worst' category
             distribution[best] -= 1       # remove a question for student's 'best' category

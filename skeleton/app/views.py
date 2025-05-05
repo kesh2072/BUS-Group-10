@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app
-from app.models import User, Student, Question, Answer
+from app.models import User, Student, Question, Answer, Resource
 from app.forms import ChooseForm, LoginForm, QuestionForm, ChangePasswordForm, ChangeUniDetails
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
@@ -15,11 +15,39 @@ import numpy as np
 import base64
 from io import BytesIO
 from app.debug_utils import populate
+from app.form_release import FormManagement #singleton class to keep track of when forms were rolled out to know when to send reminders
+from app import mail
+from flask_mail import Message
 
-
+@app.route('/delete_user', methods=['POST'])
+def delete_user():
+    form = ChooseForm()
+    if form.validate_on_submit():
+        u = db.session.get(User, int(form.choice.data))
+        q = db.select(User).where((User.role == "Admin") & (User.uid != u.uid))
+        first = db.session.scalars(q).first()
+        if not first:
+            flash("You can't delete your own account if there are no other admin users!", "danger")
+        elif u.uid == current_user.uid:
+            logout_user()
+            db.session.delete(u)
+            db.session.commit()
+            flash("User deleted", "success")
+            return redirect(url_for('home'))
+        else:
+            db.session.delete(u)
+            db.session.commit()
+            flash("User deleted", "success")
+    return redirect(url_for('admin'))
 
 @app.route("/")
 def home():
+    if current_user.is_anonymous:
+        return redirect(url_for('login'))
+    if current_user.role == "Student":
+        return redirect(url_for('student'))
+    if current_user.role == "Staff":
+        return redirect(url_for('staff'))
     return render_template('home.html',title="Home")
 
 
@@ -29,15 +57,21 @@ def admin():
     if current_user.role != "Admin":
         return redirect(url_for('home'))
     form = ChooseForm()
-    q = db.select(User)
-    user_lst = db.session.scalars(q)
-    return render_template('admin.html', title="Admin", user_lst=user_lst, form=form)
+    q = db.select(User).where((User.role == "Staff"))
+    staff = db.session.scalars(q)
+    b = db.select(Student)
+    students = db.session.scalars(b)
+    anonymity_appplied_students = apply_anonymity(students)
+    students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
+    return render_template('admin.html', title="Admin", staff=staff, form=form, students_attrs=students_attrs)
 
 
 @app.route("/staff")
 @login_required
 def staff():
-    return render_template('staff.html', title="Staff")
+    instance_of_form_management = FormManagement()
+    released = instance_of_form_management.released
+    return render_template('staff.html', title="Staff", released = released)
 
 
 @app.route('/change_pw', methods=['GET', 'POST'])
@@ -58,8 +92,7 @@ def change_uni_details():
     if form.validate_on_submit():
         student_details = Student(username=form.username.data,
                                   email=form.university_email.data,
-                                  name=form.name.data,
-                                  student_id=form.student_id.data)
+                                  name=form.name.data)
         db.session.update(student_details)
         db.session.commit()
         flash('University Details Updated successfully', 'success')
@@ -83,17 +116,35 @@ def view_students():
     students = db.session.scalars(q)
     anonymity_appplied_students = apply_anonymity(students)
     students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
-    return render_template('view_students.html', title="View all students", students_attrs=students_attrs, form=form)
+    flagged_students = []
+    for student in students_attrs:
+        if student["flagged"]:
+            flagged_students.append(student)
+    return render_template('view_students.html', title="View all students", flagged_students=flagged_students, students_attrs=students_attrs, form=form)
 
-@app.route("/staff/toggle_anonymity", methods=["GET", "POST"])
+
+@app.route("/staff/remove_anonymity", methods=["GET", "POST"])
 @login_required
-def toggle_anonymity():
-    form = ChooseForm()
-    if form.validate_on_submit():
-        student = db.session.get(Student, int(form.choice.data))
-        student.anonymous = False if student.anonymous == True else True
-        db.session.commit()
-    return redirect(url_for('view_students'))
+def remove_anonymity():
+    uid = request.args.get("uid")
+    q = db.select(Student).where(Student.uid == int(uid))
+    student = db.session.scalar(q)
+    student.anonymous = False
+    db.session.commit()
+    flash(f"Anonymity removed for student {student.uid}", "success")
+    return redirect(url_for('view_student', id=uid))
+
+
+@app.route("/staff/remove_flag", methods=["GET", "POST"])
+def remove_flag():
+    uid = request.args.get("uid")
+    q = db.select(Student).where(Student.uid == int(uid))
+    student = db.session.scalar(q)
+    student.flagged = False
+    db.session.commit()
+    flash(f"Flag removed for student {student.uid}", "success")
+    return redirect(url_for('view_student', id=uid))
+
 
 @app.route("/staff/student/<int:id>")
 @login_required
@@ -113,8 +164,8 @@ def view_student(id):
         student = VisibleStudent(student)
 
     student_attr = student.display_attributes()
-
-    return render_template('view_student.html', title="View Student", student_attr=student_attr, answers_by_submission=dict(answers_by_submission))
+    recent_response = list(answers_by_submission.values())[0][10].content
+    return render_template('view_student.html', title="View Student", student_attr=student_attr, answers_by_submission=dict(answers_by_submission), recent_response=recent_response)
 
 @app.route("/staff/statistics", methods=["GET", "POST"])
 @login_required
@@ -130,6 +181,18 @@ def statistics():
     most_common_category = result[0]
     amount = result[1]
 
+    avg_per_type = (
+    db.session.query(
+        Question.label.label("type"),
+        func.round(func.avg(Answer.content), 2).label("average")
+    )
+    .join(Answer, Answer.qid == Question.qid)
+    .group_by(Question.label)
+    .order_by(desc("average"))
+    .all()
+    )
+    print(avg_per_type)
+
     # Bar chart for different categories
     categories = []
     amount_of_students = []
@@ -137,13 +200,11 @@ def statistics():
         categories.append(k[0])
         amount_of_students.append(k[1])
     
-    print(categories)
-    print(amount_of_students)
 
     fig = Figure()
     ax = fig.subplots()
     ax.bar(categories, amount_of_students)
-    ax.set_title('Bar Chart Test')
+    ax.set_title("Distribution of 'worst categories' for students")
     ax.set_xlabel('Categories')
     ax.set_ylabel('Amount of Students')
 
@@ -162,7 +223,7 @@ def statistics():
 
     priority_list = db.session.execute(list_averages).all()
 
-    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount, priority_list=priority_list, data=data)
+    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount, priority_list=priority_list, data=data, avg_per_type=avg_per_type)
 
 
 @app.route("/student")
@@ -172,7 +233,9 @@ def student():
                 sa.select(User).where(User.uid == current_user.uid))
     student = VisibleStudent(student)
     student_attr = student.display_attributes()
-    return render_template('student.html', title="Student", student_attr=student_attr)
+    resources = Resource.query.filter_by(is_recommended=False).all()
+    recommended_resources = Resource.query.filter_by(is_recommended=True)
+    return render_template('student.html', title="Student", student_attr=student_attr, resources=resources, recommended_resources=recommended_resources)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -191,7 +254,7 @@ def login():
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('home')
         return redirect(next_page)
-    return render_template('generic_form.html', title='Sign In', form=form)
+    return render_template('login.html', title='Sign In', form=form)
 
 
 @app.route('/logout')
@@ -202,6 +265,11 @@ def logout():
 
 @app.route('/question_form', methods = ['GET', 'POST'])
 def question_form():
+    instance_of_form_management = FormManagement()
+    if instance_of_form_management.release_date:
+        released = True
+    else:
+        released = False
     instance_of_processor = MLQuestionProcessingManager()
     q_list=instance_of_processor.QG(current_user)
     form = QuestionForm(q_list=q_list)
@@ -231,7 +299,31 @@ def question_form():
         current_user.worst_category=worst
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template('question_form.html', title = 'Question Form', form = form)
+    return render_template('question_form.html', title = 'Question Form', form = form, released = released)
+
+@app.route('/release_forms', methods = ['GET', 'POST'])
+def release_forms():
+    instance_of_form_management = FormManagement()
+    instance_of_form_management.set_release_date()
+    flash('Students will now have two weeks to fill out the form', 'success')
+    print(instance_of_form_management.release_date)
+    return redirect(url_for('home'))
+
+@app.route('/send_reminders', methods = ['GET', 'POST'])
+def send_reminders():
+    instance_of_form_management = FormManagement()
+    late_students = instance_of_form_management.late_students()
+    if late_students:
+        email_list = [late_student.university_email for late_student in late_students]
+        message = Message(subject = 'Form Reminder', sender = 'testuserformreminder@gmail.com', recipients = email_list)
+        message.body = 'Hi! This is a reminder to fill out the wellbeing questionnaire.'
+        mail.send(message)
+        #print(email_list)
+        flash('Emails have been sent out to students who are not up to date on their forms.', 'success')
+    else:
+        flash('All students are up to date on their forms', 'success')
+    return redirect(url_for('staff'))
+
 
 
 # Error handler for 403 Forbidden
