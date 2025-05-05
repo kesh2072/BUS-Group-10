@@ -33,7 +33,7 @@ class MLQuestionProcessingManager:
         :type x: str
         :return: the label associated with the first key word in text response, or None if one cannot be found
         :rtype: str
-        ""
+        """
 
         keyword_dict = {'stress': ['stress', 'stressed', 'overwhelmed', 'exams', 'deadlines', 'pressure'],
                         'anxiety': ['anxious', 'anxiety', 'worried', 'worry', 'panic', 'avoid'],
