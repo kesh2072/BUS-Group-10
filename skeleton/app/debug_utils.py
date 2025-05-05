@@ -308,7 +308,7 @@ def populate():
     q = db.select(Answer)
     answers_check = db.session.scalars(q).first()
 
-    if answers_check:
+    if not answers_check:
 
         answers= [
             {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 1, "uid": 11,
