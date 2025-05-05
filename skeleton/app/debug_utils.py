@@ -1,5 +1,6 @@
 from app import db
 from app.models import User, Student, Question, Answer, Resource
+import datetime
 
 
 def reset_db():
@@ -81,8 +82,8 @@ def reset_db():
             "role": "Student",
             "university_email": "karen@example.com",
             "student_id": "10293847",
-            "forms_completed": 0,
-            "anonymous": False
+            "forms_completed": 2,
+            "anonymous": False,
         },
         {
             "name": "leo",
@@ -90,7 +91,7 @@ def reset_db():
             "role": "Student",
             "university_email": "leo@example.com",
             "student_id": "29384756",
-            "forms_completed": 0,
+            "forms_completed": 1,
             "anonymous": True
         },
         {
@@ -99,7 +100,7 @@ def reset_db():
             "role": "Student",
             "university_email": "mona@example.com",
             "student_id": "38475692",
-            "forms_completed": 0,
+            "forms_completed": 1,
             "anonymous": False
         },
         {
@@ -108,7 +109,7 @@ def reset_db():
             "role": "Student",
             "university_email": "nate@example.com",
             "student_id": "47586920",
-            "forms_completed": 0,
+            "forms_completed": 1,
             "anonymous": True
         },
         {
@@ -117,7 +118,7 @@ def reset_db():
             "role": "Student",
             "university_email": "olga@example.com",
             "student_id": "58392047",
-            "forms_completed": 0,
+            "forms_completed": 1,
             "anonymous": False
         },
         {
@@ -126,7 +127,7 @@ def reset_db():
             "role": "Student",
             "university_email": "paul@example.com",
             "student_id": "69284751",
-            "forms_completed": 0,
+            "forms_completed": 1,
             "anonymous": True
         },
         {
@@ -135,7 +136,7 @@ def reset_db():
             "role": "Student",
             "university_email": "quinn@example.com",
             "student_id": "73829104",
-            "forms_completed": 0,
+            "forms_completed": 1,
             "anonymous": False
         },
         {
@@ -299,5 +300,231 @@ def reset_db():
     for r in resources:
         resource = Resource(**r)
         db.session.add(resource)
+
+    db.session.commit()
+
+
+def populate():
+
+    answers= [
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 1, "uid": 11,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 2, "uid": 11,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 11, "uid": 11,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 12, "uid": 11,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 21, "uid": 11,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 22, "uid": 11,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 31, "uid": 11,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 32, "uid": 11,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 41, "uid": 11,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 42, "uid": 11,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 9, 0), "qid": 51, "uid": 11,
+         "type": "Text Answer", "content": "I feel overwhelmed almost every week now"},
+
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 1, "uid": 11,
+         "type": "Likert", "content": "5"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 2, "uid": 11,
+         "type": "Likert", "content": "5"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 11, "uid": 11,
+         "type": "Likert", "content": "1"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 12, "uid": 11,
+         "type": "Likert", "content": "2"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 21, "uid": 11,
+         "type": "Likert", "content": "1"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 22, "uid": 11,
+         "type": "Likert", "content": "3"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 31, "uid": 11,
+         "type": "Likert", "content": "2"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 32, "uid": 11,
+         "type": "Likert", "content": "4"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 41, "uid": 11,
+         "type": "Likert", "content": "5"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 42, "uid": 11,
+         "type": "Likert", "content": "3"},
+        {"form_number": 2, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 51, "uid": 11,
+         "type": "Text Answer", "content": ""},
+
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 1, "uid": 12,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 2, "uid": 12,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 11, "uid": 12,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 12, "uid": 12,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 21, "uid": 12,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 22, "uid": 12,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 31, "uid": 12,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 32, "uid": 12,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 41, "uid": 12,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 42, "uid": 12,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 51, "uid": 12,
+         "type": "Text Answer", "content": "Sleep is hard when stress builds up"},
+
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 1, "uid": 13,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 2, "uid": 13,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 11, "uid": 13,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 12, "uid": 13,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 21, "uid": 13,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 22, "uid": 13,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 31, "uid": 13,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 32, "uid": 13,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 41, "uid": 13,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 42, "uid": 13,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 51, "uid": 13,
+         "type": "Text Answer", "content": ""},
+
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 1, "uid": 14,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 2, "uid": 14,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 11, "uid": 14,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 12, "uid": 14,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 21, "uid": 14,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 22, "uid": 14,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 31, "uid": 14,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 32, "uid": 14,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 41, "uid": 14,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 42, "uid": 14,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 51, "uid": 14,
+         "type": "Text Answer", "content": "Sometimes I can't focus on anything at all"},
+
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 1, "uid": 15,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 2, "uid": 15,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 11, "uid": 15,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 12, "uid": 15,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 21, "uid": 15,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 22, "uid": 15,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 31, "uid": 15,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 32, "uid": 15,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 41, "uid": 15,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 42, "uid": 15,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 51, "uid": 15,
+         "type": "Text Answer", "content": ""},
+
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 1, "uid": 16,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 2, "uid": 16,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 11, "uid": 16,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 12, "uid": 16,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 21, "uid": 16,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 22, "uid": 16,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 31, "uid": 16,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 32, "uid": 16,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 41, "uid": 16,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 42, "uid": 16,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 51, "uid": 16,
+         "type": "Text Answer", "content": "Some days are more stressful than others"},
+
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 1, "uid": 17,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 2, "uid": 17,
+         "type": "Likert", "content": "3"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 11, "uid": 17,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 12, "uid": 17,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 21, "uid": 17,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 22, "uid": 17,
+         "type": "Likert", "content": "5"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 31, "uid": 17,
+         "type": "Likert", "content": "1"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 32, "uid": 17,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 41, "uid": 17,
+         "type": "Likert", "content": "2"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 42, "uid": 17,
+         "type": "Likert", "content": "4"},
+        {"form_number": 1, "submission_date": datetime.datetime(2024, 12, 1, 10, 0), "qid": 51, "uid": 17,
+         "type": "Text Answer", "content": "I occasionally feel overwhelmed with assignments"}
+    ]
+
+    for a in answers:
+        answer=Answer(**a)
+        db.session.add(answer)
+
+    u=db.session.get(User,11)
+    u.best_category='anxiety'
+    u.worst_category='stress'
+
+    u = db.session.get(User, 12)
+    u.best_category = 'stress'
+    u.worst_category = 'depression'
+
+    u = db.session.get(User, 13)
+    u.best_category = 'self-esteem'
+    u.worst_category = 'stress'
+
+    u = db.session.get(User, 14)
+    u.best_category = 'depression'
+    u.worst_category = 'self-esteem'
+
+    u = db.session.get(User, 15)
+    u.best_category = 'depression'
+    u.worst_category = 'anxiety'
+
+    u = db.session.get(User, 16)
+    u.best_category = 'depression'
+    u.worst_category = 'stress'
+
+    u = db.session.get(User, 17)
+    u.best_category = 'anxiety'
+    u.worst_category = 'self-esteem'
+
+
+
 
     db.session.commit()
