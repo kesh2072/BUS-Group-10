@@ -255,8 +255,9 @@ def send_reminders():
         message.body = 'Hi! This is a reminder to fill out the wellbeing questionnaire.'
         mail.send(message)
         #print(email_list)
+        flash('Emails have been sent out to students who are not up to date on their forms.', 'success')
     else:
-        flash('All students have are up to date on their forms', 'success')
+        flash('All students are up to date on their forms', 'success')
     return redirect(url_for('staff'))
 
 

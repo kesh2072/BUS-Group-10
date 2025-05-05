@@ -5,7 +5,7 @@ from app.models import Student
 
 class FormManagement():
     release_date = None
-    timeframe = 10
+    timeframe = 30
     released = False
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -21,8 +21,8 @@ class FormManagement():
         except TypeError:
             return None
     def late_students(self):
-        #gets list of student objects for students who haven't filled out 1 form after 30 seconds,
-        # 2 forms after 60 seconds, 3 forms after 90 seconds etc.
+        #gets list of student objects for students who haven't filled out 1 form after 10 seconds,
+        # 2 forms after 20 seconds, 3 forms after 30 seconds etc.
         #30 seconds used here represents 2 weeks
 
         seconds = self.calculate_seconds()

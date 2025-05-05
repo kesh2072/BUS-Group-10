@@ -20,18 +20,19 @@ class MLQuestionProcessingManager:
     # TODO: this label_classifier doesn't work yet (currently ANY text input will be categorised as 'stress')
     # TODO: for simplicity's sake, ANY text input must belong to a category
     def label_classifier(self,x: str):
-        # split x into list of words with regular expression
-        # find the first occurrence of a key word and return as 'label'
+
 
         keyword_dict = {'stress': ['stress', 'stressed', 'overwhelmed', 'exams', 'deadlines', 'pressure'],
                         'anxiety': ['anxious', 'anxiety', 'worried', 'worry', 'panic', 'avoid'],
-                        'self-esteem': ['self esteem', 'self-esteem', 'confidence', 'confident', 'worthless',
-                                        'failure'],
+                        'self-esteem': ['failure', 'confidence', 'confident', 'worthless',
+                                        'selfesteem', 'useless'],
                         'depression': ['depressed', 'depression', 'sad', 'hopeless', 'cried', 'numb'],
                         'sleep': ['slept', 'sleep', 'insomnia', 'tired', 'awake', 'night']}
+
         keyword_count = {'stress': 0, 'anxiety': 0, 'self-esteem': 0, 'depression': 0, 'sleep': 0}
 
-        text = re.sub(r'[^\w\s]', '', x)
+        text = re.sub(r'[^\w\s]', '', x)   #note this turns self-esteem into selfesteem which is why 'selfesteem'
+        #is in the keyword_dict
         text_list = text.split(' ')
 
         for key, value in keyword_dict.items():
