@@ -206,6 +206,11 @@ def logout():
 
 @app.route('/question_form', methods = ['GET', 'POST'])
 def question_form():
+    instance_of_form_management = FormManagement()
+    if instance_of_form_management.release_date:
+        released = True
+    else:
+        released = False
     instance_of_processor = MLQuestionProcessingManager()
     q_list=instance_of_processor.QG(current_user)
     form = QuestionForm(q_list=q_list)
@@ -235,7 +240,7 @@ def question_form():
         current_user.worst_category=worst
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template('question_form.html', title = 'Question Form', form = form)
+    return render_template('question_form.html', title = 'Question Form', form = form, released = released)
 
 @app.route('/release_forms', methods = ['GET', 'POST'])
 def release_forms():
