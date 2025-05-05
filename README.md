@@ -35,7 +35,10 @@ Staff members will see this, and can choose to remove the student’s anonymity 
 
 
 - Personalised Forms
-  - Feature description here
+  - Students fill in forms iteratively and their responses are processed by `processor.py` to allow for personalisation of form questions. Each form has 10 Likert scale questions and one text field, which is optional for the student to fill out.
+  - All Likert scale questions fall into one of five categories (stress, anxiety, self-esteem, depression, sleep) - and initially all students are presented with two of each type of question. Upon submission, the `weighting()` function will take averages of their scores for each category and the `label_classifer()` function will search for key words if any exist then assign the response to the most related category and assign more weight to this category. This is also where a student may be flagged (see Breaking Anonymity).
+  - Using these two functions, the `worst_best()` function will return the categories that the student struggled with most and least. This will update the student's records for `best_category` and `worst_category`, which will be accessed by the Dynamic Webpage functionality. It will also determine the distribution of questions in the student's next form:
+  - The question generator function `QG()` will add an extra question for the student's worst category and remove one question for their best category. This continues in an iterative manner, allowing the app to learn from the student's latest form responses and adjust the next set of questions accordingly.
   
 
 - Breaking Anonymity
@@ -52,3 +55,4 @@ Staff members will see this, and can choose to remove the student’s anonymity 
 
 Contribution Percentages are 20% each. Specific work done as follows:
 - Luke Gouldson: basic database design, breaking anonymity functionality
+- Madoka Miyazaki: processing form submissions for dynamic forms and webpage

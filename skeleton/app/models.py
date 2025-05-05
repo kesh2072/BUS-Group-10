@@ -159,3 +159,17 @@ class Answer(db.Model):
         return (f"Answer(form_number={self.form_number}, qid={self.qid}, uid={self.uid}, type={self.type}, "
                 f"content={self.content})")
 
+
+class Resource(db.Model):
+    __tablename__ = "resources"
+
+    rid: so.Mapped[int] = so.mapped_column(primary_key=True)
+    type: so.Mapped[str] = so.mapped_column(sa.String())
+    title: so.Mapped[str] = so.mapped_column(sa.String())
+    description: so.Mapped[str] = so.mapped_column(sa.String())
+    logo: so.Mapped[str] = so.mapped_column(sa.String())
+    url: so.Mapped[str] = so.mapped_column(sa.String())
+    is_recommended: so.Mapped[bool] = so.mapped_column(db.Boolean, default=False)
+
+    def __repr__(self):
+        return (f"rid={self.rid}, title={self.title}, description={self.description}, logo={self.logo}, url={self.url}")

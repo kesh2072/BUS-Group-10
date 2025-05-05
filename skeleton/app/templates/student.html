@@ -4,8 +4,8 @@
 {% block content %}
 
 <div class="container">
-    <h2>Welcome {{current_user.username}} </h2>
-    <h3>Student Details</h3>
+    <h2>Welcome to your student page {{current_user.username}} </h2>
+    <h3>Student Details</h3><p> -> Click here to edit your details: <a class="btn btn-dark btn-sm" role="button" aria-current="page" href="{{ url_for('change_uni_details') }}">Edit</a></p>
     <div class="col-lg-12">
         <table class="table">
             <thead>
@@ -14,7 +14,6 @@
                     <th>Student Name</th>
                     <th>Student Username</th>
                     <th>Student Email</th>
-                    <th>Edit</th>
                 </tr>
             </thead>
         <tr>
@@ -26,54 +25,168 @@
             <td>{{ student_attr["name"] }}</td>
             <td>{{ student_attr["username"] }}</td>
             <td>{{ student_attr["university_email"] }}</td>
-            <td> <a  class='btn btn-info' href="{{ url_for('change_uni_details') }}">Change University Details</a> </td>
         </tr>
 </table>
 
-        <h3>Student Resources</h3>
-    <div class="mt-2 col-md-12">
-        {% if current_user.worst_category is none or current_user.worst_category is not none %}
-         <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress/" class="btn btn-info" role="button"> Stress management </a>
-         <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/anxiety-fear-panic/" class="btn btn-info" role="button"> Anxiety Management</a>
-         <a href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/low-mood-sadness-depression/" class="btn btn-info" role="button"> Depression Management</a>
-         <a href="https://www.nhs.uk/mental-health/self-help/tips-and-support/raise-low-self-esteem/" class="btn btn-info" role="button"> Self-Esteem Management</a>
-         <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/sleep/" class="btn btn-info" role="button"> Sleep Management</a>
+<p>Click here to change your password: 
+    <a class="btn btn-dark btn-sm" role="button" aria-current="page" href="{{ url_for('change_pw') }}"><i class="bi bi-lock"></i></a>
+</p>
+
+<h3>Student Resources</h3>
+<ul class="nav nav-pills nav-fill gap-2 p-1 small bg-dark rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link rounded-5" id="recommended-tab" data-bs-toggle="pill" data-bs-target="#recommended" type="button" role="tab">Recommended for you</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link rounded-5" id="stress-tab" data-bs-toggle="pill" data-bs-target="#stress" type="button" role="tab">Stress</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link rounded-5" id="anxiety-tab" data-bs-toggle="pill" data-bs-target="#anxiety" type="button" role="tab">Anxiety</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link rounded-5" id="depression-tab" data-bs-toggle="pill" data-bs-target="#depression" type="button" role="tab">Depression</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link rounded-5" id="self-esteem-tab" data-bs-toggle="pill" data-bs-target="#self-esteem" type="button" role="tab">Self-esteem</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link rounded-5" id="sleep-tab" data-bs-toggle="pill" data-bs-target="#sleep" type="button" role="tab">Sleep</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="dynamicHomepage">
+    <div class="tab-pane fade" id="recommended" role="tabpanel">
+        <h4>Recommended content for you</h4>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% set user_category = current_user.worst_category %}
+            {% for link in recommended_resources %}
+            {% if user_category == link.type %}
+                <div class="col">
+                    <div class="card shadow-sm" style="width: 100%;">
+                        <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-success"><i class="bi bi-star"></i>   Recommended for you   <i class="bi bi-star"></i></h5>
+                            <h5 class="card-title">{{ link.title }}</h5>
+                            <p class="card-text">{{ link.description }}</p>
+                            <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+            {% for link in resources %}
+            {% if user_category == link.type %}
+                <div class="col">
+                    <div class="card shadow-sm" style="width: 100%;">
+                        <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ link.title }}</h5>
+                            <p class="card-text">{{ link.description }}</p>
+                            <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
         </div>
-        {% endif %}
-        <div class="mt-2 col-md-12">
-
-        {% if current_user.worst_category == "stress" %}
-        <a href="https://www.nhs.uk/mental-health/children-and-young-adults/help-for-teenagers-young-adults-and-students/student-stress-self-help-tips/" class="btn btn-secondary" role="button"> Student stress </a>
-        <a href="https://www.prospects.ac.uk/applying-for-university/university-life/5-ways-to-manage-student-stress#:~:text=If%20possible%20leave%20your%20stresses,the%20triggers%20of%20your%20stressors." class="btn btn-secondary" role="button"> Strategies to manage stress </a>
-        <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/stress/" class="btn btn-secondary"  role="button"> Coping with stress </a>
+    </div>
+    <div class="tab-pane fade" id="stress" role="tabpanel">
+        <h4>Materials related to stress</h4>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for link in resources %}
+            {% if link.type == 'stress' %}
+            <div class="col">
+                <div class="card shadow-sm" style="width: 100%;">
+                    <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ link.title }}</h5>
+                        <p class="card-text">{{ link.description }}</p>
+                        <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="anxiety" role="tabpanel">
+        <h4>Materials related to anxiety</h4>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for link in resources %}
+            {% if link.type == 'anxiety' %}
+            <div class="col">
+                <div class="card shadow-sm" style="width: 100%;">
+                    <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ link.type }}</h5>
+                        <p class="card-text">{{ link.description }}</p>
+                        <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="depression" role="tabpanel">
+        <h4>Materials related to depression</h4>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for link in resources %}
+            {% if link.type == 'depression' %}
+            <div class="col">
+                <div class="card shadow-sm" style="width: 100%;">
+                    <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ link.title }}</h5>
+                        <p class="card-text">{{ link.description }}</p>
+                        <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="self-esteem" role="tabpanel">
+        <h4>Materials related to self-esteem</h4>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for link in resources %}
+            {% if link.type == 'self-esteem' %}
+            <div class="col">
+                <div class="card shadow-sm" style="width: 100%;">
+                    <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ link.title }}</h5>
+                        <p class="card-text">{{ link.description }}</p>
+                        <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="sleep" role="tabpanel">
+        <h4>Materials related to sleep</h4>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for link in resources %}
+            {% if link.type == 'sleep' %}
+            <div class="col">
+                <div class="card shadow-sm" style="width: 100%;">
+                    <img src="{{ url_for('static', filename=link.logo) }}" class="card-img-top" alt="Logo" style="max-height: 80px; object-fit: contain; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ link.title }}</h5>
+                        <p class="card-text">{{ link.description }}</p>
+                        <a href="{{ link.url }}" class="btn btn-primary"><i class="bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 </div>
-        {% endif %}
-         {% if current_user.worst_category == "anxiety" %}
-    <div class="mt-2 col-md-12">
-        <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/anxiety-and-panic-attacks/self-care/" class="btn btn-secondary"  role="button"> Self care for anxiety </a>
-        <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/anxiety/" class="btn btn-secondary"  role="button"> Managing anxiety </a>
-</div>
-        {% endif %}
-         {% if current_user.worst_category == "depression" %}
-    <div class="mt-2 col-md-12">
-        <a href="https://www.nhs.uk/every-mind-matters/mental-health-issues/low-mood/" class="btn btn-secondary"  role="button"> Low Mood </a>
-        <a href="https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/depression-treatment-and-management" class="btn btn-secondary"  role="button"> Depression treatment and management </a>
-</div>
-        {% endif %}
-         {% if current_user.worst_category == "self-esteem" %}
-    <div class="mt-2 col-md-12">
-        <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/about-self-esteem/" class="btn btn-secondary"  role="button"> What is self-esteem? </a>
-        <a href="https://www.mind.org.uk/information-support/types-of-mental-health-problems/self-esteem/tips-to-improve-your-self-esteem/" class="btn btn-secondary"  role="button"> How to improve self-esteem? </a>
-</div>
-        {% endif %}
-         {% if current_user.worst_category == "sleep" %}
-    <div class="mt-2 col-md-12">
-        <a href="https://studentspace.org.uk/wellbeing/improve-your-sleep" class="btn btn-secondary" role="button"> Improve sleep for students</a>
-        <a href="https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/" class="btn btn-secondary"  role="button"> General sleep tips </a>
-</div>
-        {% endif %}
-
-
 
 {% endblock %}
 

@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app
-from app.models import User, Student, Question, Answer
+from app.models import User, Student, Question, Answer, Resource
 from app.forms import ChooseForm, LoginForm, QuestionForm, ChangePasswordForm, ChangeUniDetails
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
@@ -16,9 +16,14 @@ import base64
 from io import BytesIO
 
 
-
 @app.route("/")
 def home():
+    if current_user.is_anonymous:
+        return redirect(url_for('login'))
+    if current_user.role == "Student":
+        return redirect(url_for('student'))
+    if current_user.role == "Staff":
+        return redirect(url_for('staff'))
     return render_template('home.html',title="Home")
 
 
@@ -147,6 +152,18 @@ def statistics():
     most_common_category = result[0]
     amount = result[1]
 
+    avg_per_type = (
+    db.session.query(
+        Question.label.label("type"),
+        func.round(func.avg(Answer.content), 2).label("average")
+    )
+    .join(Answer, Answer.qid == Question.qid)
+    .group_by(Question.label)
+    .order_by(desc("average"))
+    .all()
+    )
+    print(avg_per_type)
+
     # Bar chart for different categories
     categories = []
     amount_of_students = []
@@ -154,13 +171,11 @@ def statistics():
         categories.append(k[0])
         amount_of_students.append(k[1])
     
-    print(categories)
-    print(amount_of_students)
 
     fig = Figure()
     ax = fig.subplots()
     ax.bar(categories, amount_of_students)
-    ax.set_title('Bar Chart Test')
+    ax.set_title("Distribution of 'worst categories' for students")
     ax.set_xlabel('Categories')
     ax.set_ylabel('Amount of Students')
 
@@ -179,7 +194,7 @@ def statistics():
 
     priority_list = db.session.execute(list_averages).all()
 
-    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount, priority_list=priority_list, data=data)
+    return render_template('statistics.html', title="Statistics", most_common_category=most_common_category, amount=amount, priority_list=priority_list, data=data, avg_per_type=avg_per_type)
 
 
 @app.route("/student")
@@ -189,7 +204,9 @@ def student():
                 sa.select(User).where(User.uid == current_user.uid))
     student = VisibleStudent(student)
     student_attr = student.display_attributes()
-    return render_template('student.html', title="Student", student_attr=student_attr)
+    resources = Resource.query.filter_by(is_recommended=False).all()
+    recommended_resources = Resource.query.filter_by(is_recommended=True)
+    return render_template('student.html', title="Student", student_attr=student_attr, resources=resources, recommended_resources=recommended_resources)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -208,7 +225,7 @@ def login():
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('home')
         return redirect(next_page)
-    return render_template('generic_form.html', title='Sign In', form=form)
+    return render_template('login.html', title='Sign In', form=form)
 
 
 @app.route('/logout')
