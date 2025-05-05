@@ -20,19 +20,6 @@
             <a class="btn btn-dark btn-lg" role="button" aria-current="page" href="{{ url_for('view_students') }}">View all students</a>
           </div>
 
-
-{%if not released%}
-<li>
-    <a class="btn btn-info" role="button" aria-current="page" href="{{ url_for('release_forms') }}">Release Forms</a>
-</li>
-{%endif%}
-
-{%if released%}
-<li>
-    <a class="btn btn-info" role="button" aria-current="page" href="{{ url_for('send_reminders') }}">Send forms reminder to students</a>
-</li>
-{%endif%}
-
           <div class="col d-flex flex-column gap-2">
             <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-dark bg-gradient fs-4 rounded-3">
               <svg class="bi" width="1em" height="1em" aria-hidden="true">
@@ -43,6 +30,24 @@
             <p class="text-body-secondary">Click here for a breakdown of student responses to the questionnaire</p>
             <a class="btn btn-dark btn-lg" role="button" aria-current="page" href="{{ url_for('statistics') }}">View Statistics</a>
           </div>
+          
+          <div class="col d-flex flex-column gap-2">
+            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-dark bg-gradient fs-4 rounded-3">
+              <svg class="bi" width="1em" height="1em" aria-hidden="true">
+                <use xlink:href="#collection"></use>
+              </svg>
+            </div>
+            {% if not released %}
+            <h4 class="fw-semibold mb-0 text-body-emphasis"><i class="bi bi-ui-checks"></i>  Release Forms</h4>
+            <p class="text-body-secondary">Click here to release forms to student users</p>
+            <a class="btn btn-dark btn-lg" role="button" aria-current="page" href="{{ url_for('release_forms') }}">Release forms</a>
+            {% elif released %}
+            <h4 class="fw-semibold mb-0 text-body-emphasis"><i class="bi bi-bell"></i>  Send reminder to students</h4>
+            <p class="text-body-secondary">Click here to send a reminder to students who have yet to fill out their forms</p>
+            <a class="btn btn-dark btn-lg" role="button" aria-current="page" href="{{ url_for('send_reminders') }}">Send reminder</a>
+            {% endif %}
+          </div>
+
 
         </div>
       </div>
