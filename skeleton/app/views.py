@@ -14,6 +14,7 @@ from matplotlib.figure import Figure
 import numpy as np
 import base64
 from io import BytesIO
+from app.debug_utils import populate
 
 
 
