@@ -25,7 +25,7 @@ class MLQuestionProcessingManager:
         """
         This processes the text response in a student's form submission.
         It will return the label associated with the first occurrence of a key word, or None if no key words exist
-        If the word 'danger' is found in the text, the student's 'flagged' attribute is set to True
+        On top of this, if the word 'danger' is found in the text, the student's 'flagged' attribute is set to True
 
         :param x: student response in text field
         :type x: str
