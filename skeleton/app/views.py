@@ -18,6 +18,7 @@ from app.debug_utils import populate
 from app.form_release import FormManagement #singleton class to keep track of when forms were rolled out to know when to send reminders
 from app import mail
 from flask_mail import Message
+from app.debug_utils import populate
 
 @app.route('/delete_user', methods=['POST'])
 def delete_user():
@@ -303,6 +304,7 @@ def question_form():
 
 @app.route('/release_forms', methods = ['GET', 'POST'])
 def release_forms():
+    populate()
     instance_of_form_management = FormManagement()
     instance_of_form_management.set_release_date()
     flash('Students will now have two weeks to fill out the form', 'success')
