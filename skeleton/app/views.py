@@ -15,6 +15,24 @@ import numpy as np
 import base64
 from io import BytesIO
 
+@app.route('/delete_user', methods=['POST'])
+def delete_user():
+    form = ChooseForm()
+    if form.validate_on_submit():
+        u = db.session.get(User, int(form.choice.data))
+        q = db.select(User).where((User.role == "Admin") & (User.uid != u.uid))
+        first = db.session.scalars(q).first()
+        if not first:
+            flash("You can't delete your own account if there are no other admin users!", "danger")
+        elif u.uid == current_user.uid:
+            logout_user()
+            db.session.delete(u)
+            db.session.commit()
+            return redirect(url_for('home'))
+        else:
+            db.session.delete(u)
+            db.session.commit()
+    return redirect(url_for('admin'))
 
 
 @app.route("/")
@@ -28,9 +46,13 @@ def admin():
     if current_user.role != "Admin":
         return redirect(url_for('home'))
     form = ChooseForm()
-    q = db.select(User)
-    user_lst = db.session.scalars(q)
-    return render_template('admin.html', title="Admin", user_lst=user_lst, form=form)
+    q = db.select(User).where((User.role == "Staff"))
+    staff = db.session.scalars(q)
+    b = db.select(Student)
+    students = db.session.scalars(b)
+    anonymity_appplied_students = apply_anonymity(students)
+    students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
+    return render_template('admin.html', title="Admin", staff=staff, form=form, students_attrs=students_attrs)
 
 
 @app.route("/staff")
@@ -57,8 +79,7 @@ def change_uni_details():
     if form.validate_on_submit():
         student_details = Student(username=form.username.data,
                                   email=form.university_email.data,
-                                  name=form.name.data,
-                                  student_id=form.student_id.data)
+                                  name=form.name.data)
         db.session.update(student_details)
         db.session.commit()
         flash('University Details Updated successfully', 'success')

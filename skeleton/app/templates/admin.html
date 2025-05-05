@@ -1,8 +1,74 @@
 {% extends "base.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
+
 
 {% block content %}
-<h1>Admin</h1>
+<h1>Admin Page</h1>
 <div class="col-lg-3">
-    <p>Admin page</p>
+    <h2>Staff Table</h2>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    {% for user in staff %}
+        <tr>
+            <td>{{ user.uid }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.university_email }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                <form action="{{ url_for('delete_user') }}" method="post">
+                    {{ form.csrf_token() }}
+                    {{ form.choice(value=user.uid) }}
+                    <button class="btn" type="submit">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
 </div>
+
+<div class="col-lg-3">
+    <h2>Student Table </h2>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Student name</th>
+            <th scope="col">University Email</th>
+            <th scope="col">Student ID</th>
+            <th scope="col">Delete Student</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student_attr in students_attrs %}
+        <tr>
+            <td>{{ student_attr["uid"] }}</td>
+            <td>{{ student_attr["university_email"] }}</td>
+            <td>{{ student_attr["student_id"] }}</td>
+            <td>{{ student_attr["forms_completed"] }}</td>
+             <td>
+                <form action="{{ url_for('delete_user') }}" method="post">
+                    {{ form.csrf_token() }}
+                    {{ form.choice(value=student_attr["uid"]) }}
+                    <button class="btn" type="submit">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 {% endblock %}
+
+

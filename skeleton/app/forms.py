@@ -1,6 +1,6 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField, SelectField, TextAreaField, IntegerField
+from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField, SelectField, TextAreaField, IntegerField, RadioField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, Email
 from app import db
 from app.models import User, Student
@@ -66,7 +66,6 @@ class ChangeUniDetails(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired()])
     university_email = StringField('Email', validators=[DataRequired(), Email()])
-    student_id = IntegerField('Student ID', validators=[DataRequired()])
     submit = SubmitField('Change University details')
 
     def validate_username(form, field):
@@ -80,25 +79,21 @@ class ChangeUniDetails(FlaskForm):
             raise ValidationError("Email address already registered to an account,"
                                   " please select another")
 
-    def validate_student_id(form, field):
-        q = db.select(Student).where(Student.student_id==field.data)
-        if db.session.scalar(q):
-            raise ValidationError("Student id already registered to an account, please select another")
 
 
 class QuestionForm(FlaskForm):
     #added an empty string as the first element of the choices list so that '1' doesn't appear as the default option.
     #they can't choose the empty string as an option tho bc of the DataRequired validator
-    q1 = SelectField(choices = ['',1,2,3,4,5], validators = [DataRequired()])
-    q2 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
-    q3 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
-    q4 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
-    q5 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
-    q6 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
-    q7 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
-    q8 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
-    q9 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
-    q10 = SelectField(choices=['',1,2,3,4,5], validators=[DataRequired()])
+    q1 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
+    q2 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
+    q3 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
+    q4 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
+    q5 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
+    q6 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
+    q7 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
+    q8 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
+    q9 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
+    q10 = RadioField(choices = [1,2,3,4,5], validators = [DataRequired()])
     # removed DataRequired()
     q11 = TextAreaField()
     submit = SubmitField('Submit')
