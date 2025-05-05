@@ -47,6 +47,8 @@ def home():
         return redirect(url_for('student'))
     if current_user.role == "Staff":
         return redirect(url_for('staff'))
+    if current_user.role == "Admin":
+        return redirect(url_for('admin'))
     return render_template('home.html',title="Home")
 
 
