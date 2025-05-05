@@ -87,17 +87,35 @@ def view_students():
     students = db.session.scalars(q)
     anonymity_appplied_students = apply_anonymity(students)
     students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
-    return render_template('view_students.html', title="View all students", students_attrs=students_attrs, form=form)
+    flagged_students = []
+    for student in students_attrs:
+        if student["flagged"]:
+            flagged_students.append(student)
+    return render_template('view_students.html', title="View all students", flagged_students=flagged_students, students_attrs=students_attrs, form=form)
 
-@app.route("/staff/toggle_anonymity", methods=["GET", "POST"])
+
+@app.route("/staff/remove_anonymity", methods=["GET", "POST"])
 @login_required
-def toggle_anonymity():
-    form = ChooseForm()
-    if form.validate_on_submit():
-        student = db.session.get(Student, int(form.choice.data))
-        student.anonymous = False if student.anonymous == True else True
-        db.session.commit()
-    return redirect(url_for('view_students'))
+def remove_anonymity():
+    uid = request.args.get("uid")
+    q = db.select(Student).where(Student.uid == int(uid))
+    student = db.session.scalar(q)
+    student.anonymous = False
+    db.session.commit()
+    flash(f"Anonymity removed for student {student.uid}", "success")
+    return redirect(url_for('view_student', id=uid))
+
+
+@app.route("/staff/remove_flag", methods=["GET", "POST"])
+def remove_flag():
+    uid = request.args.get("uid")
+    q = db.select(Student).where(Student.uid == int(uid))
+    student = db.session.scalar(q)
+    student.flagged = False
+    db.session.commit()
+    flash(f"Flag removed for student {student.uid}", "success")
+    return redirect(url_for('view_student', id=uid))
+
 
 @app.route("/staff/student/<int:id>")
 @login_required
@@ -117,8 +135,8 @@ def view_student(id):
         student = VisibleStudent(student)
 
     student_attr = student.display_attributes()
-
-    return render_template('view_student.html', title="View Student", student_attr=student_attr, answers_by_submission=dict(answers_by_submission))
+    recent_response = list(answers_by_submission.values())[0][10].content
+    return render_template('view_student.html', title="View Student", student_attr=student_attr, answers_by_submission=dict(answers_by_submission), recent_response=recent_response)
 
 @app.route("/staff/statistics", methods=["GET", "POST"])
 @login_required
