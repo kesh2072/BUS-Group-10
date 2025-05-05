@@ -5,7 +5,7 @@
 
 <div class="container">
     <h2>Welcome to your student page {{current_user.username}} </h2>
-    <h3>Student Details</h3><p> -> Click here to edit your details: <a class="btn btn-primary btn-sm" role="button" aria-current="page" href="{{ url_for('change_uni_details') }}">Edit</a></p>
+    <h3>Student Details</h3><p> -> Click here to edit your details: <a class="btn btn-dark btn-sm" role="button" aria-current="page" href="{{ url_for('change_uni_details') }}">Edit</a></p>
     <div class="col-lg-12">
         <table class="table">
             <thead>
@@ -29,7 +29,7 @@
 </table>
 
 <p>Click here to change your password: 
-    <a class="btn btn-primary btn-sm" role="button" aria-current="page" href="{{ url_for('change_pw') }}"><i class="bi bi-lock"></i></a>
+    <a class="btn btn-dark btn-sm" role="button" aria-current="page" href="{{ url_for('change_pw') }}"><i class="bi bi-lock"></i></a>
 </p>
 
 <h3>Student Resources</h3>
