@@ -31,8 +31,9 @@ Staff members will see this, and can choose to remove the student’s anonymity 
 ## Implemented Core Functionalities
 
 - Dynamic Webpage
-  - Feature description here
-
+  - The first run of the student page has no recommended resources, instead students have access to all resources organised through categories.
+  - As students fill in forms, their `worst category` and `best category` is stored and used to render the dynamic homepage as additional resources related to their `worst category` are displayed in the `recommended for you` section.
+  
 
 - Personalised Forms
   - Students fill in forms iteratively and their responses are processed by `processor.py` to allow for personalisation of form questions. Each form has 10 Likert scale questions and one text field, which is optional for the student to fill out.
@@ -56,3 +57,4 @@ Staff members will see this, and can choose to remove the student’s anonymity 
 Contribution Percentages are 20% each. Specific work done as follows:
 - Luke Gouldson: basic database design, breaking anonymity functionality
 - Madoka Miyazaki: processing form submissions for dynamic forms and webpage
+- Imogen Greig: student page, admin page, question form layout plus views.py functions 
