@@ -21,8 +21,7 @@ class FormManagement():
         except TypeError:
             return None
     def late_students(self):
-        #gets list of student objects for students who haven't filled out 1 form after 10 seconds,
-        # 2 forms after 20 seconds, 3 forms after 30 seconds etc.
+        #gets list of student objects for students who are behind on forms
         #30 seconds used here represents 2 weeks
 
         seconds = self.calculate_seconds()
