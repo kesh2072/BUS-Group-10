@@ -11,7 +11,6 @@ from sqlalchemy import func, desc
 from app.anonymity import VisibleStudent
 from datetime import datetime
 from matplotlib.figure import Figure
-import numpy as np
 import base64
 from io import BytesIO
 from app.debug_utils import populate
