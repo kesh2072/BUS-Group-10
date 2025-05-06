@@ -18,9 +18,22 @@ Staff members will see this, and can choose to remove the student’s anonymity 
 
 ## Step-by-step Instructions on Running the Project
 
-1. Step 1
-2. Step 2
-3. Step 3
+To set up the database correctly:
+
+1. In the terminal, type `cd BUS-Group-10/skeleton`, then `flask shell`, then `reset_db()` to populate the database with all users, form questions and resources.
+
+    There are three types of users. Here are some example usernames to use:
+    Student: `test user`
+    Staff: `frank`
+    Admin: `alice`
+    All users in this app have the same password: `PASSWORD`
+
+2. Log in as `frank` (or any Staff) and click `Release Forms` to make forms available and fast-forward the two week window for form submission. This will automatically populate example Answers for ease of demonstration.
+
+The app is now ready to use as explained below and in the video. To test the email reminder functionality, log in to the `test user` email account: 
+`testuserformreminder@outlook.com`
+`BusGroup10Password`
+
 
 ## Programming Languages, Frameworks and Tools
 
