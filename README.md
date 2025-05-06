@@ -48,6 +48,11 @@ Staff members will see this, and can choose to remove the student’s anonymity 
   - All Likert scale questions fall into one of five categories (stress, anxiety, self-esteem, depression, sleep) - and initially all students are presented with two of each type of question. Upon submission, the `weighting()` function will take averages of their scores for each category and the `label_classifer()` function will search for key words if any exist then assign the response to the most related category and assign more weight to this category. This is also where a student may be flagged (see Breaking Anonymity).
   - Using these two functions, the `worst_best()` function will return the categories that the student struggled with most and least. This will update the student's records for `best_category` and `worst_category`, which will be accessed by the Dynamic Webpage functionality. It will also determine the distribution of questions in the student's next form:
   - The question generator function `QG()` will add an extra question for the student's worst category and remove one question for their best category. This continues in an iterative manner, allowing the app to learn from the student's latest form responses and adjust the next set of questions accordingly.
+- Email Reminders
+
+  -	Student users gain access to the forms after they are released by a member of wellbeing staff via the “Release Forms” button on the staff page. Once the button has been clicked, the ‘released’ attribute in the instance of the singleton FormManagement() class is changed from False to True. This makes the Question Form page visible to students.
+  -	After the forms are released, students are required to fill in a form every two weeks. To demonstrate how this works, this two-week timeframe has been condensed to 30 seconds in the program.
+  -	The wellbeing staff have access to a functionality that sends pre-written reminder emails to students who are behind on their forms. After the “Send forms reminder to students” button is clicked, the program finds the students who are behind on their forms using the ‘late_students’ method in the FormManagement() class. It uses this to send a reminder email to the email addresses for these students. A student user with username ‘test user’ and email address "testuserformreminder@outlook.com" has been set up to demonstrate this. This can be logged into with the password ‘BUSGroup10Password’. The emails are sent from the email address "testuserformreminder@gmail.com" with the same password. 
 - Breaking Anonymity
 
   - The student class found in models.py has a method called `display_attributes()` which returns a dictionary of all their attributes.
@@ -66,3 +71,4 @@ Contribution Percentages are 20% each. Specific work done as follows:
 - Madoka Miyazaki: processing form submissions for dynamic forms and webpage
 - Imogen Greig: student page, admin page, question form layout plus views.py functions
 - Keshava Mohamed-Laarbi: frontend design, staff page and statistics
+- Bridget Parris: email reminders, small parts of the personalised forms
