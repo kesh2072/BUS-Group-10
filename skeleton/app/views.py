@@ -11,7 +11,6 @@ from sqlalchemy import func, desc
 from app.anonymity import VisibleStudent
 from datetime import datetime
 from matplotlib.figure import Figure
-import numpy as np
 import base64
 from io import BytesIO
 from app.debug_utils import populate
@@ -48,6 +47,8 @@ def home():
         return redirect(url_for('student'))
     if current_user.role == "Staff":
         return redirect(url_for('staff'))
+    if current_user.role == "Admin":
+        return redirect(url_for('admin'))
     return render_template('home.html',title="Home")
 
 
@@ -61,8 +62,8 @@ def admin():
     staff = db.session.scalars(q)
     b = db.select(Student)
     students = db.session.scalars(b)
-    anonymity_appplied_students = apply_anonymity(students)
-    students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
+    anonymity_applied_students = apply_anonymity(students)
+    students_attrs = [s.display_attributes() for s in anonymity_applied_students]
     return render_template('admin.html', title="Admin", staff=staff, form=form, students_attrs=students_attrs)
 
 
@@ -113,8 +114,8 @@ def view_students():
     form=ChooseForm()
     q = db.select(Student)
     students = db.session.scalars(q)
-    anonymity_appplied_students = apply_anonymity(students)
-    students_attrs = [s.display_attributes() for s in anonymity_appplied_students]
+    anonymity_applied_students = apply_anonymity(students)
+    students_attrs = [s.display_attributes() for s in anonymity_applied_students]
     flagged_students = []
     for student in students_attrs:
         if student["flagged"]:
