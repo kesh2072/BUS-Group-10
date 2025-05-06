@@ -69,12 +69,12 @@ class ChangeUniDetails(FlaskForm):
     submit = SubmitField('Change University details')
 
     def validate_username(form, field):
-        q = db.select(User).where(User.username==field.data)
+        q = db.select(User).where(User.username==field.data, User.uid != current_user.uid)
         if db.session.scalar(q):
             raise ValidationError("Username already taken, please choose another")
 
     def validate_university_email(form, field):
-        q = db.select(User).where(User.university_email==field.data)
+        q = db.select(User).where(User.university_email==field.data, User.uid != current_user.uid)
         if db.session.scalar(q):
             raise ValidationError("Email address already registered to an account,"
                                   " please select another")
