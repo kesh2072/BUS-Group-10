@@ -7,17 +7,6 @@ from app.models import User, Student
 from flask_login import current_user
 from app import app
 
-
-class ChooseForm(FlaskForm):
-    choice = HiddenField('Choice')
-
-class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
-
-
 def password_policy(form, field):
     message = """A password must be at least 8 characters long, and have an
                 uppercase and lowercase letter, a digit, and a character which is
@@ -33,11 +22,24 @@ def password_policy(form, field):
     if not (flg_upper and flg_lower and flg_digit and flg_non_let_dig):
         raise ValidationError(message)
 
+
+
+class ChooseForm(FlaskForm):
+    choice = HiddenField('Choice')
+
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Sign In')
+
+
 class ChangePasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     new_password = PasswordField('New Password', validators=[DataRequired(), password_policy])
     confirm = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password', message="Passwords must match")])
-    submit = SubmitField('Change_Password')
+    submit = SubmitField('Change Password')
 
     def validate_password(form, field):
         if not current_user.check_password(form.password.data):
@@ -80,10 +82,7 @@ class ChangeUniDetails(FlaskForm):
                                   " please select another")
 
 
-
 class QuestionForm(FlaskForm):
-    #added an empty string as the first element of the choices list so that '1' doesn't appear as the default option.
-    #they can't choose the empty string as an option tho bc of the DataRequired validator
     q1 = RadioField(choices = [("1","1") ,("2", "2"),("3", "3"),("4",  "4") , ("5", "5")], validators = [DataRequired()])
     q2 = RadioField(choices = [("1","1") ,("2", "2"),("3", "3"),("4",  "4") , ("5", "5")], validators = [DataRequired()])
     q3 = RadioField(choices = [("1","1") ,("2", "2"),("3", "3"),("4",  "4") , ("5", "5")], validators = [DataRequired()])
@@ -94,12 +93,5 @@ class QuestionForm(FlaskForm):
     q8 = RadioField(choices = [("1","1") ,("2", "2"),("3", "3"),("4",  "4") , ("5", "5")], validators = [DataRequired()])
     q9 = RadioField(choices = [("1","1") ,("2", "2"),("3", "3"),("4",  "4") , ("5", "5")], validators = [DataRequired()])
     q10 = RadioField(choices = [("1","1") ,("2", "2"),("3", "3"),("4",  "4") , ("5", "5")], validators = [DataRequired()])
-    # removed DataRequired()
     q11 = TextAreaField()
     submit = SubmitField('Submit')
-
-
-# dynamic questions: using QG here only calls it once when the app is loaded then never calls it again
-# so user is stuck with the original 11 questions at every iteration.
-# instead i made this form initially question-less and then used QG tp add the text to it in views.py
-# Since views.py calls QG at each iteration, it updates accordingly.

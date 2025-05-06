@@ -4,10 +4,8 @@ import datetime
 
 
 def reset_db():
-    # Haven't added any answers, and all students have currently filled out zero forms
-    # Questions have labels stress, anxiety, self-esteem, depression and sleep. There is also a label 'personal' for the
-    # written response at the end of the form. I've currently only got one of this type of question, but feel free to
-    # add more. I've proof read the questions as they are AI generated, but they seem fine.
+    # Questions have labels stress, anxiety, self-esteem, depression and sleep - 10 of each.
+    # There is also a label 'personal' for the text field
 
     db.drop_all()
     db.create_all()
