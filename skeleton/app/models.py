@@ -10,36 +10,24 @@ from app import db, login
 from dataclasses import dataclass
 import datetime
 
-# !!!!NOTE!!!! I haven't checked any of this yet, so it might not quite work. Also I'm yet to update debug_utils to
-# work alongside this, so you can't use reset_db. Soz
 
-# User class. This might seem pretty different from SW2 because we require an inheritance relation for the different
-# types of user rather than only having a role feature. I implemented a getter for uid. We can discuss how we want users
-# to log in, but I've temporarily included a university email for all users, plus a password. I've decided NOT to
-# implement staff and admin as separate classes, because they don't really have any extra functionalities - instead,
-# they work in the same way that they did in SW2 where we just specify their role. We can of course change this later.
+# User classes implement inheritance relations
 @dataclass
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     uid: so.Mapped[int] = so.mapped_column(primary_key=True)
     name: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)
-    username: so.Mapped[str] = so.mapped_column(sa.String(32), index=True) #username field added bc everywhere else uses usernamee
+    username: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)
     university_email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     role: so.Mapped[str] = so.mapped_column(sa.String(10), default="Student")
 
-    # Mapper args is used for inheritance relations. It tells sqlalchemy that we may want to have a separate table when
-    # a user has a different role
     __mapper_args__ = {
         "polymorphic_identity": "user",
         "polymorphic_on": role,
     }
 
-    # This function is a getter. We need to use it because some built-in SQLalchemy functions automatically
-    # search for an attribute called 'id'. Because we have multiple different id types in this database,
-    # I've given them names like uid (user id) or qid (question id) like Uday did in DSADB. The getter tells SQLalchemy
-    # to use 'uid' as id.
     def get_id(self):
         return self.uid
 
@@ -59,10 +47,6 @@ def load_user(id):
     return db.session.get(User, int(id))
 
 
-# Student class. Inherits from the User class in a way which I have had to google to implement (: Essentially, the
-# "polymorphic_identity" allows us to have a separate table for students, because they're quite different to other
-# users. I've given them a boolean for whether they're anonymous or not, and a forms_completed attribute which is
-# important for using in the answers class
 class Student(User):
     __tablename__ = "students"
 
@@ -102,6 +86,36 @@ class Student(User):
                 f'forms_completed={self.forms_completed})')
 
 
+# Decorator for visible student to be used when student.anonymous == False
+# Changes the display_attributes method of the student class (note that attributes should always be accessed via
+# this function)
+class VisibleStudent:
+    def __init__(self, student):
+        self.student = student
+
+    def display_attributes(self):
+        return {
+            "uid": self.student.uid,
+            "name": self.student.name,
+            "username": self.student.username,
+            "role": self.student.role,
+            "university_email": self.student.university_email,
+            "student_id": self.student.student_id,
+            "forms_completed": self.student.forms_completed,
+            "anonymous": self.student.anonymous,
+            "flagged": self.student.flagged,
+            "best_category": self.student.best_category,
+            "worst_category": self.student.worst_category,
+        }
+
+    def __repr__(self):
+        return (f'Student(uid={self.student.uid}, name={self.student.name}, university_email={self.student.university_email}'
+                f', pwh=...{self.student.password_hash[-5:]}, student_id={self.student.student_id}, '
+                f'anonymous={self.student.anonymous}, best_category={self.student.best_category},'
+                f'worst_category={self.student.worst_category}, flagged={self.student.flagged}, '
+                f'forms_completed={self.student.forms_completed})')
+
+
 class Admin(User):
     __mapper_args__ = {
         "polymorphic_identity": "Admin"
@@ -114,8 +128,7 @@ class Staff(User):
     }
 
 
-# Question class. Label refers to the mental health category the question falls under - for simplicity, each question
-# should only refer to one category (eg, a question should either be 'depression' or 'stress', but not both)
+# Question class. Each question relates to one mental health category
 class Question(db.Model):
     __tablename__ = "questions"
 
@@ -139,9 +152,7 @@ class Question(db.Model):
                 f"label={self.label}")
 
 
-# Answer class. Answers will be uniquely identified by the form number, question id and user id, because a
-# question may appear multiple times for the same user. 'Content' refers to the actual answer the student gave, whether
-# it be a number on the likert scale, or a text response.
+# Answer class, created whenever a student fills out a form
 class Answer(db.Model):
     __tablename__ = "Answers"
 
@@ -172,5 +183,4 @@ class Resource(db.Model):
     is_recommended: so.Mapped[bool] = so.mapped_column(db.Boolean, default=False)
 
     def __repr__(self):
-        return (f"rid={self.rid}, title={self.title}, description={self.description}, logo={self.logo}, url={self.url}")
-
+        return f"rid={self.rid}, title={self.title}, description={self.description}, logo={self.logo}, url={self.url}"

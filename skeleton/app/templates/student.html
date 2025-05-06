@@ -16,45 +16,43 @@
                     <th>Student Email</th>
                 </tr>
             </thead>
-        <tr>
-<!--            <td> {{ current_user.student_id }} </td>-->
-<!--            <td> {{ current_user.name }} </td>-->
-<!--            <td> {{ current_user.username }} </td>-->
-<!--            <td> {{ current_user.university_email }} </td>-->
-            <td>{{ student_attr["student_id"] }}</td>
-            <td>{{ student_attr["name"] }}</td>
-            <td>{{ student_attr["username"] }}</td>
-            <td>{{ student_attr["university_email"] }}</td>
-        </tr>
-</table>
+            <tr>
+                <td>{{ student_attr["student_id"] }}</td>
+                <td>{{ student_attr["name"] }}</td>
+                <td>{{ student_attr["username"] }}</td>
+                <td>{{ student_attr["university_email"] }}</td>
+            </tr>
+        </table>
 
-<p>Click here to change your password: 
-    <a class="btn btn-dark btn-sm" role="button" aria-current="page" href="{{ url_for('change_pw') }}"><i class="bi bi-lock"></i></a>
-</p>
+        <p>Click here to change your password:
+            <a class="btn btn-dark btn-sm" role="button" aria-current="page" href="{{ url_for('change_pw') }}"><i class="bi bi-lock"></i></a>
+        </p>
+    </div>
+</div>
+<div>
+    <h3>Student Resources</h3>
+    <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-dark rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
 
-
-<h3>Student Resources</h3>
-<ul class="nav nav-pills nav-fill gap-2 p-1 small bg-dark rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
-
-    <li class="nav-item" role="presentation">
-        <button class="nav-link rounded-5" id="recommended-tab" data-bs-toggle="pill" data-bs-target="#recommended" type="button" role="tab">Recommended for you</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link rounded-5" id="stress-tab" data-bs-toggle="pill" data-bs-target="#stress" type="button" role="tab">Stress</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link rounded-5" id="anxiety-tab" data-bs-toggle="pill" data-bs-target="#anxiety" type="button" role="tab">Anxiety</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link rounded-5" id="depression-tab" data-bs-toggle="pill" data-bs-target="#depression" type="button" role="tab">Depression</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link rounded-5" id="self-esteem-tab" data-bs-toggle="pill" data-bs-target="#self-esteem" type="button" role="tab">Self-esteem</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link rounded-5" id="sleep-tab" data-bs-toggle="pill" data-bs-target="#sleep" type="button" role="tab">Sleep</button>
-    </li>
-</ul>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="recommended-tab" data-bs-toggle="pill" data-bs-target="#recommended" type="button" role="tab">Recommended for you</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="stress-tab" data-bs-toggle="pill" data-bs-target="#stress" type="button" role="tab">Stress</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="anxiety-tab" data-bs-toggle="pill" data-bs-target="#anxiety" type="button" role="tab">Anxiety</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="depression-tab" data-bs-toggle="pill" data-bs-target="#depression" type="button" role="tab">Depression</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="self-esteem-tab" data-bs-toggle="pill" data-bs-target="#self-esteem" type="button" role="tab">Self-esteem</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-5" id="sleep-tab" data-bs-toggle="pill" data-bs-target="#sleep" type="button" role="tab">Sleep</button>
+        </li>
+    </ul>
+</div>
 
 <div class="tab-content" id="dynamicHomepage">
     <div class="tab-pane fade" id="recommended" role="tabpanel">
@@ -190,9 +188,3 @@
 </div>
 
 {% endblock %}
-
-
-
-
-
-

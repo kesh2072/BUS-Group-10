@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app
-from app.models import User, Student, Question, Answer, Resource
+from app.models import User, Student, Question, Answer, Resource, VisibleStudent
 from app.forms import ChooseForm, LoginForm, QuestionForm, ChangePasswordForm, ChangeUniDetails
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
@@ -8,7 +8,6 @@ from app import db
 from urllib.parse import urlsplit
 from app.processor import MLQuestionProcessingManager
 from sqlalchemy import func, desc
-from app.anonymity import VisibleStudent
 from datetime import datetime
 from matplotlib.figure import Figure
 import base64
@@ -333,7 +332,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
-
 
 
 # Error handler for 403 Forbidden

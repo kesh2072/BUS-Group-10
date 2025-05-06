@@ -24,10 +24,10 @@
         <div class="mb-3">
             <label><strong>{{ type.capitalize() }}:</strong> {{ avg }}/5</label>
             <div class="progress">
-            <div class="progress-bar bg-dark" role="progressbar"
-                style="width: {{ (avg / 5) * 100 }}%" aria-valuenow="{{ avg }}"
-                aria-valuemin="0" aria-valuemax="5">
-            </div>
+                <div class="progress-bar bg-dark" role="progressbar"
+                    style="width: {{ (avg / 5) * 100 }}%" aria-valuenow="{{ avg }}"
+                    aria-valuemin="0" aria-valuemax="5">
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -51,35 +51,34 @@
 
     <div class="tab-pane fade list-group" id="priority" role="tabpanel">
         {% if priority_list %}
-                {% for value in priority_list %}
-                <a href="{{ url_for('view_student', id=value['uid']) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-                    <i class="bi bi-person"></i>
-                    <div class="d-flex gap-2 w-100 justify-content-between">
-                        {% if value["average"] > 4 %}
-                            <div>
-                                <h6 class="mb-0">Student #{{ value["uid"] }}</h6>
-                                <p class="mb-0 opacity-75">{{ value["average"] }}</p>
-                            </div>
-                            <small class="text-danger"><i class="bi bi-exclamation-square"></i>   Urgent priority</small>
-                        {% elif value["average"] > 3 %}
-                        <div>
-                            <h6 class="mb-0">Student #{{ value["uid"] }}</h6>
-                            <p class="mb-0 opacity-75">{{ value["average"] }}</p>
-                            </div>
-                        <small class="text-warning">Medium priority</small>
-                        {% else %}
+            {% for value in priority_list %}
+            <a href="{{ url_for('view_student', id=value['uid']) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+                <i class="bi bi-person"></i>
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    {% if value["average"] > 4 %}
                         <div>
                             <h6 class="mb-0">Student #{{ value["uid"] }}</h6>
                             <p class="mb-0 opacity-75">{{ value["average"] }}</p>
                         </div>
-                        {% endif %}
+                        <small class="text-danger"><i class="bi bi-exclamation-square"></i>   Urgent priority</small>
+                    {% elif value["average"] > 3 %}
+                    <div>
+                        <h6 class="mb-0">Student #{{ value["uid"] }}</h6>
+                        <p class="mb-0 opacity-75">{{ value["average"] }}</p>
                     </div>
-                </a>
-                {% endfor %}
+                    <small class="text-warning">Medium priority</small>
+                    {% else %}
+                    <div>
+                        <h6 class="mb-0">Student #{{ value["uid"] }}</h6>
+                        <p class="mb-0 opacity-75">{{ value["average"] }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
         {% else %}
             <p>No priority list available.</p>
         {% endif %}
-
+    </div>
 </div>
-
 {% endblock %}
