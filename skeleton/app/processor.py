@@ -9,7 +9,6 @@ class MLQuestionProcessingManager:
     """
     This class is responsible for processing all form responses.
     """
-
     current_s = None
 
     labels = ['stress', 'anxiety', 'self-esteem', 'depression', 'sleep']
@@ -21,7 +20,6 @@ class MLQuestionProcessingManager:
         if not hasattr(cls, 'instance'):
             cls.instance = super(MLQuestionProcessingManager, cls).__new__(cls)
         return cls.instance
-
 
     def label_classifier(self,x: str):
         """
@@ -44,15 +42,14 @@ class MLQuestionProcessingManager:
 
         keyword_count = {'stress': 0, 'anxiety': 0, 'self-esteem': 0, 'depression': 0, 'sleep': 0}
 
-        text = re.sub(r'[^\w\s]', '', x)   #note this turns self-esteem into selfesteem which is why 'selfesteem'
-        #is in the keyword_dict
+        text = re.sub(r'[^\w\s]', '', x)
+        # note this turns self-esteem into selfesteem which is why 'selfesteem' is in the keyword_dict
         text_list = text.split(' ')
         
         if 'danger' in text_list:
-          self.current_s.flagged = True
-          db.session.commit()
-          text_list = [word for word in text_list if word != 'danger']
-
+            self.current_s.flagged = True
+            db.session.commit()
+            text_list = [word for word in text_list if word != 'danger']
 
         for key, value in keyword_dict.items():
             for word in text_list:
@@ -64,9 +61,8 @@ class MLQuestionProcessingManager:
             return None
         else:
             return label
-          
 
-    def weighting(self,previous_answers:list):
+    def weighting(self, previous_answers: list):
         """
         calculates weightings of each category given a student's last set of form responses. If the text response
         can be classified, its weight is equivalent to that of a student choosing '5' on a question of its category
@@ -77,19 +73,17 @@ class MLQuestionProcessingManager:
         :rtype: dict
         """
 
-        w={label:[] for label in self.labels}
+        w = {label: [] for label in self.labels}
         for a in previous_answers[0:10]:
-            w[db.session.get(Question,a.qid).label]+=[int(a.content)]
-        last_entry=previous_answers[10].content       #adjust weighting to add 5 points for the associated category of text input (if it exists)
+            w[db.session.get(Question, a.qid).label] += [int(a.content)]
+        last_entry = previous_answers[10].content       # adjust weighting to add 5 points for the associated category of text input (if it exists)
         if last_entry:
             if self.label_classifier(last_entry):
-                w[self.label_classifier(last_entry)]+=[5]
-        w={i:statistics.mean(j) if len(j)!=0 else 0 for i,j in w.items()}
+                w[self.label_classifier(last_entry)] += [5]
+        w = {i: statistics.mean(j) if len(j) != 0 else 0 for i, j in w.items()}
         return dict(sorted(w.items(), key=lambda i: i[1]))
 
-
-
-    def q_count(self,previous_answers:list):
+    def q_count(self, previous_answers: list):
         """
         counts the number of each category of question that was asked in previous form
 
@@ -99,14 +93,12 @@ class MLQuestionProcessingManager:
         :rtype: dict
         """
 
-        w = {label:0 for label in self.labels}
+        w = {label: 0 for label in self.labels}
         for a in previous_answers[0:10]:
-            w[db.session.get(Question, a.qid).label]+=1
+            w[db.session.get(Question, a.qid).label] += 1
         return w
 
-
-
-    def worst_best(self,s:Student):
+    def worst_best(self, s: Student):
         """
         calculates the student's best and worst categories given their latest form responses.
 
@@ -117,7 +109,7 @@ class MLQuestionProcessingManager:
         """
 
         if s.answers:
-            previous_answers=[a for a in s.answers if s.forms_completed==a.form_number]
+            previous_answers = [a for a in s.answers if s.forms_completed == a.form_number]
             w = self.weighting(previous_answers)
             distribution = self.q_count(previous_answers)
             worst = list(w.keys())[-1]          # last element of w returns 'worst' category
@@ -125,13 +117,11 @@ class MLQuestionProcessingManager:
                 if distribution[label] != 0:
                     best = label
                     break
-            return worst,best
+            return worst, best
         else:
             return None,None
 
-
-
-    def QG(self,s:Student):
+    def question_generator(self, s: Student):
         """
         Question Generator: chooses the next iteration of 10 questions for the student + the text field
         One question is added for the worst category and one is removed from the best category
@@ -156,8 +146,8 @@ class MLQuestionProcessingManager:
             questions = []
             for label,count in distribution.items():        # return 10 questions based on new distribution (questions within each label are chosen in priority order)
                 for i in range(count):
-                    questions+=[db.session.scalar(db.select(Question).where(Question.label==label, Question.priority==(i+1)))]
-            questions+=[db.session.scalar(db.select(Question).where(Question.label=='personal'))]
+                    questions += [db.session.scalar(db.select(Question).where(Question.label == label, Question.priority == (i+1)))]
+            questions += [db.session.scalar(db.select(Question).where(Question.label == 'personal'))]
 
             # (un)comment for debugging and understanding algorithm
             print('weighting of labels', self.weighting(previous_answers))
