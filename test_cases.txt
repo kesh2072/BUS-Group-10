@@ -23,5 +23,4 @@ TEST CASES FOR ANONYMITY:
     Logout
     Login as Frank
     Go to view_students, then click student with 12 in # column
-    Click remove flag
 
