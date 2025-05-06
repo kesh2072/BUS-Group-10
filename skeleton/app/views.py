@@ -181,8 +181,11 @@ def statistics():
         .order_by(desc("count"))
     )
     result = db.session.execute(q).first()
-    most_common_category = result[0]
-    amount = result[1]
+    most_common_category = ""
+    amount = ""
+    if result:
+        most_common_category = result[0]
+        amount = result[1]
 
     avg_per_type = (
     db.session.query(
