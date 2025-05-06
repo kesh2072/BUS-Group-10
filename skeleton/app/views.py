@@ -305,8 +305,10 @@ def question_form():
 
 @app.route('/release_forms', methods = ['GET', 'POST'])
 def release_forms():
+    populate()
     instance_of_form_management = FormManagement()
     instance_of_form_management.set_release_date()
+
     flash('Students will now have two weeks to fill out the form', 'success')
     print(instance_of_form_management.release_date)
     return redirect(url_for('home'))
