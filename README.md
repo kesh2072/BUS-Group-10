@@ -51,7 +51,7 @@ Staff members will see this, and can choose to remove the student’s anonymity 
   - The question generator function `QG()` will add an extra question for the student's worst category and remove one question for their best category. This continues in an iterative manner, allowing the app to learn from the student's latest form responses and adjust the next set of questions accordingly.
 - Email Reminders
 
-  -	Once the forms are released, students are required to fill in a form every two weeks. To demonstrate how this would work, this two-week timeframe has been condensed to 30 seconds in the program.
+  -	Once the forms are released, students are required to fill in a form every two weeks. To demonstrate how the email reminders, this two-week timeframe has been condensed to 30 seconds in the program.
   -	The wellbeing staff have access to a functionality that sends pre-written reminder emails to students who are behind on their forms. After the “Send forms reminder to students” button is clicked, the program finds the students who are behind on their forms using the `late_students` method in the `FormManagement()` class. It uses this to send a reminder email to the email addresses for these students. The email address "testuserformreminder@outlook.com" has been set up and registered with the student "test user" to demonstrate this. This can be logged into with the password ‘BUSGroup10Password’. The emails are sent from the email address "testuserformreminder@gmail.com" with the same password. 
 - Breaking Anonymity
 
