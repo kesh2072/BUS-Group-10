@@ -24,3 +24,16 @@ TEST CASES FOR ANONYMITY:
     Login as Frank
     Go to view_students, then click student with 12 in # column
 
+TEST CASES FOR PERSONALISED FORMS
+
+    Given a user is logged in as test user and test user has not submitted any prior forms
+    When the user submits a form with responses [1,4,5,4,4,3,3,2,1,1] and no text response
+    Then an extra question with the label 'anxiety', and one less question with the label 'sleep', should appear on the next iteration of the form.
+
+    
+
+    
+    
+
+
+
