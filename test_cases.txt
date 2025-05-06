@@ -1,1 +1,27 @@
 Put your test cases in here
+
+TEST CASES FOR ANONYMITY:
+
+    (First release forms as Frank/any staff member)
+
+    Login as Leo
+    Fill out form with any number, then in the text box type "I am in danger"
+    Logout
+    Login as Frank
+    Go to view_students, then click student with 12 in # column
+    Click remove anonymity
+
+    Login as Leo
+    Fill out form with any number, then in the text box type "I am not in danger"
+    Logout
+    Login as Frank
+    Go to view_students, then click student with 12 in # column
+    Click remove flag
+
+    Login as Karen
+    Fill out form with any number, then in the text box type "I am in danger"
+    Logout
+    Login as Frank
+    Go to view_students, then click student with 12 in # column
+    Click remove flag
+
