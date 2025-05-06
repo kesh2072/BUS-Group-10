@@ -24,3 +24,33 @@ TEST CASES FOR ANONYMITY:
     Login as Frank
     Go to view_students, then click student with 12 in # column
 
+TEST CASES FOR STUDENT DYNAMIC HOMEPAGE:
+
+    (First release forms as Frank/any staff member)
+
+    Login as sam
+    Fill out form with 1 on each question except for stress question where you should put 5
+    Fill in text box with "I am stressed"
+    Go to student homepage
+    Click on recommended resources
+    Expected results: Stress resources should be recommended
+
+    Login as leo
+    Fill out form with 1 on each question box except from stress which should be rated 5
+    Fill in text box with "I am depressed"
+    Go to student homepage
+    Click on recommended resources
+    Click on question form page
+    Expected results: Stress and depression resources should be recommended (This fails btw)
+                      Question Form should display more depression and stress questions(this works)
+
+    Login as ruth
+    Fill out form with 1 on each question box
+    Fill in text box with "I am anxious"
+    Go to student homepage
+    Click on recommended resources
+    Expected results: Anxiety related resources should be recommended
+
+
+
+
