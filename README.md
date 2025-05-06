@@ -23,9 +23,10 @@ To set up the database correctly:
 1. In the terminal, type `cd BUS-Group-10/skeleton`, then `flask shell`, then `reset_db()` to populate the database with all users, form questions and resources.
 
     There are three types of users. Here are some example usernames to use:
-    Student: `test user`
-    Staff: `frank`
-    Admin: `alice`
+    - Student: `test user`
+    - Staff: `frank`
+    - Admin: `alice`
+      
     All users in this app have the same password: `PASSWORD`
 
 2. Log in as `frank` (or any Staff) and click `Release Forms` to make forms available and fast-forward the two week window for form submission. This will automatically populate example Answers for ease of demonstration.
@@ -57,10 +58,10 @@ The app is now ready to use as explained below and in the video. To test the ema
   - Under the 'priority_list' tab, we have generated a list, ordered by the students which have scored the highest in their previous questionnaires. Students which have an average score of over 4.0 will be tagged 'urgent priority' in the list, and anyone over 3.0 with 'medium priority'. This priority list allows staff members to quickly see the students who are struggling the most, and need more support.
 - Personalised Forms
 
-  - Students fill in forms iteratively and their responses are processed by `processor.py` to allow for personalisation of form questions. Each form has 10 Likert scale questions and one text field, which is optional for the student to fill out.
-  - All Likert scale questions fall into one of five categories (stress, anxiety, self-esteem, depression, sleep) - and initially all students are presented with two of each type of question. Upon submission, the `weighting()` function will take averages of their scores for each category and the `label_classifer()` function will search for key words if any exist then assign the response to the most related category and assign more weight to this category. This is also where a student may be flagged (see Breaking Anonymity).
+  - Students fill in forms iteratively and their responses are processed by the `MLQuestionProcessingManager` in `processor.py` to allow for personalisation of form questions. Each form has 10 Likert scale questions and one text field, which is optional for the student to fill out.
+  - All Likert scale questions fall into one of five categories (stress, anxiety, self-esteem, depression, sleep) - and initially all students are presented with two of each type of question. Upon submission, the `weighting()` function will take averages of their scores for each category and the `label_classifer()` function will search for key words if any exist then assign the response to the most related category and assign more weight (5 points) to this category. This is also where a student may be flagged (see Breaking Anonymity).
   - Using these two functions, the `worst_best()` function will return the categories that the student struggled with most and least. This will update the student's records for `best_category` and `worst_category`, which will be accessed by the Dynamic Webpage functionality. It will also determine the distribution of questions in the student's next form:
-  - The question generator function `QG()` will add an extra question for the student's worst category and remove one question for their best category. This continues in an iterative manner, allowing the app to learn from the student's latest form responses and adjust the next set of questions accordingly.
+  - The `question_generator()` function will add an extra question for the student's worst category and remove one question for their best category. This continues in an iterative manner, allowing the app to learn from the student's latest form responses and adjust the next set of questions accordingly.
 - Breaking Anonymity
 
   - The student class found in models.py has a method called `display_attributes()` which returns a dictionary of all their attributes.
