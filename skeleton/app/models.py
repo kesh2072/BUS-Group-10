@@ -74,7 +74,7 @@ class Student(User):
     best_category: so.Mapped[Optional[str]] = so.mapped_column(default=None)
     worst_category: so.Mapped[Optional[str]] = so.mapped_column(default=None)
 
-    answers: so.Mapped[list["Answer"]] = relationship(back_populates="student")
+    answers: so.Mapped[list["Answer"]] = relationship(back_populates="student", cascade="all, delete-orphan")
 
     __mapper_args__ = {
         "polymorphic_identity": "Student"

@@ -162,9 +162,12 @@ def view_student(id):
 
     if student.anonymous == False:
         student = VisibleStudent(student)
-
     student_attr = student.display_attributes()
-    recent_response = list(answers_by_submission.values())[0][10].content
+
+    recent_response = []
+    if answers_by_submission:
+        recent_response = list(answers_by_submission.values())[0][10].content
+
     return render_template('view_student.html', title="View Student", student_attr=student_attr, answers_by_submission=dict(answers_by_submission), recent_response=recent_response)
 
 @app.route("/staff/statistics", methods=["GET", "POST"])
