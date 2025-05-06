@@ -28,28 +28,6 @@ def apply_anonymity(students):
     return new_students
 
 
-@app.route('/delete_user', methods=['POST'])
-def delete_user():
-    form = ChooseForm()
-    if form.validate_on_submit():
-        u = db.session.get(User, int(form.choice.data))
-        q = db.select(User).where((User.role == "Admin") & (User.uid != u.uid))
-        first = db.session.scalars(q).first()
-        if not first:
-            flash("You can't delete your own account if there are no other admin users!", "danger")
-        elif u.uid == current_user.uid:
-            logout_user()
-            db.session.delete(u)
-            db.session.commit()
-            flash("User deleted", "success")
-            return redirect(url_for('home'))
-        else:
-            db.session.delete(u)
-            db.session.commit()
-            flash("User deleted", "success")
-    return redirect(url_for('admin'))
-
-
 @app.route("/")
 def home():
     if current_user.is_anonymous:
@@ -308,6 +286,28 @@ def send_reminders():
     else:
         flash('All students are up to date on their forms', 'success')
     return redirect(url_for('staff'))
+
+
+@app.route('/delete_user', methods=['POST'])
+def delete_user():
+    form = ChooseForm()
+    if form.validate_on_submit():
+        u = db.session.get(User, int(form.choice.data))
+        q = db.select(User).where((User.role == "Admin") & (User.uid != u.uid))
+        first = db.session.scalars(q).first()
+        if not first:
+            flash("You can't delete your own account if there are no other admin users!", "danger")
+        elif u.uid == current_user.uid:
+            logout_user()
+            db.session.delete(u)
+            db.session.commit()
+            flash("User deleted", "success")
+            return redirect(url_for('home'))
+        else:
+            db.session.delete(u)
+            db.session.commit()
+            flash("User deleted", "success")
+    return redirect(url_for('admin'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
