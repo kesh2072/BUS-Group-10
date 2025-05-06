@@ -57,19 +57,19 @@
                     <div class="d-flex gap-2 w-100 justify-content-between">
                         {% if value["average"] > 4 %}
                             <div>
-                                <h6 class="mb-0">{{ value["name"] }}</h6>
+                                <h6 class="mb-0">#{{ value["uid"] }}</h6>
                                 <p class="mb-0 opacity-75">{{ value["average"] }}</p>
                             </div>
                             <small class="text-danger"><i class="bi bi-exclamation-square"></i>   Urgent priority</small>
                         {% elif value["average"] > 3 %}
                         <div>
-                            <h6 class="mb-0">{{ value["name"] }}</h6>
+                            <h6 class="mb-0">#{{ value["uid"] }}</h6>
                             <p class="mb-0 opacity-75">{{ value["average"] }}</p>
                             </div>
                         <small class="text-warning">Medium priority</small>
                         {% else %}
                         <div>
-                            <h6 class="mb-0">{{ value["name"] }}</h6>
+                            <h6 class="mb-0">#{{ value["uid"] }}</h6>
                             <p class="mb-0 opacity-75">{{ value["average"] }}</p>
                         </div>
                         {% endif %}
