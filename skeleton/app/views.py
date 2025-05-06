@@ -94,7 +94,7 @@ def change_uni_details():
         current_user.name = form.name.data
         current_user.university_email = form.university_email.data
         db.session.commit()
-        flash('University Details Updated successfully', 'success')
+        flash('University details updated successfully', 'success')
         return redirect(url_for('home'))
     return render_template('generic_form.html', title='Change Student Details', form=form)
 
