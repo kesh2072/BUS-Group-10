@@ -82,7 +82,7 @@ def reset_db():
             "role": "Student",
             "university_email": "karen@example.com",
             "student_id": "10293847",
-            "forms_completed": 2,
+            "forms_completed": 0,
             "anonymous": False,
         },
         {
@@ -91,7 +91,7 @@ def reset_db():
             "role": "Student",
             "university_email": "leo@example.com",
             "student_id": "29384756",
-            "forms_completed": 1,
+            "forms_completed": 0,
             "anonymous": True
         },
         {
@@ -100,7 +100,7 @@ def reset_db():
             "role": "Student",
             "university_email": "mona@example.com",
             "student_id": "38475692",
-            "forms_completed": 1,
+            "forms_completed": 0,
             "anonymous": False
         },
         {
@@ -109,7 +109,7 @@ def reset_db():
             "role": "Student",
             "university_email": "nate@example.com",
             "student_id": "47586920",
-            "forms_completed": 1,
+            "forms_completed": 0,
             "anonymous": True
         },
         {
@@ -118,7 +118,7 @@ def reset_db():
             "role": "Student",
             "university_email": "olga@example.com",
             "student_id": "58392047",
-            "forms_completed": 1,
+            "forms_completed": 0,
             "anonymous": False
         },
         {
@@ -127,7 +127,7 @@ def reset_db():
             "role": "Student",
             "university_email": "paul@example.com",
             "student_id": "69284751",
-            "forms_completed": 1,
+            "forms_completed": 0,
             "anonymous": True
         },
         {
@@ -136,7 +136,7 @@ def reset_db():
             "role": "Student",
             "university_email": "quinn@example.com",
             "student_id": "73829104",
-            "forms_completed": 1,
+            "forms_completed": 0,
             "anonymous": False
         },
         {
@@ -497,30 +497,37 @@ def populate():
         db.session.add(answer)
 
     u=db.session.get(User,11)
+    u.forms_completed=2
     u.best_category='anxiety'
     u.worst_category='stress'
 
     u = db.session.get(User, 12)
+    u.forms_completed = 1
     u.best_category = 'stress'
     u.worst_category = 'depression'
 
     u = db.session.get(User, 13)
+    u.forms_completed = 1
     u.best_category = 'self-esteem'
     u.worst_category = 'stress'
 
     u = db.session.get(User, 14)
+    u.forms_completed = 1
     u.best_category = 'depression'
     u.worst_category = 'self-esteem'
 
     u = db.session.get(User, 15)
+    u.forms_completed = 1
     u.best_category = 'depression'
     u.worst_category = 'anxiety'
 
     u = db.session.get(User, 16)
+    u.forms_completed = 1
     u.best_category = 'depression'
     u.worst_category = 'stress'
 
     u = db.session.get(User, 17)
+    u.forms_completed = 1
     u.best_category = 'anxiety'
     u.worst_category = 'self-esteem'
 
