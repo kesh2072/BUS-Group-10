@@ -1,68 +1,71 @@
-Put your test cases in here
+All features in this app require form submission for their functionality to work. Hence all test cases begin a Student filling in the question form.
 
 TEST CASES FOR ANONYMITY:
 
-    (First release forms as Frank/any staff member)
+Positive Test Case
+Test case for a student who is in danger and whose anonymity should be removed
+GIVEN a student user is logged in AND the forms have been released AND their text response contains the word ‘danger’ AND the student is anonymous
+WHEN a staff member reviews that student’s message and deems it to signify the student is at risk
+THEN the staff member can click ‘remove anonymity’ to reveal the student’s attributes
 
-    Login as Leo
-    Fill out form with any number, then in the text box type "I am in danger"
-    Logout
-    Login as Frank
-    Go to view_students, then click student with 12 in # column
-    Click remove anonymity
+Negative Test Case
+Test case for a student who mentions danger but is not in danger
+GIVEN a student user is logged in AND the forms have been released AND their text response contains the word ‘danger’
+WHEN a staff member reviews their message AND deems it to signify no risk
+THEN the staff member can click ‘remove flag’ to dismiss the notification of danger
 
-    Login as Leo
-    Fill out form with any number, then in the text box type "I am not in danger"
-    Logout
-    Login as Frank
-    Go to view_students, then click student with 12 in # column
-    Click remove flag
+Negative Test Case
+Test case for a student who is not in danger and whose anonymity should not be removed
+GIVEN a student user is logged in AND the forms have been released AND their text response does not contain the word ‘danger’ and the student is anonymous
+WHEN a staff member views the student’s page, 
+THEN the student’s anonymity will not be able to be changed
 
-    Login as Karen
-    Fill out form with any number, then in the text box type "I am in danger"
-    Logout
-    Login as Frank
-    Go to view_students, then click student with 12 in # column
 
 TEST CASES FOR STUDENT DYNAMIC HOMEPAGE:
 
-    (First release forms as Frank/any staff member)
+Positive Test Case
+Test case where the student’s worst category is ‘stress’
+GIVEN a user is logged in as test user AND test user has not submitted any prior forms AND the forms have been released
+WHEN the user submits a form with responses [5,5,3,2,4,3,3,2,1,1] and text response “I am stressed” in the text box AND the student user clicks on ‘recommended resources’
+THEN stress resources should be recommended to the student user
 
-    Login as sam
-    Fill out form with 1 on each question except for stress question where you should put 5
-    Fill in text box with "I am stressed"
-    Go to student homepage
-    Click on recommended resources
-    Expected results: Stress resources should be recommended
+Positive Test Case
+Test case where the student’s text field suggests that they are struggling with ‘anxiety’
+GIVEN a user is logged in as test user AND test user has not submitted any prior forms AND the forms have been released 
+WHEN the student user has ranked all questions at 1 and type “I am anxious” in the text box 
+AND the student clicks on ‘recommended resources’
+THEN anxiety resources should be recommended to the student user 
 
-    Login as leo
-    Fill out form with 1 on each question box except from stress which should be rated 5
-    Fill in text box with "I am depressed"
-    Go to student homepage
-    Click on recommended resources
-    Click on question form page
-    Expected results: Stress and depression resources should be recommended (This fails btw)
-                      Question Form should display more depression and stress questions(this works)
+Negative Test Case
+Test case where the user has not submitted any forms
+GIVEN a student user is logged in and AND the student user has not previously completed any question forms 
+WHEN the student user clicks on ‘recommended resources’ 
+THEN they will not have any recommended resources
 
-    Login as ruth
-    Fill out form with 1 on each question box
-    Fill in text box with "I am anxious"
-    Go to student homepage
-    Click on recommended resources
-    Expected results: Anxiety related resources should be recommended
 
-TEST CASES FOR PERSONALISED FORMS
+TEST CASES FOR PERSONALISED FORMS:
 
-    Given a user is logged in as test user and test user has not submitted any prior forms
-    When the user submits a form with responses [1,4,5,4,4,3,3,2,1,1] and no text response
-    Then an extra question with the label 'anxiety', and one less question with the label 'sleep', should appear on the next iteration of the form.
+Positive Test Case
+Test case where anxiety is the student’s worst category and sleep is the student’s best category. Also covers the student not inputting a text response.
+    GIVEN a user is logged in as test user AND test user has not submitted any prior forms AND the forms have been released
+    WHEN the user submits a form with responses [1,4,5,4,4,3,3,2,1,1] and no text response
+    THEN an extra question with the label 'anxiety', and one less question with the label 'sleep', should appear on the next iteration of the form.
 
-    Given a user is logged in as test user and test user has not submitted any prior forms
-    When the user submits a form with responses [4,5,4,3,2,2,4,5,2,3] to the numerical questions and responds 'I am depressed' to the text response question
-    Then an extra question with the label 'depression' and one less question with the label 'self-esteem' should appear on the next iteration of the form
+Positive Test Case
+Test case where the student’s numerical answers would make their worst categories equally stress and anxiety but their text response changes this weighting to anxiety
+    GIVEN a user is logged in as test user AND test user has not submitted any prior forms AND the forms have been released
+    WHEN the user submits a form with responses [4,4,4,4,3,1,2,3,2,3] to the numerical questions and responds 'I am stressed' to the text response question
+    THEN an extra question with the label 'stress' and one less question with the label 'self-esteem' should appear on the next iteration of the form
 
-    Given a user is logged in as test user and has previously submitted one form with responses [1,4,5,4,4,3,3,2,1,1] and no text response 
-    When the user submits a form with responses [5,5,5,5,5,3,3,5,2,1] and no text response
-    Then an extra question with the label 'anxiety' and one less question with the label 'sleep' should appear on the next iteration of the form.
+Negative Test Case
+Test case where student does not answer all the numerical questions
+GIVEN a user is logged in as test user AND the forms have been released
+WHEN the user submits a form with some numerical answers missing
+THEN the form does not submit and ‘Please answer this question’ should appear by every question not submitted
 
+Positive Test Case
+Test case where the student form responses has two equally weighted categories
+GIVEN a user is logged in as test user AND the forms have been released AND the user has not submitted any prior forms
+WHEN the user submits a form with answers [5,5,5,5,1,2,3,3,3,3]
+THEN one more question with the label ‘anxiety’ and one less question with the label ‘self-esteem’ should appear on the next iteration of the form
 
