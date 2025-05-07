@@ -13,7 +13,7 @@
 
     <form action="" method="POST" novalidate>
         {{ form.hidden_tag() }}
-        <div class="container mt-3">
+         <div class="container mt-3">
              {{ form.q1.label }}
              <div>
                  {% for subfield in form.q1 %}
@@ -21,6 +21,13 @@
                      {{ subfield() }} {{ subfield.label.text }}
                  </label>
                  {% endfor %}
+             </div>
+             <div>
+             {% if form.q1.errors %}
+                 {% for error in form.q1.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
              </div>
         </div>
         <div class="container mt-3">
@@ -32,6 +39,13 @@
                  </label>
                  {% endfor %}
              </div>
+             <div>
+             {% if form.q2.errors %}
+                 {% for error in form.q2.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
+             </div>
         </div>
         <div class="container mt-3">
              {{ form.q3.label }}
@@ -41,6 +55,13 @@
                      {{ subfield() }} {{ subfield.label.text }}
                  </label>
                  {% endfor %}
+             </div>
+             <div>
+             {% if form.q3.errors %}
+                 {% for error in form.q3.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
              </div>
         </div>
         <div class="container mt-3">
@@ -52,6 +73,13 @@
                  </label>
                  {% endfor %}
              </div>
+             <div>
+             {% if form.q4.errors %}
+                 {% for error in form.q4.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
+             </div>
         </div>
         <div  class="container mt-3">
              {{ form.q5.label }}
@@ -61,6 +89,13 @@
                      {{ subfield() }} {{ subfield.label.text }}
                  </label>
                  {% endfor %}
+             </div>
+             <div>
+             {% if form.q5.errors %}
+                 {% for error in form.q5.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
              </div>
         </div>
         <div class="container mt-3">
@@ -72,6 +107,13 @@
                  </label>
                  {% endfor %}
              </div>
+             <div>
+             {% if form.q6.errors %}
+                 {% for error in form.q6.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
+             </div>
         </div>
         <div class="container mt-3">
              {{ form.q7.label }}
@@ -81,6 +123,13 @@
                      {{ subfield() }} {{ subfield.label.text }}
                  </label>
                  {% endfor %}
+             </div>
+             <div>
+             {% if form.q7.errors %}
+                 {% for error in form.q7.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
              </div>
         </div>
         <div class="container mt-3">
@@ -92,6 +141,13 @@
                  </label>
                  {% endfor %}
              </div>
+             <div>
+             {% if form.q8.errors %}
+                 {% for error in form.q8.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
+             </div>
         </div>
         <div  class="container mt-3">
              {{ form.q9.label }}
@@ -102,6 +158,13 @@
                  </label>
                  {% endfor %}
              </div>
+             <div>
+             {% if form.q9.errors %}
+                 {% for error in form.q9.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
+             </div>
         </div>
         <div  class="container mt-3">
              {{ form.q10.label }}
@@ -111,6 +174,13 @@
                      {{ subfield() }} {{ subfield.label.text }}
                  </label>
                  {% endfor %}
+             </div>
+             <div>
+             {% if form.q10.errors %}
+                 {% for error in form.q10.errors %}
+                 <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                 {% endif %}
              </div>
         </div>
         {{ wtf.form_field(form.q11, False) }}
