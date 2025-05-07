@@ -137,31 +137,31 @@ def question_form():
     for i, qi in enumerate(questions):
         getattr(form, qi).label.text = q_list[i].text + ' (' + q_list[i].label + ')'
 
-        if form.validate_on_submit():
-            timestamp = datetime.now()
-            flash('Thank you for submitting the questionnaire', 'success')
+    if form.validate_on_submit():
+        timestamp = datetime.now()
+        flash('Thank you for submitting the questionnaire', 'success')
 
-            all_answers = current_user.answers
-            form_numbers = [ans.form_number for ans in all_answers]
-            if form_numbers:
-                form_number = max(form_numbers) + 1
-            else:
-                form_number = 1
+        all_answers = current_user.answers
+        form_numbers = [ans.form_number for ans in all_answers]
+        if form_numbers:
+            form_number = max(form_numbers) + 1
+        else:
+            form_number = 1
 
-            for i in range(10):
-                current_user.answers.append(
-                    Answer(content=request.form.get(questions[i]), form_number=form_number, qid=q_list[i].qid,
-                           submission_date=timestamp))
+        for i in range(10):
             current_user.answers.append(
-                Answer(content=request.form.get('q11'), form_number=form_number, qid=q_list[10].qid, type="Text Answer",
-                       submission_date=timestamp))
-            current_user.forms_completed += 1
+                Answer(content=request.form.get(questions[i]), form_number=form_number, qid=q_list[i].qid,
+                        submission_date=timestamp))
+        current_user.answers.append(
+            Answer(content=request.form.get('q11'), form_number=form_number, qid=q_list[10].qid, type="Text Answer",
+                    submission_date=timestamp))
+        current_user.forms_completed += 1
 
-            worst, best = instance_of_processor.worst_best(current_user)
-            current_user.best_category = best
-            current_user.worst_category = worst
-            db.session.commit()
-            return redirect(url_for('home'))
+        worst, best = instance_of_processor.worst_best(current_user)
+        current_user.best_category = best
+        current_user.worst_category = worst
+        db.session.commit()
+        return redirect(url_for('home'))
     return render_template('question_form.html', title='Question Form', form=form, released=released)
 
 
