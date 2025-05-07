@@ -13,7 +13,7 @@ from matplotlib.figure import Figure
 import base64
 from io import BytesIO
 from app.debug_utils import populate
-from app.form_release import FormManagement # singleton class to keep track of when forms were rolled out to know when to send reminders
+from app.form_management import FormManagement # singleton class to keep track of when forms were rolled out to know when to send reminders
 from app import mail
 from flask_mail import Message
 

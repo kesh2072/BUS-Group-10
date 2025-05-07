@@ -24,7 +24,10 @@ class MLQuestionProcessingManager:
     def label_classifier(self,x: str):
         """
         This processes the text response in a student's form submission.
-        It will return the label associated with the first occurrence of a key word, or None if no key words exist
+        It will return the label of the category for which the student enters the most keywords, or None if no keywords
+        are present in the text response. In the case where there are the same number of occurrences of words for two
+        (or more) categories, the function returns the key that occurs first in keyword_count dictionary.
+
         On top of this, if the word 'danger' is found in the text, the student's 'flagged' attribute is set to True
 
         :param x: student response in text field
@@ -36,7 +39,7 @@ class MLQuestionProcessingManager:
         keyword_dict = {'stress': ['stress', 'stressed', 'overwhelmed', 'exams', 'deadlines', 'pressure'],
                         'anxiety': ['anxious', 'anxiety', 'worried', 'worry', 'panic', 'avoid'],
                         'self-esteem': ['failure', 'confidence', 'confident', 'worthless',
-                                        'selfesteem', 'useless'],
+                                        'selfesteem', 'self'],
                         'depression': ['depressed', 'depression', 'sad', 'hopeless', 'cried', 'numb'],
                         'sleep': ['slept', 'sleep', 'insomnia', 'tired', 'awake', 'night']}
 
