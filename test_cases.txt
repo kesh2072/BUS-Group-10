@@ -47,15 +47,15 @@ TEST CASES FOR PERSONALISED FORMS:
 
 Positive Test Case
 Test case where anxiety is the student’s worst category and sleep is the student’s best category. Also covers the student not inputting a text response.
-    GIVEN a user is logged in as test user AND test user has not submitted any prior forms AND the forms have been released
-    WHEN the user submits a form with responses [1,4,5,4,4,3,3,2,1,1] and no text response
-    THEN an extra question with the label 'anxiety', and one less question with the label 'sleep', should appear on the next iteration of the form.
+GIVEN a user is logged in as test user AND test user has not submitted any prior forms AND the forms have been released
+WHEN the user submits a form with responses [1,4,5,4,4,3,3,2,1,1] and no text response
+THEN an extra question with the label 'anxiety', and one less question with the label 'sleep', should appear on the next iteration of the form.
 
 Positive Test Case
 Test case where the student’s numerical answers would make their worst categories equally stress and anxiety but their text response changes this weighting to anxiety
-    GIVEN a user is logged in as test user AND test user has not submitted any prior forms AND the forms have been released
-    WHEN the user submits a form with responses [4,4,4,4,3,1,2,3,2,3] to the numerical questions and responds 'I am stressed' to the text response question
-    THEN an extra question with the label 'stress' and one less question with the label 'self-esteem' should appear on the next iteration of the form
+GIVEN a user is logged in as test user AND test user has not submitted any prior forms AND the forms have been released
+WHEN the user submits a form with responses [4,4,4,4,3,1,2,3,2,3] to the numerical questions and responds 'I am stressed' to the text response question
+THEN an extra question with the label 'stress' and one less question with the label 'self-esteem' should appear on the next iteration of the form
 
 Negative Test Case
 Test case where student does not answer all the numerical questions
