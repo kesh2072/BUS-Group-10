@@ -41,7 +41,7 @@ The app is now ready to use as explained below and in the video. To test the ema
 - Python
 - HTML
 - Bootstrap 5
-- Flask
+- Flask (Jinja, flask_wtf, flask_login, flask_mail)
 - SqlAlchemy
 - Matplotlib
 
