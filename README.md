@@ -20,7 +20,7 @@ Staff members will see this, and can choose to remove the student’s anonymity 
 
 To set up the database correctly:
 
-1. In the terminal, type `cd BUS-Group-10/skeleton`, then `flask shell`, then `reset_db()` to populate the database with all users, form questions and resources.
+1. In the terminal, type `cd BUS-Group-10/form_you`, then `flask shell`, then `reset_db()` to populate the database with all users, form questions and resources.
 
     There are three types of users. Here are some example usernames to use:
     - Student: `test user`
