@@ -39,10 +39,3 @@ TEST CASES FOR PERSONALISED FORMS
     Then an extra question with the label 'anxiety' and one less question with the label 'sleep' should appear on the next iteration of the form.
 
 
-    
-
-    
-    
-
-
-
