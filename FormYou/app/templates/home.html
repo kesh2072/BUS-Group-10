@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Welcome!</h1>
+    <p class="lead">some text here</p>
+    <hr class="my-4">
+    {% if current_user.is_anonymous %}
+    <h1 class="display-6">Please sign in</h1>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" role="button" aria-current="page" href="{{ url_for('login') }}">Login</a>
+    </p>
+     {% else %}
+     <p class="lead">
+        <a class="btn btn-primary btn-lg" role="button" aria-current="page" href="{{ url_for('logout') }}">Logout {{ current_user.username }}</a>
+    </p>
+
+     {% endif %}
+</div>
+
+
+{% endblock %}

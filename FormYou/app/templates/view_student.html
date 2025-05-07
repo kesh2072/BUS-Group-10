@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+<h1>This is the student page for: {{ student_attr['name'] }}</h1>
+    <p>Currently needing help with {{ student_attr['worst_category'] }} the most</p>
+    <br>
+    {% if student_attr['flagged'] %}
+        <h4>!IMPORTANT! This student has been flagged. Please review their latest form submission.</h4>
+        <p>In their last form, this student responded: <b>"{{ recent_response }}"</b></p>
+    {% endif %}
+    <br>
+</div>
+
+{% for submission_date, answers in answers_by_submission.items() %}
+    <p><strong>Questionnaire submitted on:</strong> {{ submission_date }}</p>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">Question</th>
+            <th scope="col">Response</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for answer in answers %}
+        <tr>
+            <td>{{ answer.question.text }}</td>
+            <td>{{ answer.content }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+
+<div class="container">
+    {% if student_attr["flagged"] %}
+        {% if student_attr["anonymous"] %}
+        <h3>This student is anonymous. If you believe this student to be at risk to themselves or others, you can remove their anonymity here:</h3>
+        <a  class='btn btn-info' href="{{ url_for('remove_anonymity', uid=student_attr['uid']) }}">Remove Anonymity</a>
+        {% endif %}
+</div>
+<br>
+<div class="container">
+        <h3>Confirm you have reviewed the student's response and wish to remove the flag here:</h3>
+        <a  class='btn btn-info' href="{{ url_for('remove_flag', uid=student_attr['uid']) }}">Remove Flag</a>
+    {% endif %}
+</div>
+<br>
+
+{% endblock %}
