@@ -47,28 +47,37 @@ The app is now ready to use as explained below and in the video. To test the ema
 
 ## Implemented Core Functionalities
 
-- Dynamic Webpage
 
-  - The first run of the student page has no recommended resources, instead students have access to all resources organised through categories.
-  - As students fill in forms, their `worst category` and `best category` is stored and used to render the dynamic homepage as additional resources related to their `worst category` are displayed in the `recommended for you` section.
-- Statistics Page
-
-  - The statistics page is divided into three sections: the 'overview' tab in which the staff member is able to quickly view the average scores of each of the 5 categories in the form, across all students.
-  - Under the 'distribution' tab, we have generated a bar chart using Matplotlib to display the distribution of the worst categories registered by each student.
-  - Under the 'priority_list' tab, we have generated a list, ordered by the students which have scored the highest in their previous questionnaires. Students which have an average score of over 4.0 will be tagged 'urgent priority' in the list, and anyone over 3.0 with 'medium priority'. This priority list allows staff members to quickly see the students who are struggling the most, and need more support.
-- Personalised Forms
+### Personalised Forms
 
   -	Student users gain access to the forms after they are released by a member of wellbeing staff via the “Release Forms” button on the staff page. Once the button has been clicked, the `released` attribute in the instance of the singleton `FormManagement()` class is changed from False to True. This makes the Question Form page visible to students. To avoid the need to manually fill in a large number of forms to see how the "View Statistics" page works, the release of the forms also populates the database with some forms filled out by the students. The exception to this is the student user with username "test user".
   - Students fill in forms iteratively and their responses are processed by the `MLQuestionProcessingManager` in `processor.py` to allow for personalisation of form questions. Each form has 10 Likert scale questions and one text field, which is optional for the student to fill out.
   - All Likert scale questions fall into one of five categories (stress, anxiety, self-esteem, depression, sleep) - and initially all students are presented with two of each type of question. Upon submission, the `weighting()` function will take averages of their scores for each category and the `label_classifer()` function will search for key words if any exist then assign the response to the most related category and assign more weight (5 points) to this category. This is also where a student may be flagged (see Breaking Anonymity).
   - Using these two functions, the `worst_best()` function will return the categories that the student struggled with most and least. This will update the student's records for `best_category` and `worst_category`, which will be accessed by the Dynamic Webpage functionality. It will also determine the distribution of questions in the student's next form:
   - The `question_generator()` function will add an extra question for the student's worst category and remove one question for their best category. This continues in an iterative manner, allowing the app to learn from the student's latest form responses and adjust the next set of questions accordingly.
-- Email Reminders
 
-  -	Once the forms are released, students are required to fill in a form every two weeks. For demonstartion purposes, this two-week timeframe has been condensed to 30 seconds in the program.
-  -	The wellbeing staff have access to a functionality that sends pre-written reminder emails to students who are behind on their forms. After the “Send forms reminder to students” button is clicked, the program finds the students who are behind on their forms using the `late_students` method in the `FormManagement()` class. It uses this to send a reminder email to the email addresses for these students. The email address "testuserformreminder@outlook.com" has been set up and registered with the student "test user" to demonstrate this. This can be logged into with the password ‘BUSGroup10Password’. The emails are sent from the email address "testuserformreminder@gmail.com" with the same password.
+**Email Reminders**
+    
+-	Once the forms are released, students are required to fill in a form every two weeks. For demonstartion purposes, this two-week timeframe has been condensed to 30 seconds in the program.
+-	The wellbeing staff have access to a functionality that sends pre-written reminder emails to students who are behind on their forms. After the “Send forms reminder to students” button is clicked, the program finds the students who are behind on their forms using the `late_students` method in the `FormManagement()` class. It uses this to send a reminder email to the email addresses for these students. The email address "testuserformreminder@outlook.com" has been set up and registered with the student "test user" to demonstrate this. This can be logged into with the password ‘BUSGroup10Password’. The emails are sent from the email address "testuserformreminder@gmail.com" with the same password.
 
-- Breaking Anonymity
+
+
+### Dynamic Webpage
+
+**Student page**
+  - The first run of the student page has no recommended resources, instead students have access to all resources organised through categories.
+  - As students fill in forms, their `worst category` and `best category` is stored and used to render the dynamic homepage as additional resources related to their `worst category` are displayed in the `recommended for you` section.
+
+**Staff Page**
+  - In view students page, all anonymous students will have their details hidden from university staff
+  - The statistics page is divided into three sections: the 'overview' tab in which the staff member is able to quickly view the average scores of each of the 5 categories in the form, across all students.
+  - Under the 'distribution' tab, we have generated a bar chart using Matplotlib to display the distribution of the worst categories registered by each student.
+  - Under the 'priority_list' tab, we have generated a list, ordered by the students which have scored the highest in their previous questionnaires. Students which have an average score of over 4.0 will be tagged 'urgent priority' in the list, and anyone over 3.0 with 'medium priority'. This priority list allows staff members to quickly see the students who are struggling the most, and need more support.
+    
+
+
+### Breaking Anonymity
 
   - The student class found in models.py has a method called `display_attributes()` which returns a dictionary of all their attributes.
     This function 'hides' sensitive info including name, username, email and student_id (by default, the attribute `anonymity=False`)
